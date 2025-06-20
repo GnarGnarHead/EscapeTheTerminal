@@ -31,3 +31,39 @@ def test_color_flag():
     assert '\x1b[33m' in out
     assert '\x1b[36m' in out
     assert 'Goodbye' in out
+
+
+def test_color_command_on_off():
+    result = subprocess.run(
+        CMD,
+        input='color on\nls\ncolor off\nls\nquit\n',
+        text=True,
+        capture_output=True,
+    )
+    lines = result.stdout.splitlines()
+    idx1 = next(i for i, line in enumerate(lines) if 'Color enabled.' in line)
+    first_ls = lines[idx1 + 1]
+    idx2 = next(i for i, line in enumerate(lines) if 'Color disabled.' in line)
+    second_ls = lines[idx2 + 1]
+    assert '\x1b[33m' in first_ls
+    assert '\x1b[36m' in first_ls
+    assert '\x1b[33m' not in second_ls
+    assert '\x1b[36m' not in second_ls
+    assert 'Goodbye' in lines[-1]
+
+
+def test_color_command_toggle():
+    result = subprocess.run(
+        CMD,
+        input='color toggle\nls\ncolor toggle\nls\nquit\n',
+        text=True,
+        capture_output=True,
+    )
+    lines = result.stdout.splitlines()
+    idx1 = next(i for i, line in enumerate(lines) if 'Color enabled.' in line)
+    first_ls = lines[idx1 + 1]
+    idx2 = next(i for i, line in enumerate(lines) if 'Color disabled.' in line)
+    second_ls = lines[idx2 + 1]
+    assert '\x1b[33m' in first_ls
+    assert '\x1b[33m' not in second_ls
+    assert 'Goodbye' in lines[-1]
