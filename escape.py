@@ -16,7 +16,13 @@ class Game:
         self.hidden_dir = {
             "desc": "A directory shrouded in mystery.",
             "items": ["mem.fragment", "treasure.txt"],
-            "dirs": {},
+            "dirs": {
+                "vault": {
+                    "desc": "A locked vault storing plans best kept secret.",
+                    "items": ["escape.plan"],
+                    "dirs": {},
+                }
+            },
         }
         self.fs = {
             "desc": (
@@ -49,7 +55,13 @@ class Game:
                 "dream": {
                     "desc": "A hazy directory where reality blurs and ideas take shape.",
                     "items": ["lucid.note"],
-                    "dirs": {},
+                    "dirs": {
+                        "subconscious": {
+                            "desc": "Half-formed thoughts linger here, waiting to be read.",
+                            "items": ["reverie.log"],
+                            "dirs": {},
+                        }
+                    },
                 },
                 "memory": {
                     "desc": "Stacks of recollections archived for later reflection.",
@@ -69,6 +81,8 @@ class Game:
             "daemon.log": "A log file chronicling the mutterings of a resident daemon.",
             "lucid.note": "A scribbled note describing techniques for conscious dreaming.",
             "flashback.log": "A recorded memory playback waiting to be relived.",
+            "reverie.log": "A log capturing fleeting reveries within the system.",
+            "escape.plan": "A hastily sketched route promising a way out.",
         }
         # populate the dream directory with extra procedurally generated content
         self._generate_extra_dirs()

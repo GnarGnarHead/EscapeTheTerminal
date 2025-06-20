@@ -195,3 +195,5 @@ cython_debug/
 !data/voice.log
 !data/daemon.log
 !data/flashback.log
+!data/reverie.log
+!data/escape.plan

@@ -388,3 +388,40 @@ def test_talk_daemon():
     assert 'acknowledges your presence' in out
     assert 'more to learn' in out
     assert 'Goodbye' in out
+
+
+def test_dream_contains_subconscious():
+    result = subprocess.run(
+        [sys.executable, SCRIPT],
+        input='cd dream\nls\nquit\n',
+        text=True,
+        capture_output=True,
+    )
+    out = result.stdout
+    assert 'subconscious/' in out
+    assert 'Goodbye' in out
+
+
+def test_reverie_log_present():
+    result = subprocess.run(
+        [sys.executable, SCRIPT],
+        input='cd dream\ncd subconscious\nls\nquit\n',
+        text=True,
+        capture_output=True,
+    )
+    out = result.stdout
+    assert 'reverie.log' in out
+    assert 'Goodbye' in out
+
+
+def test_hidden_vault_and_escape_plan():
+    result = subprocess.run(
+        [sys.executable, SCRIPT],
+        input='take access.key\nuse access.key\ncd hidden\nls\ncd vault\nls\nquit\n',
+        text=True,
+        capture_output=True,
+    )
+    out = result.stdout
+    assert 'vault/' in out
+    assert 'escape.plan' in out
+    assert 'Goodbye' in out
