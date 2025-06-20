@@ -225,6 +225,20 @@ def test_examine_mem_fragment():
     assert 'Goodbye' in result.stdout
 
 
+def test_cat_treasure_after_unlock():
+    result = subprocess.run(
+        [sys.executable, SCRIPT],
+        input='take access.key\nuse access.key\ncd hidden\ncat treasure.txt\nquit\n',
+        text=True,
+        capture_output=True,
+    )
+    assert (
+        'You discover a stash of credits and a map leading out of the terminal.'
+        in result.stdout
+    )
+    assert 'Goodbye' in result.stdout
+
+
 def test_glitch_mode_toggle():
     expected = (
         'You find yourself in a dimly lit t&*minal session. T*e pr@m@t blin&s patiently.'
