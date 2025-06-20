@@ -30,6 +30,12 @@ class Game:
                 }
             },
         }
+        self.network_node = {
+            "desc": "A remote node secured behind layers of authentication.",
+            "items": ["node.log"],
+            "dirs": {},
+            "locked": True,
+        }
         self.fs = {
             "desc": (
                 "You find yourself in a dimly lit terminal session. "
@@ -39,7 +45,7 @@ class Game:
             "dirs": {
                 "lab": {
                     "desc": "A cluttered research lab filled with blinking devices.",
-                    "items": ["decoder"],
+                    "items": ["decoder", "port.scanner"],
                     "dirs": {},
                 },
                 "archive": {
@@ -79,6 +85,11 @@ class Game:
                     "items": ["flashback.log"],
                     "dirs": {},
                 },
+                "network": {
+                    "desc": "Connections pulse faintly in this virtual mesh.",
+                    "items": [],
+                    "dirs": {},
+                },
             },
         }
         self.current = []  # path as list of directory names
@@ -103,6 +114,8 @@ class Game:
             "reverie.log": "A log capturing fleeting reveries within the system.",
             "escape.plan": "A hastily sketched route promising a way out.",
             "escape.code": "A brief sequence hinting at a path to freedom.",
+            "port.scanner": "A handheld tool for probing network ports.",
+            "node.log": "Logs from a secure network node.",
         }
         # populate multiple directories with extra procedurally generated content
         self._generate_extra_dirs(["dream", "memory", "core"])
@@ -139,6 +152,8 @@ class Game:
             "grep": "Search log files for text",
             "decode": "Decode the mem.fragment",
             "talk": "Speak with an NPC",
+            "scan": "Scan a directory for hidden nodes",
+            "hack": "Attempt to unlock a node",
             "map": "Display the directory tree",
             "save": "Save game state",
             "load": "Load a saved game",
@@ -166,6 +181,8 @@ class Game:
             "grep": lambda arg="": self._grep(arg),
             "decode": lambda arg="": self._decode(arg),
             "talk": lambda arg="": self._talk(arg),
+            "scan": lambda arg="": self._scan(arg),
+            "hack": lambda arg="": self._hack(arg),
             "map": lambda arg="": self._map(),
             "save": lambda arg="": self._save(arg),
             "load": lambda arg="": self._load(arg),
@@ -497,6 +514,51 @@ class Game:
         if not found:
             self._output("No matches found.")
 
+    def _scan(self, directory: str) -> None:
+        if not directory:
+            self._output("Usage: scan <dir>")
+            return
+        node = self._current_node()
+        if directory not in node["dirs"]:
+            self._output(f"No such directory: {directory}")
+            return
+        target = node["dirs"][directory]
+        if directory == "network" and "node" not in target["dirs"]:
+            target["dirs"]["node"] = self.network_node
+            self._output("Discovered node (locked).")
+        else:
+            entries = []
+            for name, sub in target.get("dirs", {}).items():
+                status = " (locked)" if sub.get("locked") else ""
+                entries.append(name + status)
+            if entries:
+                self._output("Available nodes: " + ", ".join(entries))
+            else:
+                self._output("No nodes discovered.")
+
+    def _hack(self, directory: str) -> None:
+        if not directory:
+            self._output("Usage: hack <dir>")
+            return
+        node = self._current_node()
+        if directory not in node["dirs"]:
+            self._output(f"No such directory: {directory}")
+            return
+        target = node["dirs"][directory]
+        if directory == "network":
+            target = target["dirs"].get("node")
+            if not target:
+                self._output("Nothing to hack here.")
+                return
+        if not target.get("locked"):
+            self._output("Already unlocked.")
+            return
+        if "port.scanner" not in self.inventory:
+            self._output("You need the port.scanner to hack this node.")
+            return
+        target.pop("locked", None)
+        self._output("Access granted. The node is now unlocked.")
+
     def _talk(self, npc: str):
         """Converse with an NPC if present in the current directory."""
         location = self.npc_locations.get(npc)
@@ -623,6 +685,10 @@ class Game:
             return
         node = self._current_node()
         if directory in node['dirs']:
+            sub = node['dirs'][directory]
+            if sub.get('locked'):
+                self._output(f"{directory} is locked.")
+                return
             self.current.append(directory)
         else:
             self._output(f"No such directory: {directory}")
