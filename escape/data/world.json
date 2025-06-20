@@ -103,7 +103,11 @@
     "items": [
       "deep.node.log"
     ],
-    "dirs": {},
+    "dirs": {
+      "node4": {
+        "desc": "The deepest node rumored to grant root access."
+      }
+    },
     "locked": true
   },
   "npc_locations": {
@@ -145,6 +149,7 @@
     "node.log": "Logs from a secure network node.",
     "auth.token": "A multi-factor token used for deeper authentication.",
     "deep.node.log": "Diagnostics from the heart of the network.",
-    "firmware.patch": "A subtle exploit enabling access to even deeper nodes."
+    "firmware.patch": "A subtle exploit enabling access to even deeper nodes.",
+    "root.access": "Credentials granting unrestricted control over the system."
   }
 }
