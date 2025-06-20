@@ -34,7 +34,9 @@ unexpected ways.
    - `cat <file>` – read narrative logs from `data/`
    - `decode mem.fragment` – combine the decoder with the memory fragment to reveal an escape code
    - `talk <npc>` – initiate conversation and choose numbered replies
-  - `save [slot]` / `load [slot]` – write and restore progress. Without a slot the file `game.sav` is used, otherwise `game<slot>.sav`.
+   - `scan <dir>` – search a directory for hidden nodes
+   - `hack <dir>` – attempt to unlock a scanned node
+   - `save [slot]` / `load [slot]` – write and restore progress. Without a slot the file `game.sav` is used, otherwise `game<slot>.sav`.
   - `glitch` – toggle glitch mode for scrambled descriptions. The longer it
     stays active the stronger the corruption becomes and occasional glitch
     messages may appear.
@@ -48,11 +50,13 @@ unexpected ways.
   - `old.note` – stashed away in the `archive/` directory
   - `daemon.log` – consult the system daemon when read or used, found in `core/npc/`
   - `escape.code` – the deciphered sequence unlocked within the vault
+  - `port.scanner` – enables hacking of network nodes, found in the `lab/`
 
    **Rooms**
    - `lab/` – a cluttered research area humming with equipment
   - `archive/` – dusty shelves of old backups and forgotten notes
   - `core/npc/` – a secluded nook where a daemon awaits interaction
+  - `network/` – a tangle of digital links hiding a locked node
 
 ## Running Tests
 Tests are written with `pytest` and live under the `tests/` directory. After installing

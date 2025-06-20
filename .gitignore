@@ -197,4 +197,5 @@ cython_debug/
 !data/flashback.log
 !data/reverie.log
 !data/escape.plan
+!data/node.log
 data/logs/
