@@ -42,6 +42,7 @@ unexpected ways.
     stays active the stronger the corruption becomes and occasional glitch
     messages may appear.
   - `color on` / `color off` / `color toggle` – enable, disable or toggle ANSI colors
+  - `prompt [text]` – show or change the input prompt
   - `history` – display the commands you've entered this session
   - `achievements` – list any achievements you've unlocked
   - `man <command>` – show the manual page for a command
@@ -102,7 +103,7 @@ files are saved to the current working directory.
 ## Custom Prompt
 Set the `ET_PROMPT` environment variable to change the input prompt shown to
 the player. The default prompt is `> `. You can also pass ``--prompt <text>`` on
-the command line.
+the command line or use the in-game `prompt <text>` command.
 
 ## Color Customization
 Set `ET_COLOR=1` to start the game with ANSI colors enabled. You can override

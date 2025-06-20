@@ -104,6 +104,7 @@ class Game:
             "load": "Load a saved game",
             "glitch": "Toggle glitch mode",
             "color": "Toggle ANSI color output",
+            "prompt": "Change or display the input prompt",
             "history": "Show command history",
             "journal": "View or add personal notes",
             "sleep": "Enter the dream state and rest",
@@ -143,6 +144,7 @@ class Game:
             "load": lambda arg="": self._load(arg),
             "glitch": lambda arg="": self._toggle_glitch(),
             "color": lambda arg="": self._color(arg),
+            "prompt": lambda arg="": self._prompt(arg),
             "history": lambda arg="": self._history(),
             "journal": lambda arg="": self._journal(arg),
             "sleep": lambda arg="": self._sleep(arg),
@@ -329,6 +331,15 @@ class Game:
             return
         state = "enabled" if self.use_color else "disabled"
         self._output(f"Color {state}.")
+
+    def _prompt(self, arg: str = "") -> None:
+        """Change or show the current input prompt."""
+        text = arg
+        if text.strip():
+            self.prompt = text
+            self._output(f"Prompt set to {self.prompt}")
+        else:
+            self._output(self.prompt)
 
     def _output(self, text: str = "") -> None:
         """Print text, applying glitch effects when enabled."""
