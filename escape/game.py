@@ -561,8 +561,18 @@ class Game:
             if next_name not in target["dirs"]:
                 node_data = self.deep_network_node.copy()
                 node_data["items"] = list(node_data["items"])
+                node_data["dirs"] = {}
                 if next_name == "node2":
                     node_data["items"].append("firmware.patch")
+                if next_name == "node3":
+                    node_data["items"].append("root.access")
+                override = (
+                    self.deep_network_node.get("dirs", {})
+                    .get(next_name, {})
+                    .get("desc")
+                )
+                if override:
+                    node_data["desc"] = override
                 target["dirs"][next_name] = node_data
                 self._output(f"Discovered {next_name} (locked).")
                 return
@@ -603,6 +613,9 @@ class Game:
                 return
             if target_name == "node3" and "firmware.patch" not in self.inventory:
                 self._output("You need the firmware.patch to hack this node.")
+                return
+            if target_name == "node4" and "root.access" not in self.inventory:
+                self._output("You need the root.access to hack this node.")
                 return
         target.pop("locked", None)
         self._output("Access granted. The node is now unlocked.")
