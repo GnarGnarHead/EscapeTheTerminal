@@ -64,7 +64,7 @@ unexpected ways.
    - `lab/` – a cluttered research area humming with equipment
   - `archive/` – dusty shelves of old backups and forgotten notes
   - `core/npc/` – a secluded nook where a daemon awaits interaction
-  - `network/` – a tangle of digital links hiding a chain of nodes down to `node5`
+  - `network/` – a tangle of digital links hiding a chain of nodes down to `node7`
   - `dream/oracle/` – an enigmatic hall where the oracle offers cryptic advice
 
 ## Running Tests
