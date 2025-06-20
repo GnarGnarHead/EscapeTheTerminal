@@ -182,6 +182,7 @@ class Game:
             "load": "Load a saved game",
             "glitch": "Toggle glitch mode",
             "history": "Show command history",
+            "sleep": "Enter the dream state and rest",
             "restart": "Restart the game",
             "quit": "Exit the game",
             "alias": "Create command shortcuts",
@@ -214,6 +215,7 @@ class Game:
             "load": lambda arg="": self._load(arg),
             "glitch": lambda arg="": self._toggle_glitch(),
             "history": lambda arg="": self._history(),
+            "sleep": lambda arg="": self._sleep(arg),
             "restart": lambda arg="": self._restart(),
             "quit": lambda arg="": self._quit(),
             "exit": lambda arg="": self._quit(),
@@ -867,6 +869,19 @@ class Game:
         name, target = parts[0].lower(), parts[1].lower()
         self.aliases[name] = target
         self._output(f"Alias {name} -> {target}")
+
+    def _sleep(self, arg: str = "") -> None:
+        """Enter the dream directory and optionally modify glitch intensity."""
+        arg = arg.strip().lower()
+        if not self.current or self.current[0] != "dream":
+            self.current = ["dream"]
+            self._output("You drift into a dream.")
+        else:
+            self._output("You are already dreaming.")
+        if arg == "reset":
+            self.glitch_steps = 0
+        elif arg in ("inc", "increase", "++"):
+            self.glitch_steps += 1
 
     def _restart(self) -> None:
         """Reset game state while preserving color settings."""

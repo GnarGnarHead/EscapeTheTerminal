@@ -42,6 +42,8 @@ unexpected ways.
     stays active the stronger the corruption becomes and occasional glitch
     messages may appear.
   - `history` – display the commands you've entered this session
+  - `sleep [reset|inc]` – fall asleep and enter the dream. Use `reset` to
+    clear glitches or `inc` to deepen them
 
    **Core files/items**
   - `access.key` – unlocks the hidden directory when used on the door
