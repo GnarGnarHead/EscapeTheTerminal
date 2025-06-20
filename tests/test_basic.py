@@ -540,3 +540,48 @@ def test_save_slots_independent(tmp_path):
     out2 = result.stdout
     assert 'Inventory: voice.log' in out2
     assert 'access.key' not in out2
+
+
+def test_glitch_save_and_load(tmp_path):
+    normal = (
+        'You find yourself in a dimly lit terminal session. The prompt blinks patiently.'
+    )
+    step4 = Game()._glitch_text(normal, 4)
+
+    subprocess.run(
+        [sys.executable, SCRIPT],
+        input='glitch\nlook\nsave\nquit\n',
+        text=True,
+        capture_output=True,
+        cwd=tmp_path,
+    )
+
+    result = subprocess.run(
+        [sys.executable, SCRIPT],
+        input='load\nlook\nquit\n',
+        text=True,
+        capture_output=True,
+        cwd=tmp_path,
+    )
+    out = result.stdout
+    assert step4 in out
+    assert 'Glitch mode activated.' not in out
+
+
+def test_load_old_save_defaults(tmp_path, capsys):
+    game = Game()
+    save_path = tmp_path / 'game.sav'
+    data = {
+        'fs': game.fs,
+        'inventory': game.inventory,
+        'current': game.current,
+    }
+    import json
+    save_path.write_text(json.dumps(data), encoding='utf-8')
+    game.save_file = str(save_path)
+    game.glitch_mode = True
+    game.glitch_steps = 5
+    game._load()
+    capsys.readouterr()
+    assert game.glitch_mode is False
+    assert game.glitch_steps == 0

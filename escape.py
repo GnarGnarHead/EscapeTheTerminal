@@ -439,6 +439,8 @@ class Game:
             "fs": self.fs,
             "inventory": self.inventory,
             "current": self.current,
+            "glitch_mode": self.glitch_mode,
+            "glitch_steps": self.glitch_steps,
         }
         try:
             with open(fname, "w", encoding="utf-8") as f:
@@ -467,6 +469,8 @@ class Game:
         self.fs = data.get("fs", self.fs)
         self.inventory = data.get("inventory", [])
         self.current = data.get("current", [])
+        self.glitch_mode = data.get("glitch_mode", False)
+        self.glitch_steps = data.get("glitch_steps", 0)
         self._output("Game loaded.")
 
     def _quit(self) -> bool:
