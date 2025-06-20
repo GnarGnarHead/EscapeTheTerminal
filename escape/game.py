@@ -60,6 +60,9 @@ class Game:
         # store all commands the player enters this session
         self.command_history: list[str] = []
 
+        # notes recorded by the player
+        self.journal: list[str] = []
+
         # runtime command aliases created via the 'alias' command
         self.aliases: dict[str, str] = {}
 
@@ -91,6 +94,7 @@ class Game:
             "glitch": "Toggle glitch mode",
             "color": "Toggle ANSI color output",
             "history": "Show command history",
+            "journal": "View or add personal notes",
             "sleep": "Enter the dream state and rest",
             "restart": "Restart the game",
             "quit": "Exit the game",
@@ -126,6 +130,7 @@ class Game:
             "glitch": lambda arg="": self._toggle_glitch(),
             "color": lambda arg="": self._color(arg),
             "history": lambda arg="": self._history(),
+            "journal": lambda arg="": self._journal(arg),
             "sleep": lambda arg="": self._sleep(arg),
             "restart": lambda arg="": self._restart(),
             "quit": lambda arg="": self._quit(),
@@ -766,6 +771,7 @@ class Game:
             "npc_state": self.npc_state,
             "aliases": self.aliases,
             "command_history": self.command_history,
+            "journal": self.journal,
         }
         try:
             with open(fname, "w", encoding="utf-8") as f:
@@ -799,6 +805,7 @@ class Game:
         self.npc_state = data.get("npc_state", {})
         self.aliases = data.get("aliases", {})
         self.command_history = data.get("command_history", [])
+        self.journal = data.get("journal", [])
         self._output("Game loaded.")
 
     def _history(self) -> None:
@@ -808,6 +815,26 @@ class Game:
                 self._output(entry)
         else:
             self._output("No commands entered.")
+
+    def _journal(self, arg: str = "") -> None:
+        """List notes or append a new one."""
+        arg = arg.strip()
+        if not arg:
+            if not self.journal:
+                self._output("Journal is empty.")
+            else:
+                for note in self.journal:
+                    self._output(note)
+            return
+        if arg.lower().startswith("add "):
+            text = arg[4:].strip()
+            if not text:
+                self._output("Usage: journal add <text>")
+                return
+            self.journal.append(text)
+            self._output("Note added.")
+        else:
+            self._output("Usage: journal [add <text>]")
 
     def _alias(self, arg: str) -> None:
         """Create a new alias or list existing aliases."""
