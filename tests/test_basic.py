@@ -562,6 +562,62 @@ def test_use_escape_code_wins_game():
     assert result.returncode == 0
 
 
+def test_use_shutdown_code_quits_game():
+    result = subprocess.run(
+        CMD,
+        input=(
+            'take access.key\n'
+            'use access.key\n'
+            'cd hidden\n'
+            'take mem.fragment\n'
+            'cd ..\n'
+            'cd lab\n'
+            'take decoder\n'
+            'decode mem.fragment\n'
+            'cd ..\n'
+            'cd hidden\n'
+            'cd vault\n'
+            'cd escape\n'
+            'take shutdown.code\n'
+            'use shutdown.code\n'
+        ),
+        text=True,
+        capture_output=True,
+    )
+    out = result.stdout
+    assert 'Darkness envelops the terminal' in out
+    assert 'Goodbye' in out
+    assert result.returncode == 0
+
+
+def test_use_ascend_code_quits_game():
+    result = subprocess.run(
+        CMD,
+        input=(
+            'take access.key\n'
+            'use access.key\n'
+            'cd hidden\n'
+            'take mem.fragment\n'
+            'cd ..\n'
+            'cd lab\n'
+            'take decoder\n'
+            'decode mem.fragment\n'
+            'cd ..\n'
+            'cd hidden\n'
+            'cd vault\n'
+            'cd escape\n'
+            'take ascend.code\n'
+            'use ascend.code\n'
+        ),
+        text=True,
+        capture_output=True,
+    )
+    out = result.stdout
+    assert 'ascend beyond the terminal' in out
+    assert 'Goodbye' in out
+    assert result.returncode == 0
+
+
 def test_save_slots_independent(tmp_path):
     save1 = tmp_path / 'game1.sav'
     save2 = tmp_path / 'game2.sav'
