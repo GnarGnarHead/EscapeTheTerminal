@@ -1,0 +1,2 @@
+ls - list items and subdirectories in the current directory
+Usage: ls

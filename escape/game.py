@@ -82,6 +82,7 @@ class Game:
         # descriptions for help output
         self.command_descriptions = {
             "help": "Show help for commands",
+            "man": "Show a manual page for a command",
             "look": "Describe the current room or a subdirectory",
             "ls": "List items and subdirectories",
             "cd": "Change directory",
@@ -116,6 +117,7 @@ class Game:
         self.command_map = {
             "help": lambda arg="": self._print_help(arg.strip()),
             "h": lambda arg="": self._print_help(arg.strip()),
+            "man": lambda arg="": self._man(arg),
             "look": lambda arg="": self._look(arg),
             "look around": lambda arg="": self._look(),
             "ls": lambda arg="": self._ls(),
@@ -580,6 +582,23 @@ class Game:
             msg = self.use_messages.get("daemon.log")
             if msg:
                 self._output(msg)
+
+    def _man(self, command: str) -> None:
+        """Display a manual page for ``command`` from data/man."""
+        cmd = command.strip()
+        if not cmd:
+            self._output("Usage: man <command>")
+            return
+        path = self.data_dir / "man" / f"{cmd}.man"
+        try:
+            text = path.read_text(encoding="utf-8")
+        except FileNotFoundError:
+            self._output(f"No manual entry for {cmd}")
+            return
+        except OSError as exc:
+            self._output(f"Failed to read {cmd}: {exc}")
+            return
+        self._output(text.rstrip())
 
     def _grep(self, arg: str) -> None:
         """Print lines from log files matching ``pattern``.

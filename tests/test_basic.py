@@ -296,6 +296,18 @@ def test_cat_command():
     assert 'Goodbye' in result.stdout
 
 
+def test_man_look():
+    result = subprocess.run(
+        CMD,
+        input='man look\nquit\n',
+        text=True,
+        capture_output=True,
+    )
+    out = result.stdout
+    assert 'describe the current room' in out
+    assert 'Goodbye' in out
+
+
 def test_use_voice_log():
     result = subprocess.run(
         CMD,
