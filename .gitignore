@@ -198,4 +198,5 @@ cython_debug/
 !data/reverie.log
 !data/escape.plan
 !data/node.log
+!data/deep.node.log
 data/logs/
