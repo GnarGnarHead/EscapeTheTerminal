@@ -105,7 +105,7 @@ class Game:
 
     def _print_help(self):
         self._output(
-            "Available commands: help, look, ls, cd <dir>, take <item>, drop <item>, "
+            "Available commands: help, look, ls, cd <dir>, pwd, take <item>, drop <item>, "
             "inventory, examine <item>, use <item> [on <target>], cat <file>, save, load, glitch, quit"
         )
 
@@ -206,6 +206,10 @@ class Game:
         else:
             self._output("Nothing here.")
 
+    def _pwd(self):
+        path = '/'.join(self.current) if self.current else '/'
+        self._output(path)
+
     def _cd(self, directory: str):
         if directory in ('.', ''):
             return
@@ -269,6 +273,8 @@ class Game:
                 self._look()
             elif cmd == 'ls':
                 self._ls()
+            elif cmd == 'pwd':
+                self._pwd()
             elif cmd.startswith('cd'):
                 directory = cmd.split(' ', 1)[1] if ' ' in cmd else ''
                 self._cd(directory)

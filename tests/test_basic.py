@@ -205,6 +205,18 @@ def test_ls_and_cd():
     assert 'Goodbye' in out
 
 
+def test_pwd_command():
+    result = subprocess.run(
+        [sys.executable, SCRIPT],
+        input='cd lab\npwd\ncd ..\npwd\nquit\n',
+        text=True,
+        capture_output=True,
+    )
+    out = result.stdout
+    assert '> > lab' in out
+    assert '> > /' in out
+
+
 def test_enter_lab_and_look():
     result = subprocess.run(
         [sys.executable, SCRIPT],
