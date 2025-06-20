@@ -111,6 +111,15 @@ def test_theme_plugin(monkeypatch, capsys):
     assert game.item_color == '\x1b[95m'
 
 
+def test_theme_plugin_custom_codes(monkeypatch, capsys):
+    game = Game()
+    inputs = iter(['theme 32 31', 'quit'])
+    monkeypatch.setattr('builtins.input', lambda _='': next(inputs))
+    game.run()
+    assert game.dir_color == '\x1b[32m'
+    assert game.item_color == '\x1b[31m'
+
+
 def test_puzzle_plugin(monkeypatch, capsys):
     game = Game()
     inputs = iter([

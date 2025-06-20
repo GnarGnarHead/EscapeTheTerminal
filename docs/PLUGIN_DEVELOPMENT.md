@@ -67,10 +67,13 @@ changing the highlight colors at runtime.
 theme dark   # blue directories, magenta items
 theme mono   # monochrome output
 theme neon   # bright green directories and magenta items
+theme 32 35  # use custom ANSI codes
 ```
 
 Running one of these commands sets ``game.dir_color`` and ``game.item_color`` to
-predefined ANSI codes.
+predefined or custom ANSI codes. When the argument does not match a preset,
+provide two color codes (as numbers understood by the terminal) to set the
+directory and item colors explicitly.
 
 
 ## Built-in Puzzle Plugin
