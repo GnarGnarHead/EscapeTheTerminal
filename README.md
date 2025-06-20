@@ -36,11 +36,12 @@ unexpected ways.
    - `talk <npc>` – initiate conversation and choose numbered replies
    - `scan <dir>` – search a directory for hidden nodes
    - `hack <dir>` – attempt to unlock a scanned node
-   - `grep <pattern> [file]` – search log files for matching text
-   - `save [slot]` / `load [slot]` – write and restore progress. Without a slot the file `game.sav` is used, otherwise `game<slot>.sav`.
+  - `grep <pattern> [file]` – search log files for matching text
+  - `save [slot]` / `load [slot]` – write and restore progress. Without a slot the file `game.sav` is used, otherwise `game<slot>.sav`.
   - `glitch` – toggle glitch mode for scrambled descriptions. The longer it
     stays active the stronger the corruption becomes and occasional glitch
     messages may appear.
+  - `color on` / `color off` / `color toggle` – enable, disable or toggle ANSI colors
   - `history` – display the commands you've entered this session
   - `sleep [reset|inc]` – fall asleep and enter the dream. Use `reset` to
     clear glitches or `inc` to deepen them

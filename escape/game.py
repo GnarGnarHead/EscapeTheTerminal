@@ -81,6 +81,7 @@ class Game:
             "save": "Save game state",
             "load": "Load a saved game",
             "glitch": "Toggle glitch mode",
+            "color": "Toggle ANSI color output",
             "history": "Show command history",
             "sleep": "Enter the dream state and rest",
             "restart": "Restart the game",
@@ -115,6 +116,7 @@ class Game:
             "save": lambda arg="": self._save(arg),
             "load": lambda arg="": self._load(arg),
             "glitch": lambda arg="": self._toggle_glitch(),
+            "color": lambda arg="": self._color(arg),
             "history": lambda arg="": self._history(),
             "sleep": lambda arg="": self._sleep(arg),
             "restart": lambda arg="": self._restart(),
@@ -229,6 +231,21 @@ class Game:
             self.glitch_steps = 0
         print(f"Glitch mode {state}.")
 
+    def _color(self, arg: str = "") -> None:
+        """Enable, disable, or toggle ANSI color output."""
+        arg = arg.strip().lower()
+        if not arg or arg == "toggle":
+            self.use_color = not self.use_color
+        elif arg == "on":
+            self.use_color = True
+        elif arg == "off":
+            self.use_color = False
+        else:
+            self._output("Usage: color [on|off|toggle]")
+            return
+        state = "enabled" if self.use_color else "disabled"
+        self._output(f"Color {state}.")
+
     def _output(self, text: str = "") -> None:
         """Print text, applying glitch effects when enabled."""
         if self.glitch_mode and text:
@@ -325,7 +342,7 @@ class Game:
         self._output(
             "Available commands: help, look, ls, cd <dir>, pwd, take <item>, drop <item>, "
             "inventory, examine <item>, use <item> [on <target>], cat <file>, talk <npc>, "
-            "save [slot], load [slot], glitch, alias <name> <cmd>, unalias <name>, quit"
+            "save [slot], load [slot], color [on|off|toggle], glitch, alias <name> <cmd>, unalias <name>, quit"
         )
 
     def _current_node(self):
