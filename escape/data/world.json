@@ -121,6 +121,9 @@
       },
       "node7": {
         "desc": "The mythical kernel node rumored to run everything."
+      },
+      "runtime": {
+        "desc": "A hidden runtime environment monitoring your every command."
       }
     },
     "locked": true
@@ -175,6 +178,7 @@
     "super.user": "An elite credential needed for the deepest hacks.",
     "admin.override": "A privileged script to override admin-level security.",
     "kernel.key": "The master key granting access to the kernel node.",
-    "master.process": "A mysterious executable rumored to control it all."
+    "master.process": "A mysterious executable rumored to control it all.",
+    "runtime.log": "A record detailing your own execution environment."
   }
 }
