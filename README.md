@@ -110,7 +110,9 @@ The provided ``oracle.dialog`` shows a multi-stage conversation for an oracle
 NPC located under ``dream/oracle/``.
 
 ## Plugins
-Python files placed in ``escape/plugins/`` are imported automatically when a
-``Game`` instance is created. Each module receives the active ``game`` object
-via a global variable and may register new commands by updating
-``game.command_map`` during import.
+Python files placed in ``escape/plugins/`` are discovered on startup. The game
+scans this directory for ``*.py`` modules (ignoring names beginning with
+``__``) and imports each one. Every plugin module receives the active ``game``
+object via a global variable and can register new commands by updating
+``game.command_map`` during import. The included ``dance.py`` plugin adds a
+simple ``dance`` command as an example.
