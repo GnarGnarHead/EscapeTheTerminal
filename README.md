@@ -118,10 +118,40 @@ NPC located under ``dream/oracle/``.
 ## Plugins
 Python files placed in ``escape/plugins/`` are discovered on startup. The game
 scans this directory for ``*.py`` modules (ignoring names beginning with
-``__``) and imports each one. Every plugin module receives the active ``game``
-object via a global variable and can register new commands by updating
-``game.command_map`` during import. The included ``dance.py`` plugin adds a
-simple ``dance`` command as an example.
+``__``) and imports each one. Plugins are loaded inside ``Game._load_plugins``
+which injects the active ``Game`` instance into each module before executing
+it:
+
+```python
+for path in plugins_dir.glob("*.py"):
+    if path.name.startswith("__"):
+        continue
+    module_name = f"escape.plugins.{path.stem}"
+    spec = importlib.util.spec_from_file_location(module_name, path)
+    if spec and spec.loader:
+        module = importlib.util.module_from_spec(spec)
+        module.game = self  # expose the running game to the plugin
+        sys.modules[module_name] = module
+        spec.loader.exec_module(module)
+```
+
+Every plugin module receives this ``game`` object via a global variable and can
+register new commands by updating ``game.command_map`` during import. The
+included ``dance.py`` plugin shows the recommended pattern:
+
+```python
+def dance(arg=""):
+    game._output(f"Dancing {arg}" if arg else "Dancing")
+
+# register the command on import
+if 'game' in globals():
+    game.command_map['dance'] = lambda arg="": dance(arg)
+```
+
+The ``game`` object exposes all of the engine internals so a plugin can do
+virtually anything. This flexibility also means plugins execute arbitrary Python
+code. Only enable plugins you trust, especially when distributing the game to
+others.
 
 ## Custom Worlds
 The starting filesystem, NPC locations and item descriptions are defined in
