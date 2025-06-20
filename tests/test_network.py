@@ -38,3 +38,37 @@ def test_hack_unlocks_node():
     assert 'Access granted' in out
     assert 'node.log' in out
     assert 'Goodbye' in out
+
+
+def test_hack_requires_scanner():
+    result = subprocess.run(
+        [sys.executable, SCRIPT],
+        input='scan network\nhack network\nquit\n',
+        text=True,
+        capture_output=True,
+    )
+    out = result.stdout
+    assert 'You need the port.scanner to hack this node.' in out
+    assert 'Goodbye' in out
+
+
+def test_cat_node_log_after_hack():
+    result = subprocess.run(
+        [sys.executable, SCRIPT],
+        input=(
+            'cd lab\n'
+            'take port.scanner\n'
+            'cd ..\n'
+            'scan network\n'
+            'hack network\n'
+            'cd network\n'
+            'cd node\n'
+            'cat node.log\n'
+            'quit\n'
+        ),
+        text=True,
+        capture_output=True,
+    )
+    out = result.stdout
+    assert 'Intrusion attempts detected.' in out
+    assert 'Goodbye' in out
