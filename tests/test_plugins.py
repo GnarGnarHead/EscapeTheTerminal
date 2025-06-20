@@ -109,3 +109,17 @@ def test_theme_plugin(monkeypatch, capsys):
     game.run()
     assert game.dir_color == '\x1b[92m'
     assert game.item_color == '\x1b[95m'
+
+
+def test_puzzle_plugin(monkeypatch, capsys):
+    game = Game()
+    inputs = iter([
+        'puzzle',
+        'puzzle There is a secret message.',
+        'quit',
+    ])
+    monkeypatch.setattr('builtins.input', lambda _='': next(inputs))
+    game.run()
+    out_lines = capsys.readouterr().out.splitlines()
+    assert any('Decode this:' in line for line in out_lines)
+    assert 'Correct! Puzzle solved.' in out_lines
