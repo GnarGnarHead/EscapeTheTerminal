@@ -13,9 +13,11 @@ unexpected ways.
    ```bash
    pip install -e '.[test]'
    ```
-3. Run the game using the console entry point:
+3. Run the game using the console entry point or module:
    ```bash
    escape-terminal
+   # or
+   python -m escape
    ```
    Use `help` (or `h`) inside the game for available commands and `quit` (or `exit`) to exit.
    Common command aliases like `i`/`inv` for `inventory` and `look around` for `look` are also supported.

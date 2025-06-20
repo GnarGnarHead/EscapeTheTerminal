@@ -1,15 +1,16 @@
 import subprocess
 import sys
+import importlib.metadata
 
 
 def test_console_script_invocation():
-    # Install the project in editable mode
-    subprocess.run(
-        [sys.executable, '-m', 'pip', 'install', '-e', '.', '--no-deps', '--quiet'],
-        check=True,
-    )
+    # Ensure the console entry point is registered
+    eps = importlib.metadata.entry_points()
+    names = [ep.name for ep in eps.select(group='console_scripts')]
+    assert 'escape-terminal' in names
+
     result = subprocess.run(
-        ['escape-terminal'],
+        [sys.executable, '-m', 'escape'],
         input='quit\n',
         text=True,
         capture_output=True,
