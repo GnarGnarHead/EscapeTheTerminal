@@ -29,7 +29,7 @@ unexpected ways.
    - `ls` – list directories and items in the current location
    - `cd <dir>` – move between directories/rooms
    - `cat <file>` – read narrative logs from `data/`
-   - `save` / `load` – write and restore your progress to `game.sav`
+  - `save [slot]` / `load [slot]` – write and restore progress. Without a slot the file `game.sav` is used, otherwise `game<slot>.sav`.
   - `glitch` – toggle glitch mode for scrambled descriptions. The longer it
     stays active the stronger the corruption becomes and occasional glitch
     messages may appear.
