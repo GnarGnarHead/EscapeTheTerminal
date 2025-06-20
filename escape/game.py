@@ -86,6 +86,7 @@ class Game:
             "restart": "Restart the game",
             "quit": "Exit the game",
             "alias": "Create command shortcuts",
+            "unalias": "Remove a command alias",
         }
 
         # map commands and aliases to handler callables
@@ -120,6 +121,7 @@ class Game:
             "quit": lambda arg="": self._quit(),
             "exit": lambda arg="": self._quit(),
             "alias": lambda arg="": self._alias(arg),
+            "unalias": lambda arg="": self._unalias(arg),
         }
 
         # discover and load optional plugin modules
@@ -322,7 +324,8 @@ class Game:
             return
         self._output(
             "Available commands: help, look, ls, cd <dir>, pwd, take <item>, drop <item>, "
-            "inventory, examine <item>, use <item> [on <target>], cat <file>, talk <npc>, save [slot], load [slot], glitch, quit"
+            "inventory, examine <item>, use <item> [on <target>], cat <file>, talk <npc>, "
+            "save [slot], load [slot], glitch, alias <name> <cmd>, unalias <name>, quit"
         )
 
     def _current_node(self):
@@ -769,6 +772,18 @@ class Game:
         name, target = parts[0].lower(), parts[1].lower()
         self.aliases[name] = target
         self._output(f"Alias {name} -> {target}")
+
+    def _unalias(self, name: str) -> None:
+        """Remove an alias created with :meth:`_alias`."""
+        name = name.strip().lower()
+        if not name:
+            self._output("Usage: unalias <name>")
+            return
+        if name in self.aliases:
+            del self.aliases[name]
+            self._output(f"Removed alias {name}")
+        else:
+            self._output(f"No such alias: {name}")
 
     def _sleep(self, arg: str = "") -> None:
         """Enter the dream directory and optionally modify glitch intensity."""
