@@ -60,7 +60,12 @@ class Game:
                             "desc": "Half-formed thoughts linger here, waiting to be read.",
                             "items": ["reverie.log"],
                             "dirs": {},
-                        }
+                        },
+                        "npc": {
+                            "desc": "A soft presence waits to converse in this lucid space.",
+                            "items": [],
+                            "dirs": {},
+                        },
                     },
                 },
                 "memory": {
@@ -71,6 +76,10 @@ class Game:
             },
         }
         self.current = []  # path as list of directory names
+        self.npc_locations = {
+            "daemon": ["core", "npc"],
+            "dreamer": ["dream", "npc"],
+        }
         self.item_descriptions = {
             "access.key": "A slim digital token rumored to unlock hidden directories.",
             "treasure.txt": "A file filled with untold riches.",
@@ -300,21 +309,35 @@ class Game:
 
     def _talk(self, npc: str):
         """Converse with an NPC if present in the current directory."""
-        if npc == "daemon":
-            if self.current != ["core", "npc"]:
-                self._output("There is no daemon here.")
-                return
-            dialog_file = self.data_dir / "npc" / "daemon.dialog"
-        else:
+        location = self.npc_locations.get(npc)
+        if location != self.current:
             self._output(f"There is no {npc} here.")
             return
 
+        dialog_file = self.data_dir / "npc" / f"{npc}.dialog"
         try:
-            with open(dialog_file, "r", encoding="utf-8") as f:
-                for line in f:
-                    self._output(line.rstrip())
+            lines = dialog_file.read_text(encoding="utf-8").splitlines()
         except FileNotFoundError:
             self._output(f"{npc.capitalize()} has nothing to say.")
+            return
+
+        i = 0
+        while i < len(lines):
+            if lines[i].lstrip().startswith(">"):
+                choices = []
+                while i < len(lines) and lines[i].lstrip().startswith(">"):
+                    choices.append(lines[i].lstrip()[1:].strip())
+                    i += 1
+                for idx, choice in enumerate(choices, 1):
+                    self._output(f"{idx}. {choice}")
+                sel = input("> ").strip()
+                if sel.isdigit():
+                    idx = int(sel) - 1
+                    if 0 <= idx < len(choices):
+                        self._output(choices[idx])
+                continue
+            self._output(lines[i])
+            i += 1
 
     def _ls(self):
         node = self._current_node()
