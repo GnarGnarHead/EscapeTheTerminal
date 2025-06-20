@@ -637,3 +637,16 @@ def test_load_old_save_defaults(tmp_path, capsys):
     capsys.readouterr()
     assert game.glitch_mode is False
     assert game.glitch_steps == 0
+
+
+def test_history_command():
+    result = subprocess.run(
+        [sys.executable, SCRIPT],
+        input='look\ninventory\nhistory\nquit\n',
+        text=True,
+        capture_output=True,
+    )
+    out = result.stdout
+    assert '> look\ninventory\nhistory' in out
+    assert 'Goodbye' in result.stdout
+
