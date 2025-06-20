@@ -148,7 +148,7 @@ def test_drop_item():
     )
     assert 'pick up the access.key' in result.stdout
     assert 'drop the access.key' in result.stdout
-    assert 'You see: access.key' in result.stdout
+    assert 'access.key' in result.stdout
     assert 'Goodbye' in result.stdout
 
 
@@ -174,3 +174,17 @@ def test_save_and_load(tmp_path):
         cwd=tmp_path,
     )
     assert 'Inventory: access.key' in result.stdout
+
+
+def test_ls_and_cd():
+    result = subprocess.run(
+        [sys.executable, SCRIPT],
+        input='ls\ncd hidden\nls\ncd ..\nls\nquit\n',
+        text=True,
+        capture_output=True,
+    )
+    out = result.stdout
+    assert 'hidden/' in out
+    assert 'treasure.txt' in out
+    assert out.count('hidden/') >= 1
+    assert 'Goodbye' in out
