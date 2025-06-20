@@ -223,3 +223,20 @@ def test_examine_mem_fragment():
     )
     assert 'corrupted memory fragment' in result.stdout
     assert 'Goodbye' in result.stdout
+
+
+def test_glitch_mode_toggle():
+    expected = (
+        'You find yourself in a dimly lit t&*minal session. T*e pr@m@t blin&s patiently.'
+    )
+    result = subprocess.run(
+        [sys.executable, SCRIPT],
+        input='glitch\nlook\nglitch\nlook\nquit\n',
+        text=True,
+        capture_output=True,
+    )
+    out = result.stdout
+    assert 'Glitch mode activated.' in out
+    assert expected in out
+    assert 'Glitch mode deactivated.' in out
+    assert 'You find yourself in a dimly lit terminal session.' in out

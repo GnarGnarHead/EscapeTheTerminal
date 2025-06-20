@@ -40,11 +40,35 @@ class Game:
         }
         self.save_file = "game.sav"
         self.data_dir = Path(__file__).parent / "data"
+        self.glitch_mode = False
+
+    def _toggle_glitch(self):
+        self.glitch_mode = not self.glitch_mode
+        state = "activated" if self.glitch_mode else "deactivated"
+        print(f"Glitch mode {state}.")
+
+    def _output(self, text: str = "") -> None:
+        """Print text, applying glitch effects when enabled."""
+        if self.glitch_mode and text:
+            text = self._glitch_text(text)
+        print(text)
+
+    def _glitch_text(self, text: str) -> str:
+        import random
+        import hashlib
+
+        seed = int.from_bytes(hashlib.sha256(text.encode()).digest()[:4], 'little')
+        rnd = random.Random(seed)
+        chars = list(text)
+        for i, ch in enumerate(chars):
+            if ch.isalpha() and rnd.random() < 0.1:
+                chars[i] = rnd.choice("@#$%&*")
+        return "".join(chars)
 
     def _print_help(self):
-        print(
+        self._output(
             "Available commands: help, look, ls, cd <dir>, take <item>, drop <item>, "
-            "inventory, examine <item>, use <item>, cat <file>, save, load, quit"
+            "inventory, examine <item>, use <item>, cat <file>, save, load, glitch, quit"
         )
 
     def _current_node(self):
@@ -55,46 +79,46 @@ class Game:
 
     def _look(self):
         node = self._current_node()
-        print(node["desc"])
+        self._output(node["desc"])
         entries = [d + "/" for d in node["dirs"]] + list(node["items"])
         if entries:
-            print("You see: " + ", ".join(entries))
+            self._output("You see: " + ", ".join(entries))
 
     def _take(self, item: str):
         node = self._current_node()
         if item in node["items"]:
             node["items"].remove(item)
             self.inventory.append(item)
-            print(f"You pick up the {item}.")
+            self._output(f"You pick up the {item}.")
         else:
-            print(f"There is no {item} here.")
+            self._output(f"There is no {item} here.")
 
     def _drop(self, item: str):
         if item in self.inventory:
             self.inventory.remove(item)
             node = self._current_node()
             node["items"].append(item)
-            print(f"You drop the {item}.")
+            self._output(f"You drop the {item}.")
         else:
-            print(f"You do not have {item} to drop.")
+            self._output(f"You do not have {item} to drop.")
 
     def _inventory(self):
         if self.inventory:
-            print("Inventory: " + ", ".join(self.inventory))
+            self._output("Inventory: " + ", ".join(self.inventory))
         else:
-            print("Inventory is empty.")
+            self._output("Inventory is empty.")
 
     def _examine(self, item: str):
         node = self._current_node()
         if item in self.inventory or item in node["items"]:
             desc = self.item_descriptions.get(item, "It's unremarkable.")
-            print(desc)
+            self._output(desc)
         else:
-            print(f"You do not have {item} to examine.")
+            self._output(f"You do not have {item} to examine.")
 
     def _use(self, item: str):
         if item not in self.inventory:
-            print(f"You do not have {item} to use.")
+            self._output(f"You do not have {item} to use.")
             return
         if item == "access.key":
             root = self.fs
@@ -102,9 +126,9 @@ class Game:
                 root["dirs"]["hidden"] = self.hidden_dir
         msg = self.use_messages.get(item)
         if msg:
-            print(msg)
+            self._output(msg)
         else:
-            print(f"You can't use {item} right now.")
+            self._output(f"You can't use {item} right now.")
 
     def _cat(self, filename: str):
         path = self.data_dir / filename
@@ -112,20 +136,20 @@ class Game:
             with open(path, "r", encoding="utf-8") as f:
                 text = f.read()
         except FileNotFoundError:
-            print(f"No such file: {filename}")
+            self._output(f"No such file: {filename}")
             return
         except OSError as e:
-            print(f"Failed to read {filename}: {e}")
+            self._output(f"Failed to read {filename}: {e}")
             return
-        print(text.rstrip())
+        self._output(text.rstrip())
 
     def _ls(self):
         node = self._current_node()
         entries = [d + '/' for d in node['dirs']] + list(node['items'])
         if entries:
-            print(" ".join(entries))
+            self._output(" ".join(entries))
         else:
-            print("Nothing here.")
+            self._output("Nothing here.")
 
     def _cd(self, directory: str):
         if directory in ('.', ''):
@@ -134,13 +158,13 @@ class Game:
             if self.current:
                 self.current.pop()
             else:
-                print("Already at root.")
+                self._output("Already at root.")
             return
         node = self._current_node()
         if directory in node['dirs']:
             self.current.append(directory)
         else:
-            print(f"No such directory: {directory}")
+            self._output(f"No such directory: {directory}")
 
     def _save(self):
         data = {
@@ -154,9 +178,9 @@ class Game:
 
                 json.dump(data, f)
         except OSError as e:
-            print(f"Failed to save: {e}")
+            self._output(f"Failed to save: {e}")
         else:
-            print("Game saved.")
+            self._output("Game saved.")
 
     def _load(self):
         import json
@@ -165,24 +189,24 @@ class Game:
             with open(self.save_file, "r", encoding="utf-8") as f:
                 data = json.load(f)
         except FileNotFoundError:
-            print("No save file found.")
+            self._output("No save file found.")
             return
         except OSError as e:
-            print(f"Failed to load: {e}")
+            self._output(f"Failed to load: {e}")
             return
         self.fs = data.get("fs", self.fs)
         self.inventory = data.get("inventory", [])
         self.current = data.get("current", [])
-        print("Game loaded.")
+        self._output("Game loaded.")
 
     def run(self):
-        print("Welcome to Escape the Terminal")
-        print("Type 'help' for a list of commands. Type 'quit' to exit.")
+        self._output("Welcome to Escape the Terminal")
+        self._output("Type 'help' for a list of commands. Type 'quit' to exit.")
         while True:
             try:
                 cmd = input('> ').strip().lower()
             except EOFError:
-                print()
+                self._output()
                 break
             if cmd in ('help', 'h'):
                 self._print_help()
@@ -214,13 +238,15 @@ class Game:
                 self._save()
             elif cmd == 'load':
                 self._load()
+            elif cmd == 'glitch':
+                self._toggle_glitch()
             elif cmd in ('quit', 'exit'):
-                print("Goodbye")
+                self._output("Goodbye")
                 break
             elif not cmd:
                 continue
             else:
-                print(f"Unknown command: {cmd}")
+                self._output(f"Unknown command: {cmd}")
 
 
 def main():
