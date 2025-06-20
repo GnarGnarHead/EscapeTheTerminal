@@ -4,6 +4,8 @@ This module now exposes a :class:`Game` object to make future expansion
 easier while preserving the original command-line interface.
 """
 
+from __future__ import annotations
+
 from pathlib import Path
 import os
 import json
