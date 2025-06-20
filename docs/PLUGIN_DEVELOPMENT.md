@@ -20,6 +20,10 @@ if 'game' in globals():
 
 Place ``greet.py`` under ``escape/plugins/`` or a directory listed in ``ET_PLUGIN_PATH`` and launch the game. The ``greet`` command will be available immediately.
 
+The project also includes a small stateful example named ``counter.py``. Each
+time you run the ``counter`` command the number it prints increases. This shows
+that plugins can maintain their own module state between invocations.
+
 ## ``.zip`` Plugin Example
 
 Plugins can also be distributed as zip archives. The archive should contain a single Python module. The name of the zip file becomes the module name when loaded.
