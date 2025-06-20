@@ -24,6 +24,7 @@ def test_look_command():
     )
     assert 'dimly lit terminal' in result.stdout
     assert 'access.key' in result.stdout
+    assert 'voice.log' in result.stdout
     assert 'Goodbye' in result.stdout
 
 
@@ -179,11 +180,12 @@ def test_save_and_load(tmp_path):
 def test_ls_and_cd():
     result = subprocess.run(
         [sys.executable, SCRIPT],
-        input='ls\ncd hidden\nls\ncd ..\nls\nquit\n',
+        input='ls\ntake access.key\nuse access.key\nls\ncd hidden\nls\ncd ..\nls\nquit\n',
         text=True,
         capture_output=True,
     )
     out = result.stdout
+    # first ls should not show hidden, final ones should
     assert 'hidden/' in out
     assert 'treasure.txt' in out
     assert out.count('hidden/') >= 1
@@ -198,4 +200,26 @@ def test_cat_command():
         capture_output=True,
     )
     assert 'faint digital voice' in result.stdout
+    assert 'Goodbye' in result.stdout
+
+
+def test_use_voice_log():
+    result = subprocess.run(
+        [sys.executable, SCRIPT],
+        input='take voice.log\nuse voice.log\nquit\n',
+        text=True,
+        capture_output=True,
+    )
+    assert 'haunting voice' in result.stdout
+    assert 'Goodbye' in result.stdout
+
+
+def test_examine_mem_fragment():
+    result = subprocess.run(
+        [sys.executable, SCRIPT],
+        input='take access.key\nuse access.key\ncd hidden\nexamine mem.fragment\nquit\n',
+        text=True,
+        capture_output=True,
+    )
+    assert 'corrupted memory fragment' in result.stdout
     assert 'Goodbye' in result.stdout

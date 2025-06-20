@@ -12,27 +12,31 @@ class Game:
 
     def __init__(self):
         self.inventory = []
+        # base filesystem state; the hidden directory is injected when unlocked
+        self.hidden_dir = {
+            "desc": "A directory shrouded in mystery.",
+            "items": ["mem.fragment", "treasure.txt"],
+            "dirs": {},
+        }
         self.fs = {
             "desc": (
                 "You find yourself in a dimly lit terminal session. "
                 "The prompt blinks patiently."
             ),
-            "items": ["access.key"],
-            "dirs": {
-                "hidden": {
-                    "desc": "A directory shrouded in mystery.",
-                    "items": ["treasure.txt"],
-                    "dirs": {},
-                }
-            },
+            "items": ["access.key", "voice.log"],
+            "dirs": {},
         }
         self.current = []  # path as list of directory names
         self.item_descriptions = {
             "access.key": "A slim digital token rumored to unlock hidden directories.",
             "treasure.txt": "A file filled with untold riches.",
+            "mem.fragment": "A corrupted memory fragment pulsing faintly with data.",
+            "voice.log": "An audio log that might contain a clue.",
         }
         self.use_messages = {
-            "access.key": "The key hums softly and a hidden directory flickers into view."
+            "access.key": "The key hums softly and a hidden directory flickers into view.",
+            "mem.fragment": "Fragments of your past flash before your eyes.",
+            "voice.log": "A haunting voice whispers: 'Find the fragment.'",
         }
         self.save_file = "game.sav"
         self.data_dir = Path(__file__).parent / "data"
@@ -92,6 +96,10 @@ class Game:
         if item not in self.inventory:
             print(f"You do not have {item} to use.")
             return
+        if item == "access.key":
+            root = self.fs
+            if "hidden" not in root["dirs"]:
+                root["dirs"]["hidden"] = self.hidden_dir
         msg = self.use_messages.get(item)
         if msg:
             print(msg)
