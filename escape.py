@@ -121,10 +121,33 @@ class Game:
         self.logs_path = self.data_dir / "logs"
         self._generate_logs()
 
+        # descriptions for help output
+        self.command_descriptions = {
+            "help": "Show help for commands",
+            "look": "Describe the current room",
+            "ls": "List items and subdirectories",
+            "cd": "Change directory",
+            "pwd": "Show current path",
+            "take": "Add an item to your inventory",
+            "drop": "Remove an item from your inventory",
+            "inventory": "List inventory contents",
+            "examine": "Examine an item in detail",
+            "use": "Use an item, optionally on a target",
+            "cat": "Display the contents of a file",
+            "grep": "Search log files for text",
+            "decode": "Decode the mem.fragment",
+            "talk": "Speak with an NPC",
+            "map": "Display the directory tree",
+            "save": "Save game state",
+            "load": "Load a saved game",
+            "glitch": "Toggle glitch mode",
+            "quit": "Exit the game",
+        }
+
         # map commands and aliases to handler callables
         self.command_map = {
-            "help": lambda arg="": self._print_help(),
-            "h": lambda arg="": self._print_help(),
+            "help": lambda arg="": self._print_help(arg.strip()),
+            "h": lambda arg="": self._print_help(arg.strip()),
             "look": lambda arg="": self._look(),
             "look around": lambda arg="": self._look(),
             "ls": lambda arg="": self._ls(),
@@ -312,7 +335,15 @@ class Game:
         walk(self.fs)
         return dirs, items
 
-    def _print_help(self):
+    def _print_help(self, command: str | None = None) -> None:
+        """Display general help or info for a specific command."""
+        if command:
+            desc = self.command_descriptions.get(command)
+            if desc:
+                self._output(f"{command}: {desc}")
+            else:
+                self._output(f"No help available for '{command}'.")
+            return
         self._output(
             "Available commands: help, look, ls, cd <dir>, pwd, take <item>, drop <item>, "
             "inventory, examine <item>, use <item> [on <target>], cat <file>, talk <npc>, save [slot], load [slot], glitch, quit"

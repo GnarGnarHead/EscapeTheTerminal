@@ -119,6 +119,30 @@ def test_help_alias():
     assert 'Goodbye' in result.stdout
 
 
+def test_help_specific_command():
+    result = subprocess.run(
+        [sys.executable, SCRIPT],
+        input='help look\nquit\n',
+        text=True,
+        capture_output=True,
+    )
+    out = result.stdout
+    assert 'look: Describe the current room' in out
+    assert 'Goodbye' in out
+
+
+def test_help_unknown_command():
+    result = subprocess.run(
+        [sys.executable, SCRIPT],
+        input='help unknown\nquit\n',
+        text=True,
+        capture_output=True,
+    )
+    out = result.stdout
+    assert "No help available for 'unknown'" in out
+    assert 'Goodbye' in out
+
+
 def test_use_item_missing():
     result = subprocess.run(
         [sys.executable, SCRIPT],
