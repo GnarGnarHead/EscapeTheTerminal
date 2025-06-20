@@ -39,7 +39,11 @@ Game.npc_locations['merchant'] = ['market', 'npc']
 This places a new `merchant.dialog` under `data/npc/` and associates it with the `market/npc/` location.
 
 ## Validator script
-A small helper lives at `escape/utils/validate_dialog.py` to check dialog files for common mistakes. Run it with Python and pass one or more files or directories:
+A small helper lives at `escape/utils/validate_dialog.py` to check dialog files for common mistakes. Run it with Python and pass one or more files or directories or use the `validate-dialog` command installed with the game:
+
+```bash
+validate-dialog escape/data/npc
+```
 
 ```bash
 python -m escape.utils.validate_dialog escape/data/npc
