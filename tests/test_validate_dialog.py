@@ -7,7 +7,7 @@ REPO_ROOT = os.path.dirname(os.path.dirname(__file__))
 
 def test_validate_dialog(tmp_path):
     good = tmp_path / "good.dialog"
-    good.write_text("Hello\n> Continue [flag]\n?flag: done\n")
+    good.write_text("Hello\n> Continue [glitched]\n?glitched: done\n")
 
     bad = tmp_path / "bad.dialog"
     bad.write_text("Oops\n> Broken [flag\n?missing colon\n")

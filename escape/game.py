@@ -841,6 +841,8 @@ class Game:
         else:
             state = int(entry)
             flags = {}
+        # inject a dynamic flag when glitch mode is active
+        flags["glitched"] = self.glitch_mode
         if state >= len(sections):
             state = len(sections) - 1
         lines = sections[state]
