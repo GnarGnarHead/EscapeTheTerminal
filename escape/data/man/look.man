@@ -1,0 +1,2 @@
+look - describe the current room or a subdirectory
+Usage: look [dir] or look around

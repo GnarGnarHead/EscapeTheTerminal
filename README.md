@@ -43,6 +43,7 @@ unexpected ways.
     messages may appear.
   - `color on` / `color off` / `color toggle` – enable, disable or toggle ANSI colors
   - `history` – display the commands you've entered this session
+  - `man <command>` – show the manual page for a command
   - `journal` – view notes or `journal add <text>` to record a message
   - `sleep [reset|inc]` – fall asleep and enter the dream. Use `reset` to
     clear glitches or `inc` to deepen them
