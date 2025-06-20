@@ -119,3 +119,18 @@ def test_oracle_vision_stage():
     assert 'unveils a vision of hidden paths' in out
     assert 'images swirl before dissolving into noise' in out
     assert 'Goodbye' in out
+
+
+def test_archivist_progression():
+    result = subprocess.run(
+        CMD,
+        input='cd memory\ncd npc\ntalk archivist\n1\ntalk archivist\n1\ntalk archivist\n1\ntalk archivist\nquit\n',
+        text=True,
+        capture_output=True,
+    )
+    out = result.stdout
+    assert 'archivist catalogues' in out
+    assert 'opens a secure drawer' in out
+    assert 'hands you a faded index code' in out
+    assert 'files away another memory' in out
+    assert 'Goodbye' in out
