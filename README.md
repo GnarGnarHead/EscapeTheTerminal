@@ -25,7 +25,7 @@ unexpected ways.
    - `take <item>` / `drop <item>` – manage inventory items
    - `inventory` / `i` / `inv` – show what you're carrying
    - `examine <item>` – get a closer look at an object
-   - `use <item>` – interact with items (e.g. the `access.key` reveals hidden areas)
+  - `use <item> [on <target>]` – interact with items (e.g. `use access.key on door` reveals hidden areas)
    - `ls` – list directories and items in the current location
    - `cd <dir>` – move between directories/rooms
    - `cat <file>` – read narrative logs from `data/`
@@ -33,7 +33,7 @@ unexpected ways.
    - `glitch` – toggle glitch mode for scrambled descriptions
 
    **Core files/items**
-   - `access.key` – unlocks the hidden directory when used
+  - `access.key` – unlocks the hidden directory when used on the door
    - `voice.log` – whispers a clue when read
    - `mem.fragment` – a corrupted memory chunk found in `hidden/`
    - `treasure.txt` – reward text tucked away in `hidden/`

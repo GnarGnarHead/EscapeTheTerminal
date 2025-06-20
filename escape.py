@@ -81,7 +81,7 @@ class Game:
     def _print_help(self):
         self._output(
             "Available commands: help, look, ls, cd <dir>, take <item>, drop <item>, "
-            "inventory, examine <item>, use <item>, cat <file>, save, load, glitch, quit"
+            "inventory, examine <item>, use <item> [on <target>], cat <file>, save, load, glitch, quit"
         )
 
     def _current_node(self):
@@ -129,14 +129,27 @@ class Game:
         else:
             self._output(f"You do not have {item} to examine.")
 
-    def _use(self, item: str):
+    def _use(self, item: str, target: str | None = None):
         if item not in self.inventory:
             self._output(f"You do not have {item} to use.")
             return
-        if item == "access.key":
+
+        # item on target interactions
+        if item == "access.key" and (target == "door" or target is None):
             root = self.fs
             if "hidden" not in root["dirs"]:
                 root["dirs"]["hidden"] = self.hidden_dir
+            msg = self.use_messages.get(item)
+            if msg:
+                self._output(msg)
+            return
+        if item == "decoder" and target == "mem.fragment":
+            self._output("The decoder reveals a secret exit command within the fragment.")
+            return
+        if target:
+            self._output(f"You try to use {item} on {target} but nothing happens.")
+            return
+
         msg = self.use_messages.get(item)
         if msg:
             self._output(msg)
@@ -242,8 +255,15 @@ class Game:
                 item = cmd.split(' ', 1)[1]
                 self._examine(item)
             elif cmd.startswith('use '):
-                item = cmd.split(' ', 1)[1]
-                self._use(item)
+                use_args = cmd[4:]
+                if ' on ' in use_args:
+                    item_part, target = use_args.split(' on ', 1)
+                    item = item_part.strip()
+                    target = target.strip()
+                else:
+                    item = use_args.strip()
+                    target = None
+                self._use(item, target)
             elif cmd.startswith('cat '):
                 filename = cmd.split(' ', 1)[1]
                 self._cat(filename)
