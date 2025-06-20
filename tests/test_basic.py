@@ -140,6 +140,19 @@ def test_use_item_after_take():
     assert 'Goodbye' in result.stdout
 
 
+def test_use_item_on_door():
+    result = subprocess.run(
+        [sys.executable, SCRIPT],
+        input='take access.key\nuse access.key on door\nls\nquit\n',
+        text=True,
+        capture_output=True,
+    )
+    out = result.stdout
+    assert 'hidden directory flickers' in out
+    assert 'hidden/' in out
+    assert 'Goodbye' in out
+
+
 def test_drop_item():
     result = subprocess.run(
         [sys.executable, SCRIPT],
