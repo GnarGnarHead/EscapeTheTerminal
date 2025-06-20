@@ -94,6 +94,9 @@ after every successful command. This is handy for continuous progress backups or
 automated testing. Running ``escape-terminal --autosave`` enables the same
 behavior without setting the environment variable.
 
+`ET_SAVE_DIR` can be set to control where save files are stored. When unset,
+files are saved to the current working directory.
+
 ## Custom Prompt
 Set the `ET_PROMPT` environment variable to change the input prompt shown to
 the player. The default prompt is `> `. You can also pass ``--prompt <text>`` on

@@ -61,6 +61,8 @@ class Game:
             "flashback.log": "Memories surge forth, revealing forgotten paths.",
         }
         self.save_file = "game.sav"
+        env_save_dir = os.getenv("ET_SAVE_DIR")
+        self.save_dir = Path(env_save_dir) if env_save_dir else Path.cwd()
         self.glitch_mode = False
         self.glitch_steps = 0
 
@@ -866,6 +868,7 @@ class Game:
     def _save(self, slot: str = ""):
         """Save game state to ``game<slot>.sav`` (default ``game.sav``)."""
         fname = self.save_file if not slot else f"game{slot}.sav"
+        path = self.save_dir / fname
         data = {
             "fs": self.fs,
             "inventory": self.inventory,
@@ -879,7 +882,7 @@ class Game:
             "score": self.score,
         }
         try:
-            with open(fname, "w", encoding="utf-8") as f:
+            with open(path, "w", encoding="utf-8") as f:
                 import json
 
                 json.dump(data, f)
@@ -891,10 +894,11 @@ class Game:
     def _load(self, slot: str = ""):
         """Load game state from ``game<slot>.sav`` (default ``game.sav``)."""
         fname = self.save_file if not slot else f"game{slot}.sav"
+        path = self.save_dir / fname
         import json
 
         try:
-            with open(fname, "r", encoding="utf-8") as f:
+            with open(path, "r", encoding="utf-8") as f:
                 data = json.load(f)
         except FileNotFoundError:
             self._output("No save file found.")
