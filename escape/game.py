@@ -218,6 +218,7 @@ class Game:
         """Import plugin modules from built-in and custom plugin directories."""
         import importlib.util
         import sys
+        import zipimport
 
         builtin_dir = Path(__file__).parent / "plugins"
         plugin_dirs = []
@@ -234,6 +235,7 @@ class Game:
                     plugin_dirs.append(path)
 
         for plugins_dir in plugin_dirs:
+            # load regular Python files
             for path in plugins_dir.glob("*.py"):
                 if path.name.startswith("__"):
                     continue
@@ -242,6 +244,27 @@ class Game:
                 else:
                     module_name = path.stem
                 spec = importlib.util.spec_from_file_location(module_name, path)
+                if spec and spec.loader:
+                    module = importlib.util.module_from_spec(spec)
+                    module.game = self
+                    sys.modules[module_name] = module
+                    try:
+                        spec.loader.exec_module(module)
+                    except Exception as exc:
+                        print(f"Failed to load plugin {path.name}: {exc}")
+
+            # load zipped plugins
+            for path in plugins_dir.glob("*.zip"):
+                if plugins_dir == builtin_dir:
+                    module_name = f"escape.plugins.{path.stem}"
+                else:
+                    module_name = path.stem
+                try:
+                    importer = zipimport.zipimporter(str(path))
+                except zipimport.ZipImportError as exc:
+                    print(f"Failed to read plugin {path.name}: {exc}")
+                    continue
+                spec = importlib.util.spec_from_loader(module_name, importer)
                 if spec and spec.loader:
                     module = importlib.util.module_from_spec(spec)
                     module.game = self
