@@ -292,8 +292,8 @@ def test_cat_treasure_after_unlock():
 
 
 def test_glitch_mode_toggle():
-    expected = (
-        'You find yourself in a dimly lit t&*minal session. T*e pr@m@t blin&s patiently.'
+    first_glitch = (
+        'You find &ourself %n a $imly l&t %ermin%l session. T$e prom*t *l%n#s patie*tly.'
     )
     result = subprocess.run(
         [sys.executable, SCRIPT],
@@ -303,6 +303,26 @@ def test_glitch_mode_toggle():
     )
     out = result.stdout
     assert 'Glitch mode activated.' in out
-    assert expected in out
+    assert first_glitch in out
     assert 'Glitch mode deactivated.' in out
     assert 'You find yourself in a dimly lit terminal session.' in out
+
+
+def test_glitch_persistence():
+    first_glitch = (
+        'You find &ourself %n a $imly l&t %ermin%l session. T$e prom*t *l%n#s patie*tly.'
+    )
+    later_glitch = (
+        '&*u &i$d y@urself i% a diml& li& #erm@@al sessio#. Th* #ro$pt bli%ks patie#*ly.'
+    )
+    result = subprocess.run(
+        [sys.executable, SCRIPT],
+        input='glitch\nlook\nlook\nglitch\nlook\nquit\n',
+        text=True,
+        capture_output=True,
+    )
+    out = result.stdout
+    assert first_glitch in out
+    assert later_glitch in out
+    # final look after glitch off should be normal
+    assert out.strip().endswith('Goodbye')

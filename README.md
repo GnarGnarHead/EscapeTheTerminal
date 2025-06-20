@@ -30,7 +30,9 @@ unexpected ways.
    - `cd <dir>` – move between directories/rooms
    - `cat <file>` – read narrative logs from `data/`
    - `save` / `load` – write and restore your progress to `game.sav`
-   - `glitch` – toggle glitch mode for scrambled descriptions
+  - `glitch` – toggle glitch mode for scrambled descriptions. The longer it
+    stays active the stronger the corruption becomes and occasional glitch
+    messages may appear.
 
    **Core files/items**
   - `access.key` – unlocks the hidden directory when used on the door

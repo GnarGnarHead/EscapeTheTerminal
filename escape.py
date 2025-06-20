@@ -67,27 +67,39 @@ class Game:
         self.save_file = "game.sav"
         self.data_dir = Path(__file__).parent / "data"
         self.glitch_mode = False
+        self.glitch_steps = 0
 
     def _toggle_glitch(self):
         self.glitch_mode = not self.glitch_mode
         state = "activated" if self.glitch_mode else "deactivated"
+        if not self.glitch_mode:
+            self.glitch_steps = 0
         print(f"Glitch mode {state}.")
 
     def _output(self, text: str = "") -> None:
         """Print text, applying glitch effects when enabled."""
         if self.glitch_mode and text:
-            text = self._glitch_text(text)
+            self.glitch_steps += 1
+            text = self._glitch_text(text, self.glitch_steps)
+            # occasionally insert additional glitch noise
+            import random
+            rnd = random.Random(self.glitch_steps * 42)
+            if rnd.random() < 0.2:
+                noise = rnd.choice(["...glitch...", "~~~", "<!>"])
+                print(noise)
         print(text)
 
-    def _glitch_text(self, text: str) -> str:
+    def _glitch_text(self, text: str, step: int) -> str:
         import random
         import hashlib
 
-        seed = int.from_bytes(hashlib.sha256(text.encode()).digest()[:4], 'little')
+        key = f"{text}-{step}".encode()
+        seed = int.from_bytes(hashlib.sha256(key).digest()[:4], "little")
         rnd = random.Random(seed)
+        prob = min(0.1 + step * 0.05, 0.6)
         chars = list(text)
         for i, ch in enumerate(chars):
-            if ch.isalpha() and rnd.random() < 0.1:
+            if ch.isalpha() and rnd.random() < prob:
                 chars[i] = rnd.choice("@#$%&*")
         return "".join(chars)
 
