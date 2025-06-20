@@ -125,4 +125,5 @@ simple ``dance`` command as an example.
 The starting filesystem, NPC locations and item descriptions are defined in
 ``escape/data/world.json``. Modify this file to reshape the world or provide a
 completely new JSON file when instantiating ``Game`` using the ``world_file``
-parameter.
+parameter. When running the CLI you can pass ``--world <file>`` to load an
+alternate JSON world.
