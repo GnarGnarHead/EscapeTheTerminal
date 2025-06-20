@@ -118,3 +118,9 @@ scans this directory for ``*.py`` modules (ignoring names beginning with
 object via a global variable and can register new commands by updating
 ``game.command_map`` during import. The included ``dance.py`` plugin adds a
 simple ``dance`` command as an example.
+
+## Custom Worlds
+The starting filesystem, NPC locations and item descriptions are defined in
+``escape/data/world.json``. Modify this file to reshape the world or provide a
+completely new JSON file when instantiating ``Game`` using the ``world_file``
+parameter.
