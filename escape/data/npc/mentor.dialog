@@ -1,0 +1,18 @@
+The mentor studies you from behind a screen of scrolling code.
+> Request training [+respect]
+> Question the mentor's methods [-respect]
+> Leave
+"Focus is the foundation of mastery."
+---
+?respect:The mentor nods approvingly at your dedication.
+?!respect:The mentor's eyes narrow at your defiance.
+> Ask about advanced techniques [+curious]
+> Step away
+"Practice turns knowledge into skill."
+---
+?curious:The mentor shares a final tip before returning to work.
+> Thank the mentor [+gratitude]
+> Depart
+"Use these lessons wisely."
+---
+?gratitude:The mentor smiles, already lost in their thoughts.

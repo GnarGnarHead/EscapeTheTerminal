@@ -176,6 +176,10 @@
     "archivist": [
       "memory",
       "npc"
+    ],
+    "mentor": [
+      "core",
+      "npc"
     ]
   },
   "item_descriptions": {
