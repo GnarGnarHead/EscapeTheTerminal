@@ -571,6 +571,8 @@ class Game:
                     node_data["items"].append("firmware.patch")
                 if next_name == "node3":
                     node_data["items"].append("root.access")
+                if next_name == "node4":
+                    node_data["items"].append("super.user")
                 override = (
                     self.deep_network_node.get("dirs", {})
                     .get(next_name, {})
@@ -621,6 +623,9 @@ class Game:
                 return
             if target_name == "node4" and "root.access" not in self.inventory:
                 self._output("You need the root.access to hack this node.")
+                return
+            if target_name == "node5" and "super.user" not in self.inventory:
+                self._output("You need the super.user to hack this node.")
                 return
         target.pop("locked", None)
         self._output("Access granted. The node is now unlocked.")
