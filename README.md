@@ -15,6 +15,7 @@ This project is a minimalist terminal game. For the long-term vision, see [VISIO
    ```
    Use `help` (or `h`) inside the game for available commands and `quit` (or `exit`) to exit.
    Common command aliases like `i`/`inv` for `inventory` and `look around` for `look` are also supported.
+   The `use <item>` command lets you interact with objects in your inventory.
 
 ## Running Tests
 Tests require `pytest` and can be executed with:

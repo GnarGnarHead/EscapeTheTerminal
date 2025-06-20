@@ -111,3 +111,26 @@ def test_help_alias():
     )
     assert 'Available commands' in result.stdout
     assert 'Goodbye' in result.stdout
+
+
+def test_use_item_missing():
+    result = subprocess.run(
+        [sys.executable, 'escape.py'],
+        input='use access.key\nquit\n',
+        text=True,
+        capture_output=True,
+    )
+    assert 'do not have access.key' in result.stdout
+    assert 'Goodbye' in result.stdout
+
+
+def test_use_item_after_take():
+    result = subprocess.run(
+        [sys.executable, 'escape.py'],
+        input='take access.key\nuse access.key\nquit\n',
+        text=True,
+        capture_output=True,
+    )
+    assert 'pick up the access.key' in result.stdout
+    assert 'hidden directory flickers' in result.stdout
+    assert 'Goodbye' in result.stdout

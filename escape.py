@@ -18,11 +18,14 @@ class Game:
         self.item_descriptions = {
             "access.key": "A slim digital token rumored to unlock hidden directories."
         }
+        self.use_messages = {
+            "access.key": "The key hums softly and a hidden directory flickers into view."
+        }
 
     def _print_help(self):
         print(
             "Available commands: help, look, take <item>, inventory, "
-            "examine <item>, quit"
+            "examine <item>, use <item>, quit"
         )
 
     def _look(self):
@@ -51,6 +54,16 @@ class Game:
         else:
             print(f"You do not have {item} to examine.")
 
+    def _use(self, item: str):
+        if item not in self.inventory:
+            print(f"You do not have {item} to use.")
+            return
+        msg = self.use_messages.get(item)
+        if msg:
+            print(msg)
+        else:
+            print(f"You can't use {item} right now.")
+
     def run(self):
         print("Welcome to Escape the Terminal")
         print("Type 'help' for a list of commands. Type 'quit' to exit.")
@@ -72,6 +85,9 @@ class Game:
             elif cmd.startswith('examine '):
                 item = cmd.split(' ', 1)[1]
                 self._examine(item)
+            elif cmd.startswith('use '):
+                item = cmd.split(' ', 1)[1]
+                self._use(item)
             elif cmd in ('quit', 'exit'):
                 print("Goodbye")
                 break
