@@ -58,6 +58,13 @@ pytest
 Use `pytest tests/test_basic.py::test_name` to execute an individual test during
 development.
 
+## Procedural Directories
+The game randomly adds extra subdirectories to several base areas on startup.
+By default the `dream/`, `memory/` and `core/` directories each receive two or
+three generated locations, sometimes containing unique items. Set the
+`ET_EXTRA_SEED` environment variable before launching to make this generation
+deterministic for reproducible testing or custom scenarios.
+
 ## Command Registry
 Commands are routed through the ``Game.command_map`` dictionary. Each command
 string or alias maps to a handler method. When adding a new command simply

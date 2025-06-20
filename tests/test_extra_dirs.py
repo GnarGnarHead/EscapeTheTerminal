@@ -10,7 +10,10 @@ def test_extra_dirs_with_seed():
     env['ET_EXTRA_SEED'] = '123'
     result = subprocess.run(
         [sys.executable, SCRIPT],
-        input='cd dream\nls\ncd neon_hall_0\nls\nquit\n',
+        input=(
+            'cd dream\nls\ncd neon_hall_0\nls\ncd ..\ncd ..\n'
+            'cd memory\nls\ncd ..\ncd core\nls\nquit\n'
+        ),
         text=True,
         capture_output=True,
         env=env,
@@ -19,4 +22,8 @@ def test_extra_dirs_with_seed():
     assert 'neon_hall_0/' in out
     assert 'echoing_alcove_1/' in out
     assert 'dream0.shard' in out
+    assert 'vivid_alcove_0/' in out
+    assert 'vivid_hall_1/' in out
+    assert 'misty_hall_0/' in out
+    assert 'vivid_hall_2/' in out
     assert 'Goodbye' in out
