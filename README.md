@@ -56,3 +56,10 @@ pytest
 ```
 Use `pytest tests/test_basic.py::test_name` to execute an individual test during
 development.
+
+## Command Registry
+Commands are routed through the ``Game.command_map`` dictionary. Each command
+string or alias maps to a handler method. When adding a new command simply
+register it in ``command_map`` with a callable that accepts the raw argument
+string. The main loop will pass any text following the command name to the
+handler automatically.
