@@ -131,6 +131,8 @@ The dreamer watches you closely.
 See [docs/NPC_DIALOG.md](docs/NPC_DIALOG.md) for the full file format. The helper
 script `python -m escape.utils.validate_dialog <path>` checks dialog files for
 common mistakes.
+Dialog files committed under `escape/data/npc` are automatically validated in
+the CI workflow.
 
 Modders can create additional files following this pattern and place their NPCs
 in the game world by extending ``Game.npc_locations``.
