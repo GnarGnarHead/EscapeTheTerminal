@@ -135,6 +135,8 @@ The provided ``oracle.dialog`` shows a multi-stage conversation for an oracle
 NPC located under ``dream/oracle/``.
 
 ## Plugins
+See [docs/PLUGIN_DEVELOPMENT.md](docs/PLUGIN_DEVELOPMENT.md) for a full guide on creating and loading plugins.
+
 Python files placed in ``escape/plugins/`` are discovered on startup. The game
 scans this directory for ``*.py`` modules (ignoring names beginning with
 ``__``) and imports each one. Plugins are loaded inside ``Game._load_plugins``
@@ -142,6 +144,9 @@ which injects the active ``Game`` instance into each module before executing
 it. Plugin directories may also contain ``*.zip`` archives. Each archive is
 treated as a module named after the zip file and loaded via
 ``zipimport.zipimporter``:
+
+You can add additional plugin directories by setting the `ET_PLUGIN_PATH` environment variable to one or more paths separated by the system path separator.
+
 
 ```python
 for path in plugins_dir.glob("*.py"):
