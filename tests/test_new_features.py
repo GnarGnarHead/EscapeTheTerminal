@@ -81,3 +81,36 @@ def test_glitch_thresholds_modify_fs(capsys):
         game._output('tick')
     assert 'glitch.note' not in game.fs['items']
     assert '(corrupted)' in game.fs['desc']
+
+
+def test_alias_command(monkeypatch, capsys):
+    game = Game()
+    inputs = iter([
+        'alias ll look',
+        'll',
+        'quit',
+    ])
+    monkeypatch.setattr('builtins.input', lambda _='': next(inputs))
+    game.run()
+    out = capsys.readouterr().out
+    assert 'Alias ll -> look' in out
+    assert 'dimly lit terminal' in out
+    assert game.aliases['ll'] == 'look'
+    assert 'Goodbye' in out
+
+
+def test_alias_with_args(monkeypatch, capsys):
+    game = Game()
+    inputs = iter([
+        'alias grab take',
+        'grab access.key',
+        'inventory',
+        'quit',
+    ])
+    monkeypatch.setattr('builtins.input', lambda _='': next(inputs))
+    game.run()
+    out = capsys.readouterr().out
+    assert 'Alias grab -> take' in out
+    assert 'pick up the access.key' in out
+    assert 'Inventory: access.key' in out
+    assert 'Goodbye' in out
