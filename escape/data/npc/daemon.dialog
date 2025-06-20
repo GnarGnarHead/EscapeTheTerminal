@@ -12,4 +12,15 @@ The daemon flickers, recognizing you from before.
 > Leave the daemon
 "I already mentioned decoding the fragment. Perhaps try it now."
 ---
+The daemon analyzes the decoded fragment you present.
+> Show the decoded fragment [+trust]
+> Keep the results private
+"The circuits hum with new information."
+---
+?trust:The daemon grants you access to hidden protocols.
+?!trust:The daemon withholds deeper knowledge.
+> Explore the new access
+> Walk away
+"Use this trust wisely."
+---
 The daemon has nothing more to say.

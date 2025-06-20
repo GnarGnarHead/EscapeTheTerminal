@@ -4,15 +4,21 @@ The dreamer watches you closely.
 > Ask about escape
 > Ask about dreams
 > Ask about the fragment
-The dreamer smiles faintly.
-"The decoder in the lab will reveal what the fragment hides."
+?glitched:The dreamer grins through static.
+?!glitched:The dreamer smiles faintly.
+?glitched:"The decoder in the lab reveals more than you expect."
+?!glitched:"The decoder in the lab will reveal what the fragment hides."
 > Thank the dreamer
 > Return to reality
-The dream fades around you.
+?glitched:The dream fractures around you.
+?!glitched:The dream fades around you.
 ---
-The dreamer nods knowingly this time.
+?glitched:The dreamer nods, leaving trailing afterimages.
+?!glitched:The dreamer nods knowingly this time.
 > Ask again about escape
 > Wake up
-"Trust the path the fragment reveals."
+?glitched:"Trust the glitch; it leads beyond the fragment."
+?!glitched:"Trust the path the fragment reveals."
 ---
-The dreamer has retreated into silence.
+?glitched:The dreamer dissolves into static.
+?!glitched:The dreamer has retreated into silence.
