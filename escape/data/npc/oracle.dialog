@@ -1,11 +1,17 @@
 The oracle hovers in a loop of swirling code.
-> Seek prophecy
-> Walk away
+> Seek prophecy [+vision]
+> Walk away [-vision]
 "The fragment only reveals its meaning in dreams."
 ---
 The oracle watches your every move.
 > Ask again
 > Leave
 "Decode the echoes of your past to open the gate."
+---
+?vision:The oracle unveils a vision of hidden paths.
+?!vision:The oracle's messages remain cryptic.
+> Contemplate the vision
+> Step away
+"The images swirl before dissolving into noise."
 ---
 The oracle fades into static.
