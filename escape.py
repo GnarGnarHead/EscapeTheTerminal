@@ -93,8 +93,8 @@ class Game:
             "reverie.log": "A log capturing fleeting reveries within the system.",
             "escape.plan": "A hastily sketched route promising a way out.",
         }
-        # populate the dream directory with extra procedurally generated content
-        self._generate_extra_dirs()
+        # populate multiple directories with extra procedurally generated content
+        self._generate_extra_dirs(["dream", "memory", "core"])
         self.use_messages = {
             "access.key": "The key hums softly and a hidden directory flickers into view.",
             "mem.fragment": "Fragments of your past flash before your eyes.",
@@ -133,17 +133,16 @@ class Game:
             "exit": lambda arg="": self._quit(),
         }
 
-    def _generate_extra_dirs(self, base: str = "dream") -> None:
-        """Populate ``base`` directory with random subdirectories."""
+    def _generate_extra_dirs(self, bases: list[str] | str = "dream") -> None:
+        """Populate directories under each base path with random subdirectories."""
         import os
         import random
 
+        if isinstance(bases, str):
+            bases = [bases]
+
         seed_val = os.getenv("ET_EXTRA_SEED")
         rnd = random.Random(int(seed_val)) if seed_val is not None else random.Random()
-
-        base_node = self.fs["dirs"].get(base)
-        if not base_node:
-            return
 
         adjectives = ["misty", "vivid", "neon", "echoing"]
         nouns = ["hall", "nexus", "alcove", "node"]
@@ -152,18 +151,24 @@ class Game:
             ("echo.bit", "An echo of a forgotten idea."),
             ("vision.chip", "A chip flickering with ephemeral scenes."),
         ]
+        for base in bases:
+            base_node = self.fs["dirs"].get(base)
+            if not base_node:
+                continue
 
-        count = rnd.randint(2, 3)
-        for idx in range(count):
-            dname = f"{rnd.choice(adjectives)}_{rnd.choice(nouns)}_{idx}"
-            desc = f"A {rnd.choice(['strange', 'fleeting', 'curious'])} place within the dream."
-            items: list[str] = []
-            if rnd.random() < 0.5:
-                it_name, it_desc = rnd.choice(item_defs)
-                it_name = it_name.replace(".", f"{idx}.")
-                items.append(it_name)
-                self.item_descriptions[it_name] = it_desc
-            base_node["dirs"][dname] = {"desc": desc, "items": items, "dirs": {}}
+            count = rnd.randint(2, 3)
+            for idx in range(count):
+                dname = f"{rnd.choice(adjectives)}_{rnd.choice(nouns)}_{idx}"
+                desc = (
+                    f"A {rnd.choice(['strange', 'fleeting', 'curious'])} place within the dream."
+                )
+                items: list[str] = []
+                if rnd.random() < 0.5:
+                    it_name, it_desc = rnd.choice(item_defs)
+                    it_name = it_name.replace(".", f"{idx}.")
+                    items.append(it_name)
+                    self.item_descriptions[it_name] = it_desc
+                base_node["dirs"][dname] = {"desc": desc, "items": items, "dirs": {}}
 
     def _toggle_glitch(self):
         self.glitch_mode = not self.glitch_mode
