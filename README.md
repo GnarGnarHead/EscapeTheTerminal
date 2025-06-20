@@ -37,6 +37,12 @@ unexpected ways.
    - `voice.log` – whispers a clue when read
    - `mem.fragment` – a corrupted memory chunk found in `hidden/`
    - `treasure.txt` – reward text tucked away in `hidden/`
+   - `decoder` – located in the `lab/` directory
+   - `old.note` – stashed away in the `archive/` directory
+
+   **Rooms**
+   - `lab/` – a cluttered research area humming with equipment
+   - `archive/` – dusty shelves of old backups and forgotten notes
 
 ## Running Tests
 Tests are written with `pytest` and live under the `tests/` directory. After installing

@@ -192,6 +192,19 @@ def test_ls_and_cd():
     assert 'Goodbye' in out
 
 
+def test_enter_lab_and_look():
+    result = subprocess.run(
+        [sys.executable, SCRIPT],
+        input='cd lab\nlook\nls\nquit\n',
+        text=True,
+        capture_output=True,
+    )
+    out = result.stdout
+    assert 'cluttered research lab' in out
+    assert 'decoder' in out
+    assert 'Goodbye' in out
+
+
 def test_cat_command():
     result = subprocess.run(
         [sys.executable, SCRIPT],

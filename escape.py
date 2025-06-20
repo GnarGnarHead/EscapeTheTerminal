@@ -24,7 +24,18 @@ class Game:
                 "The prompt blinks patiently."
             ),
             "items": ["access.key", "voice.log"],
-            "dirs": {},
+            "dirs": {
+                "lab": {
+                    "desc": "A cluttered research lab filled with blinking devices.",
+                    "items": ["decoder"],
+                    "dirs": {},
+                },
+                "archive": {
+                    "desc": "Dusty shelves of data backups line the walls.",
+                    "items": ["old.note"],
+                    "dirs": {},
+                },
+            },
         }
         self.current = []  # path as list of directory names
         self.item_descriptions = {
@@ -32,6 +43,8 @@ class Game:
             "treasure.txt": "A file filled with untold riches.",
             "mem.fragment": "A corrupted memory fragment pulsing faintly with data.",
             "voice.log": "An audio log that might contain a clue.",
+            "decoder": "A handheld device used to decode encrypted signals.",
+            "old.note": "A weathered note scribbled with barely readable commands.",
         }
         self.use_messages = {
             "access.key": "The key hums softly and a hidden directory flickers into view.",
