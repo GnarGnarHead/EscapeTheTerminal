@@ -464,6 +464,16 @@ class Game:
                 "The exit sequence executes. You escape the terminal. Congratulations!"
             )
             return self._quit()
+        if item == "shutdown.code" and target is None:
+            self._output(
+                "The shutdown sequence initiates. Darkness envelops the terminal as power slips away."
+            )
+            return self._quit()
+        if item == "ascend.code" and target is None:
+            self._output(
+                "Light floods the interface. You ascend beyond the terminal, becoming one with the network."
+            )
+            return self._quit()
         if item == "access.key" and (target == "door" or target is None):
             root = self.fs
             if "hidden" not in root["dirs"]:
@@ -514,7 +524,7 @@ class Game:
         if "escape" not in vault["dirs"]:
             vault["dirs"]["escape"] = {
                 "desc": "A compartment revealed by decoding the fragment.",
-                "items": ["escape.code"],
+                "items": ["escape.code", "shutdown.code", "ascend.code"],
                 "dirs": {},
             }
         self._output(
