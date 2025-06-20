@@ -9,6 +9,9 @@ def main():
     )
     room_items = ["access.key"]
     inventory = []
+    item_descriptions = {
+        "access.key": "A slim digital token rumored to unlock hidden directories."
+    }
     while True:
         try:
             cmd = input('> ').strip().lower()
@@ -16,7 +19,10 @@ def main():
             print()
             break
         if cmd == 'help':
-            print("Available commands: help, look, take <item>, inventory, quit")
+            print(
+                "Available commands: help, look, take <item>, inventory, "
+                "examine <item>, quit"
+            )
         elif cmd == 'look':
             print(location_description)
             if room_items:
@@ -34,6 +40,13 @@ def main():
                 print("Inventory: " + ", ".join(inventory))
             else:
                 print("Inventory is empty.")
+        elif cmd.startswith('examine '):
+            item = cmd.split(' ', 1)[1]
+            if item in inventory or item in room_items:
+                desc = item_descriptions.get(item, "It's unremarkable.")
+                print(desc)
+            else:
+                print(f"You do not have {item} to examine.")
         elif cmd in ('quit', 'exit'):
             print("Goodbye")
             break

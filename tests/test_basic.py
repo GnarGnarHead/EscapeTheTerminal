@@ -45,3 +45,25 @@ def test_take_item_and_inventory():
     assert 'pick up the access.key' in result.stdout
     assert 'Inventory: access.key' in result.stdout
     assert 'Goodbye' in result.stdout
+
+
+def test_examine_item():
+    result = subprocess.run(
+        [sys.executable, 'escape.py'],
+        input='examine access.key\nquit\n',
+        text=True,
+        capture_output=True,
+    )
+    assert 'slim digital token' in result.stdout
+    assert 'Goodbye' in result.stdout
+
+
+def test_examine_missing_item():
+    result = subprocess.run(
+        [sys.executable, 'escape.py'],
+        input='examine unknown\nquit\n',
+        text=True,
+        capture_output=True,
+    )
+    assert 'do not have unknown' in result.stdout
+    assert 'Goodbye' in result.stdout
