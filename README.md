@@ -71,6 +71,8 @@ pytest
 ```
 Use `pytest tests/test_basic.py::test_name` to execute an individual test during
 development.
+These tests also run automatically on GitHub via the workflow in
+`.github/workflows/ci.yml` for Python 3.8 and 3.11.
 
 ## Procedural Directories
 The game randomly adds extra subdirectories to several base areas on startup.
