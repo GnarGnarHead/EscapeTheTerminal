@@ -1,5 +1,7 @@
 import subprocess, sys
 import os
+sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
+from escape import Game
 
 SCRIPT = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'escape.py')
 
@@ -341,9 +343,10 @@ def test_cat_treasure_after_unlock():
 
 
 def test_glitch_mode_toggle():
-    first_glitch = (
-        'You find &ourself %n a $imly l&t %ermin%l session. T$e prom*t *l%n#s patie*tly.'
+    normal = (
+        'You find yourself in a dimly lit terminal session. The prompt blinks patiently.'
     )
+    first_glitch = Game()._glitch_text(normal, 1)
     result = subprocess.run(
         [sys.executable, SCRIPT],
         input='glitch\nlook\nglitch\nlook\nquit\n',
@@ -354,16 +357,15 @@ def test_glitch_mode_toggle():
     assert 'Glitch mode activated.' in out
     assert first_glitch in out
     assert 'Glitch mode deactivated.' in out
-    assert 'You find yourself in a dimly lit terminal session.' in out
+    assert normal in out
 
 
 def test_glitch_persistence():
-    first_glitch = (
-        'You find &ourself %n a $imly l&t %ermin%l session. T$e prom*t *l%n#s patie*tly.'
+    normal = (
+        'You find yourself in a dimly lit terminal session. The prompt blinks patiently.'
     )
-    later_glitch = (
-        '&*u &i$d y@urself i% a diml& li& #erm@@al sessio#. Th* #ro$pt bli%ks patie#*ly.'
-    )
+    first_glitch = Game()._glitch_text(normal, 1)
+    later_glitch = Game()._glitch_text(normal, 3)
     result = subprocess.run(
         [sys.executable, SCRIPT],
         input='glitch\nlook\nlook\nglitch\nlook\nquit\n',
@@ -375,6 +377,27 @@ def test_glitch_persistence():
     assert later_glitch in out
     # final look after glitch off should be normal
     assert out.strip().endswith('Goodbye')
+
+
+def test_glitch_intensity_increases():
+    normal = (
+        'You find yourself in a dimly lit terminal session. The prompt blinks patiently.'
+    )
+    step1 = Game()._glitch_text(normal, 1)
+    step3 = Game()._glitch_text(normal, 3)
+    step5 = Game()._glitch_text(normal, 5)
+    result = subprocess.run(
+        [sys.executable, SCRIPT],
+        input='glitch\nlook\nlook\nlook\nquit\n',
+        text=True,
+        capture_output=True,
+    )
+    out = result.stdout
+    assert step1 in out
+    assert step3 in out
+    assert step5 in out
+    # confirm order of increasing corruption
+    assert out.index(step1) < out.index(step3) < out.index(step5)
 
 
 def test_talk_daemon():

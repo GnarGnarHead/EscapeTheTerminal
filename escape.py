@@ -177,22 +177,40 @@ class Game:
         if self.glitch_mode and text:
             self.glitch_steps += 1
             text = self._glitch_text(text, self.glitch_steps)
-            # occasionally insert additional glitch noise
             import random
             rnd = random.Random(self.glitch_steps * 42)
+            if self.glitch_steps in (3, 6, 9):
+                msg = rnd.choice([
+                    "-- SYSTEM CORRUPTION --",
+                    "** SIGNAL LOST **",
+                    "[memory anomaly]",
+                ])
+                print(msg)
             if rnd.random() < 0.2:
                 noise = rnd.choice(["...glitch...", "~~~", "<!>"])
                 print(noise)
         print(text)
 
     def _glitch_text(self, text: str, step: int) -> str:
+        """Return ``text`` with deterministic corruption based on ``step``."""
         import random
         import hashlib
 
         key = f"{text}-{step}".encode()
         seed = int.from_bytes(hashlib.sha256(key).digest()[:4], "little")
         rnd = random.Random(seed)
-        prob = min(0.1 + step * 0.05, 0.6)
+
+        prob = min(0.15 + step * 0.07, 0.8)
+        word_prob = 0.0
+        if step > 3:
+            word_prob = min((step - 3) * 0.05, 0.3)
+
+        words = text.split()
+        for i, w in enumerate(words):
+            if rnd.random() < word_prob:
+                words[i] = "".join(rnd.choice("@#$%&*") for _ in w)
+        text = " ".join(words)
+
         chars = list(text)
         for i, ch in enumerate(chars):
             if ch.isalpha() and rnd.random() < prob:
