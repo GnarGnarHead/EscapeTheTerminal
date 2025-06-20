@@ -35,6 +35,7 @@ class Game:
         self.prompt = prompt if prompt is not None else os.getenv("ET_PROMPT", "> ")
         self.inventory = []
         self.score = 0
+        self.achievements: list[str] = []
         self.data_dir = Path(__file__).parent / "data"
         if world_file is None:
             world_file = self.data_dir / "world.json"
@@ -494,6 +495,15 @@ class Game:
         """Display the player's current score."""
         self._output(f"Score: {self.score}")
 
+    def unlock_achievement(self, name: str) -> None:
+        """Record a new achievement if it hasn't been unlocked."""
+        if name not in self.achievements:
+            self.achievements.append(name)
+
+    def list_achievements(self) -> list[str]:
+        """Return a copy of the unlocked achievements list."""
+        return list(self.achievements)
+
     def _examine(self, item: str):
         node = self._current_node()
         if item in self.inventory or item in node["items"]:
@@ -580,6 +590,7 @@ class Game:
                 "items": ["escape.code", "shutdown.code", "ascend.code"],
                 "dirs": {},
             }
+            self.unlock_achievement("fragment_decoded")
         self._output(
             "The decoder hums and a new directory appears within hidden/vault."
         )
@@ -767,6 +778,8 @@ class Game:
                 return
         target.pop("locked", None)
         self._output("Access granted. The node is now unlocked.")
+        if target_name == "runtime":
+            self.unlock_achievement("runtime_unlocked")
 
     def _talk(self, npc: str):
         """Converse with an NPC if present in the current directory."""
@@ -917,6 +930,7 @@ class Game:
             "command_history": self.command_history,
             "journal": self.journal,
             "score": self.score,
+            "achievements": self.achievements,
         }
         try:
             with open(path, "w", encoding="utf-8") as f:
@@ -953,6 +967,7 @@ class Game:
         self.command_history = data.get("command_history", [])
         self.journal = data.get("journal", [])
         self.score = data.get("score", 0)
+        self.achievements = data.get("achievements", [])
         self._output("Game loaded.")
 
     def _history(self) -> None:
