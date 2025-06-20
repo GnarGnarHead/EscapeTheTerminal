@@ -464,6 +464,32 @@ def test_hidden_vault_and_escape_plan():
     assert 'Goodbye' in out
 
 
+def test_decode_fragment_unlocks_escape_directory():
+    result = subprocess.run(
+        [sys.executable, SCRIPT],
+        input=(
+            'take access.key\n'
+            'use access.key\n'
+            'cd hidden\n'
+            'take mem.fragment\n'
+            'cd ..\n'
+            'cd lab\n'
+            'take decoder\n'
+            'decode mem.fragment\n'
+            'cd ..\n'
+            'cd hidden\n'
+            'cd vault\n'
+            'ls\n'
+            'quit\n'
+        ),
+        text=True,
+        capture_output=True,
+    )
+    out = result.stdout
+    assert 'escape/' in out
+    assert 'Goodbye' in out
+
+
 def test_save_slots_independent(tmp_path):
     save1 = tmp_path / 'game1.sav'
     save2 = tmp_path / 'game2.sav'

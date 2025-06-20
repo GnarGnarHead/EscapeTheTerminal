@@ -92,6 +92,7 @@ class Game:
             "flashback.log": "A recorded memory playback waiting to be relived.",
             "reverie.log": "A log capturing fleeting reveries within the system.",
             "escape.plan": "A hastily sketched route promising a way out.",
+            "escape.code": "A brief sequence hinting at a path to freedom.",
         }
         # populate multiple directories with extra procedurally generated content
         self._generate_extra_dirs(["dream", "memory", "core"])
@@ -125,6 +126,7 @@ class Game:
             "examine": lambda arg="": self._examine(arg),
             "use": lambda arg="": self._use_command(arg),
             "cat": lambda arg="": self._cat(arg),
+            "decode": lambda arg="": self._decode(arg),
             "talk": lambda arg="": self._talk(arg),
             "save": lambda arg="": self._save(arg),
             "load": lambda arg="": self._load(arg),
@@ -288,7 +290,7 @@ class Game:
                 self._output(msg)
             return
         if item == "decoder" and target == "mem.fragment":
-            self._output("The decoder reveals a secret exit command within the fragment.")
+            self._decode("mem.fragment")
             return
         if target:
             self._output(f"You try to use {item} on {target} but nothing happens.")
@@ -312,6 +314,29 @@ class Game:
             target = None
         if item:
             self._use(item, target)
+
+    def _decode(self, item: str) -> None:
+        target = item.strip()
+        if target != "mem.fragment":
+            self._output(f"Don't know how to decode {target}.")
+            return
+        if "decoder" not in self.inventory:
+            self._output("You need the decoder to decode the fragment.")
+            return
+        if target not in self.inventory:
+            self._output(f"You do not have {target} to decode.")
+            return
+        self.inventory.remove(target)
+        vault = self.hidden_dir["dirs"]["vault"]
+        if "escape" not in vault["dirs"]:
+            vault["dirs"]["escape"] = {
+                "desc": "A compartment revealed by decoding the fragment.",
+                "items": ["escape.code"],
+                "dirs": {},
+            }
+        self._output(
+            "The decoder hums and a new directory appears within hidden/vault."
+        )
 
     def _cat(self, filename: str):
         path = self.data_dir / filename
