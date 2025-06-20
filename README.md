@@ -111,6 +111,10 @@ The dreamer watches you closely.
 > Ask about dreams
 ```
 
+See [docs/NPC_DIALOG.md](docs/NPC_DIALOG.md) for the full file format. The helper
+script `python -m escape.utils.validate_dialog <path>` checks dialog files for
+common mistakes.
+
 Modders can create additional files following this pattern and place their NPCs
 in the game world by extending ``Game.npc_locations``.
 The provided ``oracle.dialog`` shows a multi-stage conversation for an oracle
