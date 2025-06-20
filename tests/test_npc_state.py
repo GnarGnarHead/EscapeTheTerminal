@@ -95,7 +95,7 @@ def test_wanderer_ignored_branch():
 def test_oracle_follow_up():
     result = subprocess.run(
         CMD,
-        input='cd dream\ncd oracle\ntalk oracle\n1\n1\ntalk oracle\n1\nquit\n',
+        input='cd dream\ncd oracle\ntalk oracle\n1\ntalk oracle\n1\nquit\n',
         text=True,
         capture_output=True,
     )
@@ -103,4 +103,19 @@ def test_oracle_follow_up():
     assert 'oracle hovers in a loop' in out
     assert 'watches your every move' in out
     assert 'Decode the echoes of your past' in out
+    assert 'Goodbye' in out
+
+
+def test_oracle_vision_stage():
+    result = subprocess.run(
+        CMD,
+        input='cd dream\ncd oracle\ntalk oracle\n1\ntalk oracle\n1\ntalk oracle\n1\nquit\n',
+        text=True,
+        capture_output=True,
+    )
+    out = result.stdout
+    assert 'oracle hovers in a loop' in out
+    assert 'watches your every move' in out
+    assert 'unveils a vision of hidden paths' in out
+    assert 'images swirl before dissolving into noise' in out
     assert 'Goodbye' in out
