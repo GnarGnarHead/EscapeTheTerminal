@@ -37,3 +37,20 @@ def test_seed_flag():
         capture_output=True,
     )
     assert 'neon_hall_0/' in result.stdout
+
+
+def test_extra_count_flag():
+    result = subprocess.run(
+        CMD + ['--seed', '123', '--extra-count', '2'],
+        input=(
+            'cd dream\nls\ncd ..\n'
+            'cd memory\nls\ncd ..\n'
+            'cd core\nls\nquit\n'
+        ),
+        text=True,
+        capture_output=True,
+    )
+    out = result.stdout
+    assert 'misty_alcove_0/' in out
+    assert 'neon_alcove_0/' in out
+    assert 'echoing_hall_1/' in out

@@ -21,6 +21,11 @@ def main(argv: list[str] | None = None):
         metavar="num",
         help="seed for procedural extras",
     )
+    parser.add_argument(
+        "--extra-count",
+        metavar="num",
+        help="number of extra directories per base",
+    )
     args = parser.parse_args(argv)
 
     import os
@@ -29,6 +34,8 @@ def main(argv: list[str] | None = None):
         os.environ["ET_AUTOSAVE"] = "1"
     if args.seed is not None:
         os.environ["ET_EXTRA_SEED"] = str(args.seed)
+    if args.extra_count is not None:
+        os.environ["ET_EXTRA_COUNT"] = str(args.extra_count)
 
     game_color = True if args.color else None
     Game(use_color=game_color, world_file=args.world, prompt=args.prompt).run()
