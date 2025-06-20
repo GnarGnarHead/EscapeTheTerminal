@@ -128,6 +128,7 @@ class Game:
             "cat": lambda arg="": self._cat(arg),
             "decode": lambda arg="": self._decode(arg),
             "talk": lambda arg="": self._talk(arg),
+            "map": lambda arg="": self._map(),
             "save": lambda arg="": self._save(arg),
             "load": lambda arg="": self._load(arg),
             "glitch": lambda arg="": self._toggle_glitch(),
@@ -394,6 +395,23 @@ class Game:
             self._output(" ".join(entries))
         else:
             self._output("Nothing here.")
+
+    def _map(self, node: dict | None = None, prefix: str = "") -> None:
+        """Recursively display the tree from ``node`` or the current directory."""
+        if node is None:
+            node = self._current_node()
+            self._output(".")
+
+        entries = list(node.get("dirs", {}).keys()) + list(node.get("items", []))
+        for idx, name in enumerate(entries):
+            is_last = idx == len(entries) - 1
+            connector = "└── " if is_last else "├── "
+            if name in node.get("dirs", {}):
+                self._output(f"{prefix}{connector}{name}/")
+                next_prefix = f"{prefix}    " if is_last else f"{prefix}│   "
+                self._map(node["dirs"][name], next_prefix)
+            else:
+                self._output(f"{prefix}{connector}{name}")
 
     def _pwd(self):
         path = '/'.join(self.current) if self.current else '/'
