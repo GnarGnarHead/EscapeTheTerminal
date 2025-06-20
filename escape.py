@@ -120,7 +120,7 @@ class Game:
     def _print_help(self):
         self._output(
             "Available commands: help, look, ls, cd <dir>, pwd, take <item>, drop <item>, "
-            "inventory, examine <item>, use <item> [on <target>], cat <file>, save, load, glitch, quit"
+            "inventory, examine <item>, use <item> [on <target>], cat <file>, talk <npc>, save, load, glitch, quit"
         )
 
     def _current_node(self):
@@ -211,6 +211,24 @@ class Game:
             msg = self.use_messages.get("daemon.log")
             if msg:
                 self._output(msg)
+
+    def _talk(self, npc: str):
+        """Converse with an NPC if present in the current directory."""
+        if npc == "daemon":
+            if self.current != ["core", "npc"]:
+                self._output("There is no daemon here.")
+                return
+            dialog_file = self.data_dir / "npc" / "daemon.dialog"
+        else:
+            self._output(f"There is no {npc} here.")
+            return
+
+        try:
+            with open(dialog_file, "r", encoding="utf-8") as f:
+                for line in f:
+                    self._output(line.rstrip())
+        except FileNotFoundError:
+            self._output(f"{npc.capitalize()} has nothing to say.")
 
     def _ls(self):
         node = self._current_node()
@@ -316,6 +334,9 @@ class Game:
             elif cmd.startswith('cat '):
                 filename = cmd.split(' ', 1)[1]
                 self._cat(filename)
+            elif cmd.startswith('talk '):
+                npc = cmd.split(' ', 1)[1]
+                self._talk(npc)
             elif cmd == 'save':
                 self._save()
             elif cmd == 'load':
