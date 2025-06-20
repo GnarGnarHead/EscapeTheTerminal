@@ -40,6 +40,7 @@ class Game:
         with open(world_file, "r", encoding="utf-8") as f:
             world = json.load(f)
         self.fs = world.get("fs", {})
+        self._base_root_desc = self.fs.get("desc", "")
         self.hidden_dir = world.get("hidden_dir", {})
         self.network_node = world.get("network_node", {})
         self.deep_network_node = world.get("deep_network_node", {})
@@ -332,9 +333,28 @@ class Game:
         if self.glitch_steps >= 10:
             if "glitch.note" in root_items:
                 root_items.remove("glitch.note")
-            desc = self.fs.get("desc", "")
-            if "(corrupted)" not in desc:
-                self.fs["desc"] = desc + " (corrupted)"
+        if self.glitch_steps >= 15 and "lab" in self.fs.get("dirs", {}):
+            self.fs["dirs"]["lab_glt"] = self.fs["dirs"].pop("lab")
+            for npc, path in self.npc_locations.items():
+                if path and path[0] == "lab":
+                    path[0] = "lab_glt"
+        if self.glitch_steps >= 20:
+            import random
+            rnd = random.Random(self.glitch_steps)
+            rnd.shuffle(root_items)
+        if self.glitch_steps >= 25 and "glitcher" not in self.npc_locations:
+            self.npc_locations["glitcher"] = ["core", "npc"]
+
+        self.fs["desc"] = self._base_root_desc + self._corruption_status()
+
+    def _corruption_status(self) -> str:
+        if self.glitch_steps >= 25:
+            return " (fractured reality)"
+        if self.glitch_steps >= 20:
+            return " (unstable system)"
+        if self.glitch_steps >= 10:
+            return " (corrupted)"
+        return ""
 
     def _glitch_text(self, text: str, step: int) -> str:
         """Return ``text`` with deterministic corruption based on ``step``."""

@@ -82,6 +82,23 @@ def test_glitch_thresholds_modify_fs(capsys):
     assert 'glitch.note' not in game.fs['items']
     assert '(corrupted)' in game.fs['desc']
 
+    for _ in range(5):
+        game._output('tick')
+    assert 'lab_glt' in game.fs['dirs']
+
+    for _ in range(5):
+        game._output('tick')
+    import random
+    expected = ['access.key', 'voice.log']
+    rnd = random.Random(20)
+    rnd.shuffle(expected)
+    assert game.fs['items'] == expected
+
+    for _ in range(5):
+        game._output('tick')
+    assert 'glitcher' in game.npc_locations
+    assert '(fractured reality)' in game.fs['desc']
+
 
 def test_alias_command(monkeypatch, capsys):
     game = Game()
