@@ -40,6 +40,7 @@ unexpected ways.
   - `glitch` – toggle glitch mode for scrambled descriptions. The longer it
     stays active the stronger the corruption becomes and occasional glitch
     messages may appear.
+  - `history` – display the commands you've entered this session
 
    **Core files/items**
   - `access.key` – unlocks the hidden directory when used on the door
