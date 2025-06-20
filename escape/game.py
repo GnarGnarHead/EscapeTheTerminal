@@ -73,7 +73,7 @@ class Game:
         # descriptions for help output
         self.command_descriptions = {
             "help": "Show help for commands",
-            "look": "Describe the current room",
+            "look": "Describe the current room or a subdirectory",
             "ls": "List items and subdirectories",
             "cd": "Change directory",
             "pwd": "Show current path",
@@ -106,7 +106,7 @@ class Game:
         self.command_map = {
             "help": lambda arg="": self._print_help(arg.strip()),
             "h": lambda arg="": self._print_help(arg.strip()),
-            "look": lambda arg="": self._look(),
+            "look": lambda arg="": self._look(arg),
             "look around": lambda arg="": self._look(),
             "ls": lambda arg="": self._ls(),
             "pwd": lambda arg="": self._pwd(),
@@ -378,8 +378,14 @@ class Game:
             node = node["dirs"][part]
         return node
 
-    def _look(self):
+    def _look(self, directory: str = "") -> None:
         node = self._current_node()
+        directory = directory.strip()
+        if directory:
+            if directory not in node["dirs"]:
+                self._output(f"No such directory: {directory}")
+                return
+            node = node["dirs"][directory]
         self._output(node["desc"])
         entries = [d + "/" for d in node["dirs"]] + list(node["items"])
         if entries:

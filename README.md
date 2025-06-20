@@ -20,10 +20,10 @@ unexpected ways.
    python -m escape
    ```
    Use `help` (or `h`) inside the game for available commands and `quit` (or `exit`) to exit.
-   Common command aliases like `i`/`inv` for `inventory` and `look around` for `look` are also supported.
+   Common command aliases like `i`/`inv` for `inventory` and `look around` for `look` are also supported. You can also `look <dir>` to preview a subdirectory without entering it.
 
    **Core commands**
-   - `look` / `look around` – describe the current room
+   - `look [dir]` / `look around` – describe the current room or a subdirectory
    - `take <item>` / `drop <item>` – manage inventory items
    - `inventory` / `i` / `inv` – show what you're carrying
    - `examine <item>` – get a closer look at an object

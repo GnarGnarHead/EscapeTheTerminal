@@ -38,6 +38,6 @@ def test_help_then_look():
         capture_output=True,
     )
     out = result.stdout
-    assert 'look: Describe the current room' in out
+    assert 'look: Describe the current room or a subdirectory' in out
     assert 'dimly lit terminal' in out
     assert 'Goodbye' in out
