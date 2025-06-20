@@ -191,3 +191,10 @@ The starting filesystem, NPC locations and item descriptions are defined in
 completely new JSON file when instantiating ``Game`` using the ``world_file``
 parameter. When running the CLI you can pass ``--world <file>`` to load an
 alternate JSON world.
+
+## Achievements
+Certain actions unlock persistent achievements stored in ``Game.achievements``.
+Use ``Game.unlock_achievement(name)`` to record one and ``Game.list_achievements``
+to retrieve the list. The mem.fragment decode and unlocking the ``runtime`` node
+award achievements out of the box. Achievements are saved along with other game
+state when using the ``save`` and ``load`` commands.
