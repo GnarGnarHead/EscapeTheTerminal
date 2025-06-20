@@ -67,3 +67,47 @@ def test_examine_missing_item():
     )
     assert 'do not have unknown' in result.stdout
     assert 'Goodbye' in result.stdout
+
+
+def test_inventory_alias_i():
+    result = subprocess.run(
+        [sys.executable, 'escape.py'],
+        input='i\nquit\n',
+        text=True,
+        capture_output=True,
+    )
+    assert 'Inventory is empty' in result.stdout
+    assert 'Goodbye' in result.stdout
+
+
+def test_inventory_alias_inv():
+    result = subprocess.run(
+        [sys.executable, 'escape.py'],
+        input='inv\nquit\n',
+        text=True,
+        capture_output=True,
+    )
+    assert 'Inventory is empty' in result.stdout
+    assert 'Goodbye' in result.stdout
+
+
+def test_look_around_alias():
+    result = subprocess.run(
+        [sys.executable, 'escape.py'],
+        input='look around\nquit\n',
+        text=True,
+        capture_output=True,
+    )
+    assert 'dimly lit terminal' in result.stdout
+    assert 'Goodbye' in result.stdout
+
+
+def test_help_alias():
+    result = subprocess.run(
+        [sys.executable, 'escape.py'],
+        input='h\nquit\n',
+        text=True,
+        capture_output=True,
+    )
+    assert 'Available commands' in result.stdout
+    assert 'Goodbye' in result.stdout
