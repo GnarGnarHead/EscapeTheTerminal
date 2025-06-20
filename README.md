@@ -29,6 +29,7 @@ unexpected ways.
    - `ls` – list directories and items in the current location
    - `cd <dir>` – move between directories/rooms
    - `cat <file>` – read narrative logs from `data/`
+   - `decode mem.fragment` – combine the decoder with the memory fragment to reveal an escape code
    - `talk <npc>` – initiate conversation and choose numbered replies
   - `save [slot]` / `load [slot]` – write and restore progress. Without a slot the file `game.sav` is used, otherwise `game<slot>.sav`.
   - `glitch` – toggle glitch mode for scrambled descriptions. The longer it
@@ -43,6 +44,7 @@ unexpected ways.
   - `decoder` – located in the `lab/` directory
   - `old.note` – stashed away in the `archive/` directory
   - `daemon.log` – consult the system daemon when read or used, found in `core/npc/`
+  - `escape.code` – the deciphered sequence unlocked within the vault
 
    **Rooms**
    - `lab/` – a cluttered research area humming with equipment
