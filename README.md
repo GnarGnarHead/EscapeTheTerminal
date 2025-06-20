@@ -19,6 +19,7 @@ This project is a minimalist terminal game. For the long-term vision, see [VISIO
    Items can be discarded with `drop <item>`.
    Navigate the world as if it were a filesystem using `ls` to list the
    contents of the current room and `cd <dir>` to move between rooms.
+   Use `cat <file>` to read narrative logs stored under the `data` directory.
    Use `save` to write your progress to `game.sav` and `load` to restore it.
 
 ## Running Tests
