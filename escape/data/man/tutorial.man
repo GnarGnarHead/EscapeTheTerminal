@@ -1,0 +1,3 @@
+tutorial - Guided introduction to core commands
+Usage: tutorial
+Example: tutorial

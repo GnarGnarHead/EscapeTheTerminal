@@ -116,6 +116,7 @@ class Game:
             "sleep": "Enter the dream state and rest",
             "score": "Show your current score",
             "achievements": "List unlocked achievements",
+            "tutorial": "Guided introduction to core commands",
             "restart": "Restart the game",
             "quit": "Exit the game",
             "alias": "Create command shortcuts",
@@ -158,6 +159,7 @@ class Game:
             "sleep": lambda arg="": self._sleep(arg),
             "score": lambda arg="": self._score(),
             "achievements": lambda arg="": self._achievements(),
+            "tutorial": lambda arg="": self._tutorial(),
             "restart": lambda arg="": self._restart(),
             "quit": lambda arg="": self._quit(),
             "exit": lambda arg="": self._quit(),
@@ -1029,6 +1031,21 @@ class Game:
                 self._output(entry)
         else:
             self._output("No commands entered.")
+
+    def _tutorial(self) -> None:
+        """Print step-by-step instructions for new players."""
+        moved = bool(self.current)
+        looked = any(cmd.split()[0] == "look" for cmd in self.command_history)
+        took_item = bool(self.inventory)
+        self._output("Tutorial:")
+        steps = [
+            ("Move using 'cd <dir>'", moved),
+            ("Look around with 'look'", looked),
+            ("Take an item with 'take <item>'", took_item),
+        ]
+        for idx, (text, done) in enumerate(steps, 1):
+            mark = "[x]" if done else "[ ]"
+            self._output(f"{idx}. {mark} {text}")
 
     def _journal(self, arg: str = "") -> None:
         """List notes or append a new one."""
