@@ -188,3 +188,14 @@ def test_ls_and_cd():
     assert 'treasure.txt' in out
     assert out.count('hidden/') >= 1
     assert 'Goodbye' in out
+
+
+def test_cat_command():
+    result = subprocess.run(
+        [sys.executable, SCRIPT],
+        input='cat voice.log\nquit\n',
+        text=True,
+        capture_output=True,
+    )
+    assert 'faint digital voice' in result.stdout
+    assert 'Goodbye' in result.stdout

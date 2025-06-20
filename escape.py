@@ -4,6 +4,8 @@ This module now exposes a :class:`Game` object to make future expansion
 easier while preserving the original command-line interface.
 """
 
+from pathlib import Path
+
 
 class Game:
     """Simple command dispatcher for the terminal adventure."""
@@ -33,11 +35,12 @@ class Game:
             "access.key": "The key hums softly and a hidden directory flickers into view."
         }
         self.save_file = "game.sav"
+        self.data_dir = Path(__file__).parent / "data"
 
     def _print_help(self):
         print(
             "Available commands: help, look, ls, cd <dir>, take <item>, drop <item>, "
-            "inventory, examine <item>, use <item>, save, load, quit"
+            "inventory, examine <item>, use <item>, cat <file>, save, load, quit"
         )
 
     def _current_node(self):
@@ -94,6 +97,19 @@ class Game:
             print(msg)
         else:
             print(f"You can't use {item} right now.")
+
+    def _cat(self, filename: str):
+        path = self.data_dir / filename
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                text = f.read()
+        except FileNotFoundError:
+            print(f"No such file: {filename}")
+            return
+        except OSError as e:
+            print(f"Failed to read {filename}: {e}")
+            return
+        print(text.rstrip())
 
     def _ls(self):
         node = self._current_node()
@@ -183,6 +199,9 @@ class Game:
             elif cmd.startswith('use '):
                 item = cmd.split(' ', 1)[1]
                 self._use(item)
+            elif cmd.startswith('cat '):
+                filename = cmd.split(' ', 1)[1]
+                self._cat(filename)
             elif cmd == 'save':
                 self._save()
             elif cmd == 'load':
