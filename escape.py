@@ -85,6 +85,31 @@ class Game:
         self.glitch_mode = False
         self.glitch_steps = 0
 
+        # map commands and aliases to handler callables
+        self.command_map = {
+            "help": lambda arg="": self._print_help(),
+            "h": lambda arg="": self._print_help(),
+            "look": lambda arg="": self._look(),
+            "look around": lambda arg="": self._look(),
+            "ls": lambda arg="": self._ls(),
+            "pwd": lambda arg="": self._pwd(),
+            "cd": lambda arg="": self._cd(arg),
+            "take": lambda arg="": self._take(arg),
+            "drop": lambda arg="": self._drop(arg),
+            "inventory": lambda arg="": self._inventory(),
+            "inv": lambda arg="": self._inventory(),
+            "i": lambda arg="": self._inventory(),
+            "examine": lambda arg="": self._examine(arg),
+            "use": lambda arg="": self._use_command(arg),
+            "cat": lambda arg="": self._cat(arg),
+            "talk": lambda arg="": self._talk(arg),
+            "save": lambda arg="": self._save(),
+            "load": lambda arg="": self._load(),
+            "glitch": lambda arg="": self._toggle_glitch(),
+            "quit": lambda arg="": self._quit(),
+            "exit": lambda arg="": self._quit(),
+        }
+
     def _generate_extra_dirs(self, base: str = "dream") -> None:
         """Populate ``base`` directory with random subdirectories."""
         import os
@@ -229,6 +254,19 @@ class Game:
         else:
             self._output(f"You can't use {item} right now.")
 
+    def _use_command(self, arg: str) -> None:
+        """Parse arguments for the ``use`` command and dispatch to :meth:`_use`."""
+        use_args = arg
+        if " on " in use_args:
+            item_part, target = use_args.split(" on ", 1)
+            item = item_part.strip()
+            target = target.strip()
+        else:
+            item = use_args.strip()
+            target = None
+        if item:
+            self._use(item, target)
+
     def _cat(self, filename: str):
         path = self.data_dir / filename
         try:
@@ -324,6 +362,11 @@ class Game:
         self.current = data.get("current", [])
         self._output("Game loaded.")
 
+    def _quit(self) -> bool:
+        """Print exit message and signal the main loop to stop."""
+        self._output("Goodbye")
+        return True
+
     def run(self):
         self._output("Welcome to Escape the Terminal")
         self._output("Type 'help' for a list of commands. Type 'quit' to exit.")
@@ -333,55 +376,22 @@ class Game:
             except EOFError:
                 self._output()
                 break
-            if cmd in ('help', 'h'):
-                self._print_help()
-            elif cmd in ('look', 'look around'):
-                self._look()
-            elif cmd == 'ls':
-                self._ls()
-            elif cmd == 'pwd':
-                self._pwd()
-            elif cmd.startswith('cd'):
-                directory = cmd.split(' ', 1)[1] if ' ' in cmd else ''
-                self._cd(directory)
-            elif cmd.startswith('take '):
-                item = cmd.split(' ', 1)[1]
-                self._take(item)
-            elif cmd.startswith('drop '):
-                item = cmd.split(' ', 1)[1]
-                self._drop(item)
-            elif cmd in ('inventory', 'inv', 'i'):
-                self._inventory()
-            elif cmd.startswith('examine '):
-                item = cmd.split(' ', 1)[1]
-                self._examine(item)
-            elif cmd.startswith('use '):
-                use_args = cmd[4:]
-                if ' on ' in use_args:
-                    item_part, target = use_args.split(' on ', 1)
-                    item = item_part.strip()
-                    target = target.strip()
-                else:
-                    item = use_args.strip()
-                    target = None
-                self._use(item, target)
-            elif cmd.startswith('cat '):
-                filename = cmd.split(' ', 1)[1]
-                self._cat(filename)
-            elif cmd.startswith('talk '):
-                npc = cmd.split(' ', 1)[1]
-                self._talk(npc)
-            elif cmd == 'save':
-                self._save()
-            elif cmd == 'load':
-                self._load()
-            elif cmd == 'glitch':
-                self._toggle_glitch()
-            elif cmd in ('quit', 'exit'):
-                self._output("Goodbye")
-                break
-            elif not cmd:
+            if not cmd:
                 continue
+
+            handler = self.command_map.get(cmd)
+            if handler is None:
+                parts = cmd.split(' ', 1)
+                base = parts[0]
+                arg = parts[1] if len(parts) > 1 else ''
+                handler = self.command_map.get(base)
+            else:
+                arg = ''
+
+            if handler:
+                should_quit = handler(arg)
+                if should_quit:
+                    break
             else:
                 self._output(f"Unknown command: {cmd}")
 
