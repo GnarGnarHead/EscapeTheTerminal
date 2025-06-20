@@ -6,7 +6,12 @@ import importlib.metadata
 def test_console_script_invocation():
     # Ensure the console entry point is registered
     eps = importlib.metadata.entry_points()
-    names = [ep.name for ep in eps.select(group='console_scripts')]
+    if hasattr(eps, 'select'):
+        # Python 3.10+
+        names = [ep.name for ep in eps.select(group='console_scripts')]
+    else:
+        # Python <3.10
+        names = [ep.name for ep in eps.get('console_scripts', [])]
     assert 'escape-terminal' in names
 
     result = subprocess.run(
