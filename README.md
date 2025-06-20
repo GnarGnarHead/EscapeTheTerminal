@@ -50,6 +50,8 @@ unexpected ways.
   - `journal` – view notes or `journal add <text>` to record a message
   - `sleep [reset|inc]` – fall asleep and enter the dream. Use `reset` to
     clear glitches or `inc` to deepen them
+  - `score` – display your current score
+  - `restart` – reset the game while keeping color settings
   - `alias <name> <command>` – create a custom shortcut
   - `unalias <name>` – remove a previously defined shortcut
 
@@ -132,9 +134,10 @@ The dreamer watches you closely.
 > Ask about dreams
 ```
 
-See [docs/NPC_DIALOG.md](docs/NPC_DIALOG.md) for the full file format. The helper
-script `python -m escape.utils.validate_dialog <path>` checks dialog files for
-common mistakes.
+See [docs/NPC_DIALOG.md](docs/NPC_DIALOG.md) for the full file format. Dialog
+files can be checked for mistakes with the convenience command
+`validate-dialog <path>` or by running the underlying module directly via
+`python -m escape.utils.validate_dialog <path>`.
 Dialog files committed under `escape/data/npc` are automatically validated in
 the CI workflow.
 
@@ -188,6 +191,10 @@ virtually anything. This flexibility also means plugins execute arbitrary Python
 code. Only enable plugins you trust, especially when distributing the game to
 others.
 
+The repository includes a few example plugins that are loaded automatically.
+Run ``theme dark`` or ``theme neon`` to change the directory and item colors at
+runtime, or try ``puzzle`` to solve a short encoded riddle.
+
 ## Custom Worlds
 The starting filesystem, NPC locations and item descriptions are defined in
 ``escape/data/world.json``. Modify this file to reshape the world or provide a
@@ -202,3 +209,5 @@ to retrieve the list. The mem.fragment decode and unlocking the ``runtime`` node
 award achievements out of the box. Achievements are saved along with other game
 state when using the ``save`` and ``load`` commands. Inside the game you can run
 the ``achievements`` command to display any that have been unlocked.
+See [docs/GAME_MECHANICS.md](docs/GAME_MECHANICS.md) for details on scoring and
+the restart command.
