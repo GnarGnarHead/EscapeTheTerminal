@@ -493,23 +493,39 @@ class Game:
             if msg:
                 self._output(msg)
 
-    def _grep(self, pattern: str) -> None:
-        """Print lines from log files matching ``pattern``."""
+    def _grep(self, arg: str) -> None:
+        """Print lines from log files matching ``pattern``.
+
+        Usage: ``grep <pattern> [file]``
+        """
         import re
 
-        if not pattern:
-            self._output("Usage: grep <pattern>")
+        if not arg:
+            self._output("Usage: grep <pattern> [file]")
             return
+
+        parts = arg.split(maxsplit=1)
+        pattern = parts[0]
+        filename = parts[1] if len(parts) > 1 else None
+
         regex = re.compile(pattern, re.IGNORECASE)
+        if filename:
+            paths = [self.logs_path / filename]
+            if not paths[0].exists():
+                self._output(f"No such file: {filename}")
+                return
+        else:
+            paths = sorted(self.logs_path.glob("*.log"))
+
         found = False
-        for path in sorted(self.logs_path.glob("*.log")):
+        for path in paths:
             try:
                 lines = path.read_text(encoding="utf-8").splitlines()
             except OSError:
                 continue
-            for line in lines:
+            for lineno, line in enumerate(lines, 1):
                 if regex.search(line):
-                    self._output(f"{path.name}: {line}")
+                    self._output(f"{path.name}:{lineno}:{line}")
                     found = True
         if not found:
             self._output("No matches found.")
