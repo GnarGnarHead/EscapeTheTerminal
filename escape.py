@@ -21,11 +21,12 @@ class Game:
         self.use_messages = {
             "access.key": "The key hums softly and a hidden directory flickers into view."
         }
+        self.save_file = "game.sav"
 
     def _print_help(self):
         print(
             "Available commands: help, look, take <item>, inventory, "
-            "examine <item>, use <item>, quit"
+            "examine <item>, use <item>, save, load, quit"
         )
 
     def _look(self):
@@ -64,6 +65,37 @@ class Game:
         else:
             print(f"You can't use {item} right now.")
 
+    def _save(self):
+        data = {
+            "room_items": self.room_items,
+            "inventory": self.inventory,
+        }
+        try:
+            with open(self.save_file, "w", encoding="utf-8") as f:
+                import json
+
+                json.dump(data, f)
+        except OSError as e:
+            print(f"Failed to save: {e}")
+        else:
+            print("Game saved.")
+
+    def _load(self):
+        import json
+
+        try:
+            with open(self.save_file, "r", encoding="utf-8") as f:
+                data = json.load(f)
+        except FileNotFoundError:
+            print("No save file found.")
+            return
+        except OSError as e:
+            print(f"Failed to load: {e}")
+            return
+        self.room_items = data.get("room_items", [])
+        self.inventory = data.get("inventory", [])
+        print("Game loaded.")
+
     def run(self):
         print("Welcome to Escape the Terminal")
         print("Type 'help' for a list of commands. Type 'quit' to exit.")
@@ -88,6 +120,10 @@ class Game:
             elif cmd.startswith('use '):
                 item = cmd.split(' ', 1)[1]
                 self._use(item)
+            elif cmd == 'save':
+                self._save()
+            elif cmd == 'load':
+                self._load()
             elif cmd in ('quit', 'exit'):
                 print("Goodbye")
                 break
