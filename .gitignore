@@ -199,4 +199,5 @@ cython_debug/
 !data/escape.plan
 !data/node.log
 !data/deep.node.log
+!data/runtime.log
 data/logs/
