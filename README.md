@@ -8,10 +8,10 @@ drive exploration, and commands like `use` or `glitch` advance the story in
 unexpected ways.
 
 ## Setup
-1. Install Python 3.
-2. Install the project in editable mode:
+1. Install Python 3.8 or higher.
+2. Install the project in editable mode (including optional test extras):
    ```bash
-   pip install -e .
+   pip install -e '.[test]'
    ```
 3. Run the game using the console entry point:
    ```bash
@@ -29,6 +29,7 @@ unexpected ways.
    - `ls` – list directories and items in the current location
    - `cd <dir>` – move between directories/rooms
    - `cat <file>` – read narrative logs from `data/`
+   - `talk <npc>` – initiate conversation and choose numbered replies
   - `save [slot]` / `load [slot]` – write and restore progress. Without a slot the file `game.sav` is used, otherwise `game<slot>.sav`.
   - `glitch` – toggle glitch mode for scrambled descriptions. The longer it
     stays active the stronger the corruption becomes and occasional glitch
@@ -68,8 +69,8 @@ handler automatically.
 NPC conversations are stored under ``data/npc`` using the naming scheme
 ``<name>.dialog``. The ``talk <name>`` command will load the matching file if the
 player is in the correct directory for that NPC. Lines beginning with ``>`` are
-treated as simple menu options and will be displayed as a numbered list for the
-player to choose from. A minimal ``dreamer.dialog`` might look like:
+treated as simple menu options. They appear as a numbered list and you select a
+reply by typing its number. A minimal ``dreamer.dialog`` might look like:
 
 ```
 The dreamer watches you closely.
