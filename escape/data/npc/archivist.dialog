@@ -1,0 +1,19 @@
+The archivist catalogues swirling fragments with meticulous precision.
+> Ask about restoring memories [+curious]
+> Browse the catalog [-curious]
+> Leave
+"These records are fragile. Treat them kindly."
+---
+?curious:The archivist opens a secure drawer filled with numbered logs.
+?!curious:The archivist keeps the archives at a distance.
+> Inquire about hidden logs [+trust]
+> Step back
+"The key to recall lies within the fragment you carry."
+---
+?trust:The archivist hands you a faded index code.
+?!trust:The archivist resumes sorting without comment.
+> Thank the archivist
+> Depart
+"Remember: knowledge fades unless preserved."
+---
+The archivist files away another memory and says no more.

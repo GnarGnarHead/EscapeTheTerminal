@@ -70,7 +70,13 @@
         "items": [
           "flashback.log"
         ],
-        "dirs": {}
+        "dirs": {
+          "npc": {
+            "desc": "An archivist tends to the stored memories here.",
+            "items": [],
+            "dirs": {}
+          }
+        }
       },
       "network": {
         "desc": "Connections pulse faintly in this virtual mesh.",
@@ -151,6 +157,10 @@
     ],
     "sage": [
       "archive",
+      "npc"
+    ],
+    "archivist": [
+      "memory",
       "npc"
     ]
   },
