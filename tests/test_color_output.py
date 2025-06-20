@@ -67,3 +67,23 @@ def test_color_command_toggle():
     assert '\x1b[33m' in first_ls
     assert '\x1b[33m' not in second_ls
     assert 'Goodbye' in lines[-1]
+
+
+def test_custom_color_codes_env():
+    env = os.environ.copy()
+    env['ET_COLOR'] = '1'
+    env['ET_COLOR_ITEM'] = '35'
+    env['ET_COLOR_DIR'] = '32'
+    result = subprocess.run(
+        CMD,
+        input='ls\nquit\n',
+        text=True,
+        capture_output=True,
+        env=env,
+    )
+    out = result.stdout
+    assert '\x1b[35m' in out
+    assert '\x1b[32m' in out
+    assert '\x1b[36m' not in out
+    assert '\x1b[33m' not in out
+    assert 'Goodbye' in out

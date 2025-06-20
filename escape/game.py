@@ -26,6 +26,11 @@ class Game:
         else:
             self.use_color = use_color
 
+        env_dir = os.getenv("ET_COLOR_DIR")
+        self.dir_color = f"\x1b[{env_dir}m" if env_dir else "\x1b[33m"
+        env_item = os.getenv("ET_COLOR_ITEM")
+        self.item_color = f"\x1b[{env_item}m" if env_item else "\x1b[36m"
+
         self.auto_save = os.getenv("ET_AUTOSAVE") not in (None, "", "0", "false")
         self.prompt = prompt if prompt is not None else os.getenv("ET_PROMPT", "> ")
         self.inventory = []
@@ -360,10 +365,12 @@ class Game:
     def _apply_colors(self, text: str) -> str:
         """Return ``text`` with ANSI colors for items and directories."""
         dirs, items = self._collect_names()
+        dir_color = getattr(self, "dir_color", "\x1b[33m")
+        item_color = getattr(self, "item_color", "\x1b[36m")
         for name in sorted(dirs, key=len, reverse=True):
-            text = text.replace(f"{name}/", f"\x1b[33m{name}/\x1b[0m")
+            text = text.replace(f"{name}/", f"{dir_color}{name}/\x1b[0m")
         for name in sorted(items, key=len, reverse=True):
-            text = text.replace(name, f"\x1b[36m{name}\x1b[0m")
+            text = text.replace(name, f"{item_color}{name}\x1b[0m")
         return text
 
     def _collect_names(self) -> tuple[set[str], set[str]]:
