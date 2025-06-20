@@ -1,14 +1,14 @@
-import subprocess, sys
-import os
+import subprocess, sys, os
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 from escape import Game
 
-SCRIPT = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'escape.py')
+REPO_ROOT = os.path.dirname(os.path.dirname(__file__))
+CMD = [sys.executable, '-m', 'escape']
 
 
 def test_quit_command():
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='quit\n',
         text=True,
         capture_output=True,
@@ -19,7 +19,7 @@ def test_quit_command():
 
 def test_look_command():
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='look\nquit\n',
         text=True,
         capture_output=True,
@@ -32,7 +32,7 @@ def test_look_command():
 
 def test_inventory_empty():
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='inventory\nquit\n',
         text=True,
         capture_output=True,
@@ -43,7 +43,7 @@ def test_inventory_empty():
 
 def test_take_item_and_inventory():
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='take access.key\ninventory\nquit\n',
         text=True,
         capture_output=True,
@@ -55,7 +55,7 @@ def test_take_item_and_inventory():
 
 def test_examine_item():
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='examine access.key\nquit\n',
         text=True,
         capture_output=True,
@@ -66,7 +66,7 @@ def test_examine_item():
 
 def test_examine_missing_item():
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='examine unknown\nquit\n',
         text=True,
         capture_output=True,
@@ -77,7 +77,7 @@ def test_examine_missing_item():
 
 def test_inventory_alias_i():
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='i\nquit\n',
         text=True,
         capture_output=True,
@@ -88,7 +88,7 @@ def test_inventory_alias_i():
 
 def test_inventory_alias_inv():
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='inv\nquit\n',
         text=True,
         capture_output=True,
@@ -99,7 +99,7 @@ def test_inventory_alias_inv():
 
 def test_look_around_alias():
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='look around\nquit\n',
         text=True,
         capture_output=True,
@@ -110,7 +110,7 @@ def test_look_around_alias():
 
 def test_help_alias():
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='h\nquit\n',
         text=True,
         capture_output=True,
@@ -121,7 +121,7 @@ def test_help_alias():
 
 def test_help_specific_command():
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='help look\nquit\n',
         text=True,
         capture_output=True,
@@ -133,7 +133,7 @@ def test_help_specific_command():
 
 def test_help_unknown_command():
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='help unknown\nquit\n',
         text=True,
         capture_output=True,
@@ -145,7 +145,7 @@ def test_help_unknown_command():
 
 def test_use_item_missing():
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='use access.key\nquit\n',
         text=True,
         capture_output=True,
@@ -156,7 +156,7 @@ def test_use_item_missing():
 
 def test_use_item_after_take():
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='take access.key\nuse access.key\nquit\n',
         text=True,
         capture_output=True,
@@ -168,7 +168,7 @@ def test_use_item_after_take():
 
 def test_use_item_on_door():
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='take access.key\nuse access.key on door\nls\nquit\n',
         text=True,
         capture_output=True,
@@ -181,7 +181,7 @@ def test_use_item_on_door():
 
 def test_drop_item():
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='take access.key\ndrop access.key\nlook\nquit\n',
         text=True,
         capture_output=True,
@@ -196,29 +196,33 @@ def test_save_and_load(tmp_path):
     save_file = tmp_path / 'game.sav'
 
     # take item and save the game
+    env = os.environ.copy()
+    env['PYTHONPATH'] = REPO_ROOT
     subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='take access.key\nsave\nquit\n',
         text=True,
         capture_output=True,
         cwd=tmp_path,
+        env=env,
     )
     assert save_file.exists()
 
     # load the game and check inventory
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='load\ninventory\nquit\n',
         text=True,
         capture_output=True,
         cwd=tmp_path,
+        env=env,
     )
     assert 'Inventory: access.key' in result.stdout
 
 
 def test_ls_and_cd():
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='ls\ntake access.key\nuse access.key\nls\ncd hidden\nls\ncd ..\nls\nquit\n',
         text=True,
         capture_output=True,
@@ -233,7 +237,7 @@ def test_ls_and_cd():
 
 def test_root_contains_dream_and_memory():
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='ls\nquit\n',
         text=True,
         capture_output=True,
@@ -246,7 +250,7 @@ def test_root_contains_dream_and_memory():
 
 def test_pwd_command():
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='cd lab\npwd\ncd ..\npwd\nquit\n',
         text=True,
         capture_output=True,
@@ -258,7 +262,7 @@ def test_pwd_command():
 
 def test_enter_lab_and_look():
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='cd lab\nlook\nls\nquit\n',
         text=True,
         capture_output=True,
@@ -271,7 +275,7 @@ def test_enter_lab_and_look():
 
 def test_cat_command():
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='cat voice.log\nquit\n',
         text=True,
         capture_output=True,
@@ -282,7 +286,7 @@ def test_cat_command():
 
 def test_use_voice_log():
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='take voice.log\nuse voice.log\nquit\n',
         text=True,
         capture_output=True,
@@ -293,7 +297,7 @@ def test_use_voice_log():
 
 def test_cat_daemon_log():
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='cd core\ncd npc\ncat daemon.log\nquit\n',
         text=True,
         capture_output=True,
@@ -306,7 +310,7 @@ def test_cat_daemon_log():
 
 def test_cat_lucid_note():
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='cd dream\ncat lucid.note\nquit\n',
         text=True,
         capture_output=True,
@@ -318,7 +322,7 @@ def test_cat_lucid_note():
 
 def test_cat_flashback_log():
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='cd memory\ncat flashback.log\nquit\n',
         text=True,
         capture_output=True,
@@ -330,7 +334,7 @@ def test_cat_flashback_log():
 
 def test_use_daemon_log():
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='cd core\ncd npc\ntake daemon.log\nuse daemon.log\nquit\n',
         text=True,
         capture_output=True,
@@ -343,7 +347,7 @@ def test_use_daemon_log():
 
 def test_examine_mem_fragment():
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='take access.key\nuse access.key\ncd hidden\nexamine mem.fragment\nquit\n',
         text=True,
         capture_output=True,
@@ -354,7 +358,7 @@ def test_examine_mem_fragment():
 
 def test_cat_treasure_after_unlock():
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='take access.key\nuse access.key\ncd hidden\ncat treasure.txt\nquit\n',
         text=True,
         capture_output=True,
@@ -372,7 +376,7 @@ def test_glitch_mode_toggle():
     )
     first_glitch = Game()._glitch_text(normal, 1)
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='glitch\nlook\nglitch\nlook\nquit\n',
         text=True,
         capture_output=True,
@@ -391,7 +395,7 @@ def test_glitch_persistence():
     first_glitch = Game()._glitch_text(normal, 1)
     later_glitch = Game()._glitch_text(normal, 3)
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='glitch\nlook\nlook\nglitch\nlook\nquit\n',
         text=True,
         capture_output=True,
@@ -411,7 +415,7 @@ def test_glitch_intensity_increases():
     step3 = Game()._glitch_text(normal, 3)
     step5 = Game()._glitch_text(normal, 5)
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='glitch\nlook\nlook\nlook\nquit\n',
         text=True,
         capture_output=True,
@@ -426,7 +430,7 @@ def test_glitch_intensity_increases():
 
 def test_talk_daemon():
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='cd core\ncd npc\ntalk daemon\n1\n1\nquit\n',
         text=True,
         capture_output=True,
@@ -441,7 +445,7 @@ def test_talk_daemon():
 
 def test_talk_dreamer():
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='cd dream\ncd npc\ntalk dreamer\n1\n2\nquit\n',
         text=True,
         capture_output=True,
@@ -457,7 +461,7 @@ def test_talk_dreamer():
 
 def test_dream_contains_subconscious():
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='cd dream\nls\nquit\n',
         text=True,
         capture_output=True,
@@ -469,7 +473,7 @@ def test_dream_contains_subconscious():
 
 def test_reverie_log_present():
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='cd dream\ncd subconscious\nls\nquit\n',
         text=True,
         capture_output=True,
@@ -481,7 +485,7 @@ def test_reverie_log_present():
 
 def test_hidden_vault_and_escape_plan():
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='take access.key\nuse access.key\ncd hidden\nls\ncd vault\nls\nquit\n',
         text=True,
         capture_output=True,
@@ -494,7 +498,7 @@ def test_hidden_vault_and_escape_plan():
 
 def test_decode_fragment_unlocks_escape_directory():
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input=(
             'take access.key\n'
             'use access.key\n'
@@ -520,7 +524,7 @@ def test_decode_fragment_unlocks_escape_directory():
 
 def test_use_escape_code_wins_game():
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input=(
             'take access.key\n'
             'use access.key\n'
@@ -550,44 +554,50 @@ def test_save_slots_independent(tmp_path):
     save1 = tmp_path / 'game1.sav'
     save2 = tmp_path / 'game2.sav'
 
+    env = os.environ.copy()
+    env['PYTHONPATH'] = REPO_ROOT
     # first slot with access.key
     subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='take access.key\nsave 1\nquit\n',
         text=True,
         capture_output=True,
         cwd=tmp_path,
+        env=env,
     )
 
     # second slot with voice.log
     subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='take voice.log\nsave 2\nquit\n',
         text=True,
         capture_output=True,
         cwd=tmp_path,
+        env=env,
     )
 
     assert save1.exists()
     assert save2.exists()
 
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='load 1\ninventory\nquit\n',
         text=True,
         capture_output=True,
         cwd=tmp_path,
+        env=env,
     )
     out1 = result.stdout
     assert 'Inventory: access.key' in out1
     assert 'voice.log' not in out1
 
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='load 2\ninventory\nquit\n',
         text=True,
         capture_output=True,
         cwd=tmp_path,
+        env=env,
     )
     out2 = result.stdout
     assert 'Inventory: voice.log' in out2
@@ -600,20 +610,24 @@ def test_glitch_save_and_load(tmp_path):
     )
     step4 = Game()._glitch_text(normal, 4)
 
+    env = os.environ.copy()
+    env['PYTHONPATH'] = REPO_ROOT
     subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='glitch\nlook\nsave\nquit\n',
         text=True,
         capture_output=True,
         cwd=tmp_path,
+        env=env,
     )
 
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='load\nlook\nquit\n',
         text=True,
         capture_output=True,
         cwd=tmp_path,
+        env=env,
     )
     out = result.stdout
     assert step4 in out
@@ -641,7 +655,7 @@ def test_load_old_save_defaults(tmp_path, capsys):
 
 def test_history_command():
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='look\ninventory\nhistory\nquit\n',
         text=True,
         capture_output=True,

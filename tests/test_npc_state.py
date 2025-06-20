@@ -2,12 +2,13 @@ import subprocess
 import sys
 import os
 
-SCRIPT = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'escape.py')
+REPO_ROOT = os.path.dirname(os.path.dirname(__file__))
+CMD = [sys.executable, '-m', 'escape']
 
 
 def test_daemon_follow_up():
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='cd core\ncd npc\ntalk daemon\n1\n1\ntalk daemon\n1\nquit\n',
         text=True,
         capture_output=True,
@@ -21,7 +22,7 @@ def test_daemon_follow_up():
 
 def test_dreamer_follow_up():
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='cd dream\ncd npc\ntalk dreamer\n1\n2\ntalk dreamer\n1\nquit\n',
         text=True,
         capture_output=True,
@@ -35,7 +36,7 @@ def test_dreamer_follow_up():
 
 def test_sysop_polite_branch():
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='cd core\ncd npc\ntalk sysop\n1\ntalk sysop\n1\nquit\n',
         text=True,
         capture_output=True,
@@ -50,7 +51,7 @@ def test_sysop_polite_branch():
 
 def test_wanderer_helped_branch():
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='cd dream\ncd npc\ntalk wanderer\n2\ntalk wanderer\n1\nquit\n',
         text=True,
         capture_output=True,
@@ -64,7 +65,7 @@ def test_wanderer_helped_branch():
 
 def test_sysop_rude_branch():
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='cd core\ncd npc\ntalk sysop\n2\ntalk sysop\n1\nquit\n',
         text=True,
         capture_output=True,
@@ -79,7 +80,7 @@ def test_sysop_rude_branch():
 
 def test_wanderer_ignored_branch():
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='cd dream\ncd npc\ntalk wanderer\n1\ntalk wanderer\n1\nquit\n',
         text=True,
         capture_output=True,
@@ -93,7 +94,7 @@ def test_wanderer_ignored_branch():
 
 def test_oracle_follow_up():
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='cd dream\ncd oracle\ntalk oracle\n1\n1\ntalk oracle\n1\nquit\n',
         text=True,
         capture_output=True,

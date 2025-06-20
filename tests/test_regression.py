@@ -2,12 +2,13 @@ import subprocess
 import sys
 import os
 
-SCRIPT = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'escape.py')
+REPO_ROOT = os.path.dirname(os.path.dirname(__file__))
+CMD = [sys.executable, '-m', 'escape']
 
 
 def test_take_drop_after_network_puzzle():
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input=(
             'cd lab\n'
             'take port.scanner\n'
@@ -31,7 +32,7 @@ def test_take_drop_after_network_puzzle():
 
 def test_help_then_look():
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='help look\nlook\nquit\n',
         text=True,
         capture_output=True,

@@ -1,11 +1,12 @@
 import subprocess, sys, os
 
-SCRIPT = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'escape.py')
+REPO_ROOT = os.path.dirname(os.path.dirname(__file__))
+CMD = [sys.executable, '-m', 'escape']
 
 
 def test_scan_reveals_locked_node():
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='scan network\ncd network\nls\ncd node\nquit\n',
         text=True,
         capture_output=True,
@@ -19,7 +20,7 @@ def test_scan_reveals_locked_node():
 
 def test_hack_unlocks_node():
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input=(
             'cd lab\n'
             'take port.scanner\n'
@@ -42,7 +43,7 @@ def test_hack_unlocks_node():
 
 def test_hack_requires_scanner():
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='scan network\nhack network\nquit\n',
         text=True,
         capture_output=True,
@@ -54,7 +55,7 @@ def test_hack_requires_scanner():
 
 def test_cat_node_log_after_hack():
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input=(
             'cd lab\n'
             'take port.scanner\n'
@@ -76,7 +77,7 @@ def test_cat_node_log_after_hack():
 
 def test_scan_nested_node():
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input=(
             'cd lab\n'
             'take port.scanner\n'
@@ -99,7 +100,7 @@ def test_scan_nested_node():
 
 def test_hack_node2_requires_token():
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input=(
             'cd lab\n'
             'take port.scanner\n'
@@ -121,7 +122,7 @@ def test_hack_node2_requires_token():
 
 def test_hack_node2_success():
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input=(
             'cd lab\n'
             'take port.scanner\n'

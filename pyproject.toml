@@ -11,11 +11,12 @@ authors = [{name="EscapeTheTerminal Contributors"}]
 license = {file = "LICENSE"}
 requires-python = ">=3.8"
 
+
 [project.scripts]
-escape-terminal = "escape:main"
+escape-terminal = "escape.cli:main"
 
 [tool.setuptools]
-py-modules = ["escape"]
+packages = ["escape"]
 
 [project.optional-dependencies]
 test = ["pytest>=7.0"]
