@@ -17,6 +17,8 @@ This project is a minimalist terminal game. For the long-term vision, see [VISIO
    Common command aliases like `i`/`inv` for `inventory` and `look around` for `look` are also supported.
    The `use <item>` command lets you interact with objects in your inventory.
    Items can be discarded with `drop <item>`.
+   Navigate the world as if it were a filesystem using `ls` to list the
+   contents of the current room and `cd <dir>` to move between rooms.
    Use `save` to write your progress to `game.sav` and `load` to restore it.
 
 ## Running Tests

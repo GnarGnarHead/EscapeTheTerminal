@@ -9,14 +9,25 @@ class Game:
     """Simple command dispatcher for the terminal adventure."""
 
     def __init__(self):
-        self.location_description = (
-            "You find yourself in a dimly lit terminal session. "
-            "The prompt blinks patiently."
-        )
-        self.room_items = ["access.key"]
         self.inventory = []
+        self.fs = {
+            "desc": (
+                "You find yourself in a dimly lit terminal session. "
+                "The prompt blinks patiently."
+            ),
+            "items": ["access.key"],
+            "dirs": {
+                "hidden": {
+                    "desc": "A directory shrouded in mystery.",
+                    "items": ["treasure.txt"],
+                    "dirs": {},
+                }
+            },
+        }
+        self.current = []  # path as list of directory names
         self.item_descriptions = {
-            "access.key": "A slim digital token rumored to unlock hidden directories."
+            "access.key": "A slim digital token rumored to unlock hidden directories.",
+            "treasure.txt": "A file filled with untold riches.",
         }
         self.use_messages = {
             "access.key": "The key hums softly and a hidden directory flickers into view."
@@ -25,18 +36,27 @@ class Game:
 
     def _print_help(self):
         print(
-            "Available commands: help, look, take <item>, drop <item>, "
+            "Available commands: help, look, ls, cd <dir>, take <item>, drop <item>, "
             "inventory, examine <item>, use <item>, save, load, quit"
         )
 
+    def _current_node(self):
+        node = self.fs
+        for part in self.current:
+            node = node["dirs"][part]
+        return node
+
     def _look(self):
-        print(self.location_description)
-        if self.room_items:
-            print("You see: " + ", ".join(self.room_items))
+        node = self._current_node()
+        print(node["desc"])
+        entries = [d + "/" for d in node["dirs"]] + list(node["items"])
+        if entries:
+            print("You see: " + ", ".join(entries))
 
     def _take(self, item: str):
-        if item in self.room_items:
-            self.room_items.remove(item)
+        node = self._current_node()
+        if item in node["items"]:
+            node["items"].remove(item)
             self.inventory.append(item)
             print(f"You pick up the {item}.")
         else:
@@ -45,7 +65,8 @@ class Game:
     def _drop(self, item: str):
         if item in self.inventory:
             self.inventory.remove(item)
-            self.room_items.append(item)
+            node = self._current_node()
+            node["items"].append(item)
             print(f"You drop the {item}.")
         else:
             print(f"You do not have {item} to drop.")
@@ -57,7 +78,8 @@ class Game:
             print("Inventory is empty.")
 
     def _examine(self, item: str):
-        if item in self.inventory or item in self.room_items:
+        node = self._current_node()
+        if item in self.inventory or item in node["items"]:
             desc = self.item_descriptions.get(item, "It's unremarkable.")
             print(desc)
         else:
@@ -73,10 +95,34 @@ class Game:
         else:
             print(f"You can't use {item} right now.")
 
+    def _ls(self):
+        node = self._current_node()
+        entries = [d + '/' for d in node['dirs']] + list(node['items'])
+        if entries:
+            print(" ".join(entries))
+        else:
+            print("Nothing here.")
+
+    def _cd(self, directory: str):
+        if directory in ('.', ''):
+            return
+        if directory == '..':
+            if self.current:
+                self.current.pop()
+            else:
+                print("Already at root.")
+            return
+        node = self._current_node()
+        if directory in node['dirs']:
+            self.current.append(directory)
+        else:
+            print(f"No such directory: {directory}")
+
     def _save(self):
         data = {
-            "room_items": self.room_items,
+            "fs": self.fs,
             "inventory": self.inventory,
+            "current": self.current,
         }
         try:
             with open(self.save_file, "w", encoding="utf-8") as f:
@@ -100,8 +146,9 @@ class Game:
         except OSError as e:
             print(f"Failed to load: {e}")
             return
-        self.room_items = data.get("room_items", [])
+        self.fs = data.get("fs", self.fs)
         self.inventory = data.get("inventory", [])
+        self.current = data.get("current", [])
         print("Game loaded.")
 
     def run(self):
@@ -117,6 +164,11 @@ class Game:
                 self._print_help()
             elif cmd in ('look', 'look around'):
                 self._look()
+            elif cmd == 'ls':
+                self._ls()
+            elif cmd.startswith('cd'):
+                directory = cmd.split(' ', 1)[1] if ' ' in cmd else ''
+                self._cd(directory)
             elif cmd.startswith('take '):
                 item = cmd.split(' ', 1)[1]
                 self._take(item)
