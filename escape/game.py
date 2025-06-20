@@ -6,12 +6,13 @@ easier while preserving the original command-line interface.
 
 from pathlib import Path
 import os
+import json
 
 
 class Game:
     """Simple command dispatcher for the terminal adventure."""
 
-    def __init__(self, use_color: bool | None = None):
+    def __init__(self, use_color: bool | None = None, world_file: str | Path | None = None):
         if use_color is None:
             env_val = os.getenv("ET_COLOR", "0").lower()
             self.use_color = env_val not in ("0", "false", "")
@@ -20,120 +21,20 @@ class Game:
 
         self.auto_save = os.getenv("ET_AUTOSAVE") not in (None, "", "0", "false")
         self.inventory = []
-        # base filesystem state; the hidden directory is injected when unlocked
-        self.hidden_dir = {
-            "desc": "A directory shrouded in mystery.",
-            "items": ["mem.fragment", "treasure.txt"],
-            "dirs": {
-                "vault": {
-                    "desc": "A locked vault storing plans best kept secret.",
-                    "items": ["escape.plan"],
-                    "dirs": {},
-                }
-            },
-        }
-        self.network_node = {
-            "desc": "A remote node secured behind layers of authentication.",
-            "items": ["node.log", "auth.token"],
-            "dirs": {},
-            "locked": True,
-        }
-        self.deep_network_node = {
-            "desc": "An even more secure enclave hidden in the traffic.",
-            "items": ["deep.node.log"],
-            "dirs": {},
-            "locked": True,
-        }
-        self.fs = {
-            "desc": (
-                "You find yourself in a dimly lit terminal session. "
-                "The prompt blinks patiently."
-            ),
-            "items": ["access.key", "voice.log"],
-            "dirs": {
-                "lab": {
-                    "desc": "A cluttered research lab filled with blinking devices.",
-                    "items": ["decoder", "port.scanner"],
-                    "dirs": {},
-                },
-                "archive": {
-                    "desc": "Dusty shelves of data backups line the walls.",
-                    "items": ["old.note"],
-                    "dirs": {},
-                },
-                "core": {
-                    "desc": "The core systems thrum with latent energy.",
-                    "items": [],
-                    "dirs": {
-                        "npc": {
-                            "desc": "A quiet daemon lingers here, waiting to be addressed.",
-                            "items": ["daemon.log"],
-                            "dirs": {},
-                        }
-                    },
-                },
-                "dream": {
-                    "desc": "A hazy directory where reality blurs and ideas take shape.",
-                    "items": ["lucid.note"],
-                    "dirs": {
-                        "subconscious": {
-                            "desc": "Half-formed thoughts linger here, waiting to be read.",
-                            "items": ["reverie.log"],
-                            "dirs": {},
-                        },
-                        "npc": {
-                            "desc": "A soft presence waits to converse in this lucid space.",
-                            "items": [],
-                            "dirs": {},
-                        },
-                        "oracle": {
-                            "desc": "An enigmatic chamber humming with distant voices.",
-                            "items": [],
-                            "dirs": {},
-                        },
-                    },
-                },
-                "memory": {
-                    "desc": "Stacks of recollections archived for later reflection.",
-                    "items": ["flashback.log"],
-                    "dirs": {},
-                },
-                "network": {
-                    "desc": "Connections pulse faintly in this virtual mesh.",
-                    "items": [],
-                    "dirs": {},
-                },
-            },
-        }
+        self.data_dir = Path(__file__).parent / "data"
+        if world_file is None:
+            world_file = self.data_dir / "world.json"
+        with open(world_file, "r", encoding="utf-8") as f:
+            world = json.load(f)
+        self.fs = world.get("fs", {})
+        self.hidden_dir = world.get("hidden_dir", {})
+        self.network_node = world.get("network_node", {})
+        self.deep_network_node = world.get("deep_network_node", {})
+        self.npc_locations = world.get("npc_locations", {})
+        self.item_descriptions = world.get("item_descriptions", {})
         self.current = []  # path as list of directory names
-        self.npc_locations = {
-            "daemon": ["core", "npc"],
-            "dreamer": ["dream", "npc"],
-            "sysop": ["core", "npc"],
-            "wanderer": ["dream", "npc"],
-            "oracle": ["dream", "oracle"],
-        }
         # track dialogue progress and flags for each NPC
         self.npc_state: dict[str, dict] = {}
-        self.item_descriptions = {
-            "access.key": "A slim digital token rumored to unlock hidden directories.",
-            "treasure.txt": "A file filled with untold riches.",
-            "mem.fragment": "A corrupted memory fragment pulsing faintly with data.",
-            "voice.log": "An audio log that might contain a clue.",
-            "decoder": "A handheld device used to decode encrypted signals.",
-            "old.note": "A weathered note scribbled with barely readable commands.",
-            "daemon.log": "A log file chronicling the mutterings of a resident daemon.",
-            "lucid.note": "A scribbled note describing techniques for conscious dreaming.",
-            "flashback.log": "A recorded memory playback waiting to be relived.",
-            "reverie.log": "A log capturing fleeting reveries within the system.",
-            "escape.plan": "A hastily sketched route promising a way out.",
-            "escape.code": "A brief sequence hinting at a path to freedom.",
-            "port.scanner": "A handheld tool for probing network ports.",
-            "node.log": "Logs from a secure network node.",
-            "auth.token": "A multi-factor token used for deeper authentication.",
-            "deep.node.log": "Diagnostics from the heart of the network.",
-            "firmware.patch": "A subtle exploit enabling access to even deeper nodes.",
-        }
         # populate multiple directories with extra procedurally generated content
         self._generate_extra_dirs(["dream", "memory", "core"])
         self.use_messages = {
@@ -145,7 +46,6 @@ class Game:
             "flashback.log": "Memories surge forth, revealing forgotten paths.",
         }
         self.save_file = "game.sav"
-        self.data_dir = Path(__file__).parent / "data"
         self.glitch_mode = False
         self.glitch_steps = 0
 

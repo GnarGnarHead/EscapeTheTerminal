@@ -1,0 +1,150 @@
+{
+  "fs": {
+    "desc": "You find yourself in a dimly lit terminal session. The prompt blinks patiently.",
+    "items": [
+      "access.key",
+      "voice.log"
+    ],
+    "dirs": {
+      "lab": {
+        "desc": "A cluttered research lab filled with blinking devices.",
+        "items": [
+          "decoder",
+          "port.scanner"
+        ],
+        "dirs": {}
+      },
+      "archive": {
+        "desc": "Dusty shelves of data backups line the walls.",
+        "items": [
+          "old.note"
+        ],
+        "dirs": {}
+      },
+      "core": {
+        "desc": "The core systems thrum with latent energy.",
+        "items": [],
+        "dirs": {
+          "npc": {
+            "desc": "A quiet daemon lingers here, waiting to be addressed.",
+            "items": [
+              "daemon.log"
+            ],
+            "dirs": {}
+          }
+        }
+      },
+      "dream": {
+        "desc": "A hazy directory where reality blurs and ideas take shape.",
+        "items": [
+          "lucid.note"
+        ],
+        "dirs": {
+          "subconscious": {
+            "desc": "Half-formed thoughts linger here, waiting to be read.",
+            "items": [
+              "reverie.log"
+            ],
+            "dirs": {}
+          },
+          "npc": {
+            "desc": "A soft presence waits to converse in this lucid space.",
+            "items": [],
+            "dirs": {}
+          },
+          "oracle": {
+            "desc": "An enigmatic chamber humming with distant voices.",
+            "items": [],
+            "dirs": {}
+          }
+        }
+      },
+      "memory": {
+        "desc": "Stacks of recollections archived for later reflection.",
+        "items": [
+          "flashback.log"
+        ],
+        "dirs": {}
+      },
+      "network": {
+        "desc": "Connections pulse faintly in this virtual mesh.",
+        "items": [],
+        "dirs": {}
+      }
+    }
+  },
+  "hidden_dir": {
+    "desc": "A directory shrouded in mystery.",
+    "items": [
+      "mem.fragment",
+      "treasure.txt"
+    ],
+    "dirs": {
+      "vault": {
+        "desc": "A locked vault storing plans best kept secret.",
+        "items": [
+          "escape.plan"
+        ],
+        "dirs": {}
+      }
+    }
+  },
+  "network_node": {
+    "desc": "A remote node secured behind layers of authentication.",
+    "items": [
+      "node.log",
+      "auth.token"
+    ],
+    "dirs": {},
+    "locked": true
+  },
+  "deep_network_node": {
+    "desc": "An even more secure enclave hidden in the traffic.",
+    "items": [
+      "deep.node.log"
+    ],
+    "dirs": {},
+    "locked": true
+  },
+  "npc_locations": {
+    "daemon": [
+      "core",
+      "npc"
+    ],
+    "dreamer": [
+      "dream",
+      "npc"
+    ],
+    "sysop": [
+      "core",
+      "npc"
+    ],
+    "wanderer": [
+      "dream",
+      "npc"
+    ],
+    "oracle": [
+      "dream",
+      "oracle"
+    ]
+  },
+  "item_descriptions": {
+    "access.key": "A slim digital token rumored to unlock hidden directories.",
+    "treasure.txt": "A file filled with untold riches.",
+    "mem.fragment": "A corrupted memory fragment pulsing faintly with data.",
+    "voice.log": "An audio log that might contain a clue.",
+    "decoder": "A handheld device used to decode encrypted signals.",
+    "old.note": "A weathered note scribbled with barely readable commands.",
+    "daemon.log": "A log file chronicling the mutterings of a resident daemon.",
+    "lucid.note": "A scribbled note describing techniques for conscious dreaming.",
+    "flashback.log": "A recorded memory playback waiting to be relived.",
+    "reverie.log": "A log capturing fleeting reveries within the system.",
+    "escape.plan": "A hastily sketched route promising a way out.",
+    "escape.code": "A brief sequence hinting at a path to freedom.",
+    "port.scanner": "A handheld tool for probing network ports.",
+    "node.log": "Logs from a secure network node.",
+    "auth.token": "A multi-factor token used for deeper authentication.",
+    "deep.node.log": "Diagnostics from the heart of the network.",
+    "firmware.patch": "A subtle exploit enabling access to even deeper nodes."
+  }
+}
