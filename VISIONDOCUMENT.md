@@ -72,6 +72,7 @@ Endings include:
 * Exploration-based narrative with branching outcomes
 * Light puzzle-solving via command chaining (e.g., `use decompiler on access.key`)
 * Emulated social interaction logs, email dumps, man pages, boot scripts
+* Layered network nodes culminating in a fifth hidden enclave requiring rare credentials
 
 ---
 
