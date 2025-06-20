@@ -748,8 +748,8 @@ class Game:
             if target_name == "node7" and "kernel.key" not in self.inventory:
                 self._output("You need the kernel.key to hack this node.")
                 return
-            if target_name == "runtime" and "master.process" not in self.inventory:
-                self._output("You need the master.process to hack this node.")
+            if target_name == "runtime" and "kernel.key" not in self.inventory:
+                self._output("You need the kernel.key to hack this node.")
                 return
         target.pop("locked", None)
         self._output("Access granted. The node is now unlocked.")

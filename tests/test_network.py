@@ -713,7 +713,7 @@ def test_scan_runtime_after_hack_node7():
     assert 'Discovered runtime' in out
 
 
-def test_hack_runtime_requires_master_process():
+def test_hack_runtime_requires_kernel_key():
     result = subprocess.run(
         CMD,
         input=(
@@ -749,6 +749,7 @@ def test_hack_runtime_requires_master_process():
             'hack node7\n'
             'scan node7\n'
             'cd node7\n'
+            'drop kernel.key\n'
             'hack runtime\n'
             'quit\n'
         ),
@@ -756,7 +757,7 @@ def test_hack_runtime_requires_master_process():
         capture_output=True,
     )
     out = result.stdout
-    assert 'You need the master.process to hack this node.' in out
+    assert 'You need the kernel.key to hack this node.' in out
 
 
 def test_hack_runtime_success():
@@ -795,10 +796,9 @@ def test_hack_runtime_success():
             'hack node7\n'
             'scan node7\n'
             'cd node7\n'
-            'take master.process\n'
             'hack runtime\n'
             'cd runtime\n'
-            'ls\n'
+            'cat runtime.log\n'
             'quit\n'
         ),
         text=True,
@@ -806,4 +806,4 @@ def test_hack_runtime_success():
     )
     out = result.stdout
     assert 'Access granted' in out
-    assert 'runtime.log' in out
+    assert 'A log revealing your runtime environment and history.' in out

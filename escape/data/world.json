@@ -123,7 +123,7 @@
         "desc": "The mythical kernel node rumored to run everything."
       },
       "runtime": {
-        "desc": "A hidden runtime environment monitoring your every command."
+        "desc": "An experimental runtime environment logging each command."
       }
     },
     "locked": true
