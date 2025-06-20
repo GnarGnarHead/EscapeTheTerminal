@@ -279,11 +279,15 @@ class Game:
                     continue
                 spec = importlib.util.spec_from_loader(module_name, importer)
                 if spec and spec.loader:
-                    module = importlib.util.module_from_spec(spec)
-                    module.game = self
-                    sys.modules[module_name] = module
                     try:
-                        spec.loader.exec_module(module)
+                        if hasattr(importer, "exec_module"):
+                            module = importlib.util.module_from_spec(spec)
+                            module.game = self
+                            sys.modules[module_name] = module
+                            importer.exec_module(module)
+                        else:
+                            module = importer.load_module(module_name)
+                            module.game = self
                     except Exception as exc:
                         print(f"Failed to load plugin {path.name}: {exc}")
 
