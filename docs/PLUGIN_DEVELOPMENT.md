@@ -73,3 +73,6 @@ Running one of these commands sets ``game.dir_color`` and ``game.item_color`` to
 predefined ANSI codes.
 
 
+## Built-in Puzzle Plugin
+
+A second bundled plugin named `puzzle.py` offers a small code-breaking riddle. Run `puzzle` without arguments to see the encoded phrase and pass your decoded answer to solve it. The module remembers if you solved the puzzle so subsequent runs simply report that it is already complete.
