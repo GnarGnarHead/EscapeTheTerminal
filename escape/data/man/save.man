@@ -1,0 +1,3 @@
+save - Save game state
+Usage: save [slot]
+Example: save 1

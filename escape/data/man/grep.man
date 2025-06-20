@@ -1,0 +1,3 @@
+grep - Search log files for text
+Usage: grep <pattern> [file]
+Example: grep error daemon.log

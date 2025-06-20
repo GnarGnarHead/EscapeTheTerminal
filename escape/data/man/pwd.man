@@ -1,0 +1,3 @@
+pwd - Show current path
+Usage: pwd
+Example: pwd

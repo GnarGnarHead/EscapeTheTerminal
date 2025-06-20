@@ -1,0 +1,3 @@
+use - Use an item, optionally on a target
+Usage: use <item> [on <target>]
+Example: use access.key

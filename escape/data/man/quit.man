@@ -1,0 +1,3 @@
+quit - Exit the game
+Usage: quit
+Example: quit

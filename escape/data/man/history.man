@@ -1,0 +1,3 @@
+history - Show command history
+Usage: history
+Example: history

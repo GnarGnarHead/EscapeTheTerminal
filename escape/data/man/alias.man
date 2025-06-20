@@ -1,0 +1,3 @@
+alias - Create command shortcuts
+Usage: alias <name> <command>
+Example: alias l look

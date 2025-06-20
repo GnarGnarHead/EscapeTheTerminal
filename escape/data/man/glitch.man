@@ -1,0 +1,3 @@
+glitch - Toggle glitch mode
+Usage: glitch
+Example: glitch

@@ -1,0 +1,3 @@
+examine - Examine an item in detail
+Usage: examine <item>
+Example: examine decoder

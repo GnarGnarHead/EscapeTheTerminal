@@ -1,0 +1,3 @@
+inventory - List inventory contents
+Usage: inventory
+Example: inventory

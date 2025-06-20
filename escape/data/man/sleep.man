@@ -1,0 +1,3 @@
+sleep - Enter the dream state and rest
+Usage: sleep [reset|inc]
+Example: sleep

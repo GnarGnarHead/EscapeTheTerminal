@@ -1,0 +1,3 @@
+load - Load a saved game
+Usage: load [slot]
+Example: load 1

@@ -1,0 +1,3 @@
+restart - Restart the game
+Usage: restart
+Example: restart

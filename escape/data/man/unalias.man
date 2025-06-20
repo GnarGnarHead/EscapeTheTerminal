@@ -1,0 +1,3 @@
+unalias - Remove a command alias
+Usage: unalias <name>
+Example: unalias l
