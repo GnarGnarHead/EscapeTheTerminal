@@ -69,3 +69,33 @@ def test_dance_plugin_loaded(monkeypatch, capsys):
     out = capsys.readouterr().out
     assert 'Dancing happily' in out
     assert 'Goodbye' in out
+
+
+def test_counter_plugin_state(monkeypatch, capsys, tmp_path):
+    plugin_dir = tmp_path / 'plugins'
+    plugin_dir.mkdir()
+    plugin_path = plugin_dir / 'my_counter.py'
+    plugin_code = (
+        "counter = 0\n"
+        "def counter_cmd(arg=\"\"):\n"
+        "    global counter\n"
+        "    counter += 1\n"
+        "    game._output(f'Counter: {counter}')\n\n"
+        "if 'game' in globals():\n"
+        "    game.command_map['counter'] = lambda arg=\"\": counter_cmd(arg)\n"
+    )
+    plugin_path.write_text(plugin_code)
+    monkeypatch.setenv('ET_PLUGIN_PATH', str(plugin_dir))
+    try:
+        game = Game()
+        inputs = iter(['counter', 'counter', 'quit'])
+        monkeypatch.setattr('builtins.input', lambda _='': next(inputs))
+        game.run()
+        out = capsys.readouterr().out.splitlines()
+        assert 'Counter: 1' in out
+        assert 'Counter: 2' in out
+        assert 'Goodbye' in out[-1]
+    finally:
+        plugin_path.unlink(missing_ok=True)
+        monkeypatch.delenv('ET_PLUGIN_PATH', raising=False)
+        sys.modules.pop('my_counter', None)
