@@ -712,7 +712,7 @@ class Game:
                     idx = int(directory[4:])
                 except ValueError:
                     idx = 1
-            if idx >= 7:
+            if idx >= 9:
                 next_name = "runtime"
             else:
                 next_name = f"node{idx+1}"
@@ -734,6 +734,10 @@ class Game:
                     node_data["items"].append("master.process")
                 if next_name == "runtime":
                     node_data["items"].append("runtime.log")
+                if next_name == "node8":
+                    node_data["items"].append("hypervisor.command")
+                if next_name == "node9":
+                    node_data["items"].append("quantum.access")
                 override = (
                     self.deep_network_node.get("dirs", {})
                     .get(next_name, {})
@@ -794,6 +798,12 @@ class Game:
                 return
             if target_name == "node7" and "kernel.key" not in self.inventory:
                 self._output("You need the kernel.key to hack this node.")
+                return
+            if target_name == "node8" and "master.process" not in self.inventory:
+                self._output("You need the master.process to hack this node.")
+                return
+            if target_name == "node9" and "hypervisor.command" not in self.inventory:
+                self._output("You need the hypervisor.command to hack this node.")
                 return
             if target_name == "runtime" and "kernel.key" not in self.inventory:
                 self._output("You need the kernel.key to hack this node.")

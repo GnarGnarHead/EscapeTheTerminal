@@ -669,7 +669,7 @@ def test_hack_node7_success():
     assert 'master.process' in out
 
 
-def test_scan_runtime_after_hack_node7():
+def test_scan_node8_after_hack_node7():
     result = subprocess.run(
         CMD,
         input=(
@@ -704,6 +704,306 @@ def test_scan_runtime_after_hack_node7():
             'take kernel.key\n'
             'hack node7\n'
             'scan node7\n'
+            'quit\n'
+        ),
+        text=True,
+        capture_output=True,
+    )
+    out = result.stdout
+    assert 'Discovered node8' in out
+
+
+def test_hack_node8_requires_master_process():
+    result = subprocess.run(
+        CMD,
+        input=(
+            'cd lab\n'
+            'take port.scanner\n'
+            'cd ..\n'
+            'scan network\n'
+            'hack network\n'
+            'cd network\n'
+            'scan node\n'
+            'cd node\n'
+            'take auth.token\n'
+            'hack node2\n'
+            'scan node2\n'
+            'cd node2\n'
+            'take firmware.patch\n'
+            'hack node3\n'
+            'scan node3\n'
+            'cd node3\n'
+            'take root.access\n'
+            'hack node4\n'
+            'scan node4\n'
+            'cd node4\n'
+            'take super.user\n'
+            'hack node5\n'
+            'scan node5\n'
+            'cd node5\n'
+            'take admin.override\n'
+            'hack node6\n'
+            'scan node6\n'
+            'cd node6\n'
+            'take kernel.key\n'
+            'hack node7\n'
+            'scan node7\n'
+            'cd node7\n'
+            'hack node8\n'
+            'quit\n'
+        ),
+        text=True,
+        capture_output=True,
+    )
+    out = result.stdout
+    assert 'You need the master.process to hack this node.' in out
+
+
+def test_hack_node8_success():
+    result = subprocess.run(
+        CMD,
+        input=(
+            'cd lab\n'
+            'take port.scanner\n'
+            'cd ..\n'
+            'scan network\n'
+            'hack network\n'
+            'cd network\n'
+            'scan node\n'
+            'cd node\n'
+            'take auth.token\n'
+            'hack node2\n'
+            'scan node2\n'
+            'cd node2\n'
+            'take firmware.patch\n'
+            'hack node3\n'
+            'scan node3\n'
+            'cd node3\n'
+            'take root.access\n'
+            'hack node4\n'
+            'scan node4\n'
+            'cd node4\n'
+            'take super.user\n'
+            'hack node5\n'
+            'scan node5\n'
+            'cd node5\n'
+            'take admin.override\n'
+            'hack node6\n'
+            'scan node6\n'
+            'cd node6\n'
+            'take kernel.key\n'
+            'hack node7\n'
+            'scan node7\n'
+            'cd node7\n'
+            'take master.process\n'
+            'hack node8\n'
+            'cd node8\n'
+            'ls\n'
+            'quit\n'
+        ),
+        text=True,
+        capture_output=True,
+    )
+    out = result.stdout
+    assert 'Access granted' in out
+    assert 'hypervisor.command' in out
+
+
+def test_scan_node9_after_hack_node8():
+    result = subprocess.run(
+        CMD,
+        input=(
+            'cd lab\n'
+            'take port.scanner\n'
+            'cd ..\n'
+            'scan network\n'
+            'hack network\n'
+            'cd network\n'
+            'scan node\n'
+            'cd node\n'
+            'take auth.token\n'
+            'hack node2\n'
+            'scan node2\n'
+            'cd node2\n'
+            'take firmware.patch\n'
+            'hack node3\n'
+            'scan node3\n'
+            'cd node3\n'
+            'take root.access\n'
+            'hack node4\n'
+            'scan node4\n'
+            'cd node4\n'
+            'take super.user\n'
+            'hack node5\n'
+            'scan node5\n'
+            'cd node5\n'
+            'take admin.override\n'
+            'hack node6\n'
+            'scan node6\n'
+            'cd node6\n'
+            'take kernel.key\n'
+            'hack node7\n'
+            'scan node7\n'
+            'cd node7\n'
+            'take master.process\n'
+            'hack node8\n'
+            'scan node8\n'
+            'quit\n'
+        ),
+        text=True,
+        capture_output=True,
+    )
+    out = result.stdout
+    assert 'Discovered node9' in out
+
+
+def test_hack_node9_requires_hypervisor_command():
+    result = subprocess.run(
+        CMD,
+        input=(
+            'cd lab\n'
+            'take port.scanner\n'
+            'cd ..\n'
+            'scan network\n'
+            'hack network\n'
+            'cd network\n'
+            'scan node\n'
+            'cd node\n'
+            'take auth.token\n'
+            'hack node2\n'
+            'scan node2\n'
+            'cd node2\n'
+            'take firmware.patch\n'
+            'hack node3\n'
+            'scan node3\n'
+            'cd node3\n'
+            'take root.access\n'
+            'hack node4\n'
+            'scan node4\n'
+            'cd node4\n'
+            'take super.user\n'
+            'hack node5\n'
+            'scan node5\n'
+            'cd node5\n'
+            'take admin.override\n'
+            'hack node6\n'
+            'scan node6\n'
+            'cd node6\n'
+            'take kernel.key\n'
+            'hack node7\n'
+            'scan node7\n'
+            'cd node7\n'
+            'take master.process\n'
+            'hack node8\n'
+            'scan node8\n'
+            'cd node8\n'
+            'hack node9\n'
+            'quit\n'
+        ),
+        text=True,
+        capture_output=True,
+    )
+    out = result.stdout
+    assert 'You need the hypervisor.command to hack this node.' in out
+
+
+def test_hack_node9_success():
+    result = subprocess.run(
+        CMD,
+        input=(
+            'cd lab\n'
+            'take port.scanner\n'
+            'cd ..\n'
+            'scan network\n'
+            'hack network\n'
+            'cd network\n'
+            'scan node\n'
+            'cd node\n'
+            'take auth.token\n'
+            'hack node2\n'
+            'scan node2\n'
+            'cd node2\n'
+            'take firmware.patch\n'
+            'hack node3\n'
+            'scan node3\n'
+            'cd node3\n'
+            'take root.access\n'
+            'hack node4\n'
+            'scan node4\n'
+            'cd node4\n'
+            'take super.user\n'
+            'hack node5\n'
+            'scan node5\n'
+            'cd node5\n'
+            'take admin.override\n'
+            'hack node6\n'
+            'scan node6\n'
+            'cd node6\n'
+            'take kernel.key\n'
+            'hack node7\n'
+            'scan node7\n'
+            'cd node7\n'
+            'take master.process\n'
+            'hack node8\n'
+            'scan node8\n'
+            'cd node8\n'
+            'take hypervisor.command\n'
+            'hack node9\n'
+            'cd node9\n'
+            'ls\n'
+            'quit\n'
+        ),
+        text=True,
+        capture_output=True,
+    )
+    out = result.stdout
+    assert 'Access granted' in out
+    assert 'quantum.access' in out
+
+
+def test_scan_runtime_after_hack_node9():
+    result = subprocess.run(
+        CMD,
+        input=(
+            'cd lab\n'
+            'take port.scanner\n'
+            'cd ..\n'
+            'scan network\n'
+            'hack network\n'
+            'cd network\n'
+            'scan node\n'
+            'cd node\n'
+            'take auth.token\n'
+            'hack node2\n'
+            'scan node2\n'
+            'cd node2\n'
+            'take firmware.patch\n'
+            'hack node3\n'
+            'scan node3\n'
+            'cd node3\n'
+            'take root.access\n'
+            'hack node4\n'
+            'scan node4\n'
+            'cd node4\n'
+            'take super.user\n'
+            'hack node5\n'
+            'scan node5\n'
+            'cd node5\n'
+            'take admin.override\n'
+            'hack node6\n'
+            'scan node6\n'
+            'cd node6\n'
+            'take kernel.key\n'
+            'hack node7\n'
+            'scan node7\n'
+            'cd node7\n'
+            'take master.process\n'
+            'hack node8\n'
+            'scan node8\n'
+            'cd node8\n'
+            'take hypervisor.command\n'
+            'hack node9\n'
+            'scan node9\n'
             'quit\n'
         ),
         text=True,
@@ -749,6 +1049,14 @@ def test_hack_runtime_requires_kernel_key():
             'hack node7\n'
             'scan node7\n'
             'cd node7\n'
+            'take master.process\n'
+            'hack node8\n'
+            'scan node8\n'
+            'cd node8\n'
+            'take hypervisor.command\n'
+            'hack node9\n'
+            'scan node9\n'
+            'cd node9\n'
             'drop kernel.key\n'
             'hack runtime\n'
             'quit\n'
@@ -796,6 +1104,14 @@ def test_hack_runtime_success():
             'hack node7\n'
             'scan node7\n'
             'cd node7\n'
+            'take master.process\n'
+            'hack node8\n'
+            'scan node8\n'
+            'cd node8\n'
+            'take hypervisor.command\n'
+            'hack node9\n'
+            'scan node9\n'
+            'cd node9\n'
             'hack runtime\n'
             'cd runtime\n'
             'cat runtime.log\n'

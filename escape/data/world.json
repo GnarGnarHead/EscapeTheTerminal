@@ -128,6 +128,12 @@
       "node7": {
         "desc": "The mythical kernel node rumored to run everything."
       },
+      "node8": {
+        "desc": "An advanced hypervisor node overseeing operations."
+      },
+      "node9": {
+        "desc": "The fabled quantum gateway for only the elite."
+      },
       "runtime": {
         "desc": "An experimental runtime environment logging each command."
       }
@@ -189,6 +195,8 @@
     "admin.override": "A privileged script to override admin-level security.",
     "kernel.key": "The master key granting access to the kernel node.",
     "master.process": "A mysterious executable rumored to control it all.",
+    "hypervisor.command": "A privileged command set for manipulating the hypervisor.",
+    "quantum.access": "An advanced key enabling entry to quantum subsystems.",
     "runtime.log": "A record detailing your own execution environment."
   }
 }
