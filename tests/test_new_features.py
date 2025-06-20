@@ -3,7 +3,8 @@ import sys
 import subprocess
 from escape import Game
 
-SCRIPT = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'escape.py')
+REPO_ROOT = os.path.dirname(os.path.dirname(__file__))
+CMD = [sys.executable, '-m', 'escape']
 
 
 def test_registry_allows_dynamic_command(monkeypatch, capsys):
@@ -56,8 +57,9 @@ def test_glitch_system_messages(capsys):
 def test_load_missing_save_slot(tmp_path):
     env = os.environ.copy()
     env['ET_EXTRA_SEED'] = '321'
+    env['PYTHONPATH'] = REPO_ROOT
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='load 9\nquit\n',
         text=True,
         capture_output=True,

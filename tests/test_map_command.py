@@ -2,14 +2,16 @@ import os
 import subprocess
 import sys
 
-SCRIPT = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'escape.py')
+REPO_ROOT = os.path.dirname(os.path.dirname(__file__))
+CMD = [sys.executable, '-m', 'escape']
 
 
 def test_map_root():
     env = os.environ.copy()
     env['ET_EXTRA_SEED'] = '123'
+    env['PYTHONPATH'] = REPO_ROOT
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='map\nquit\n',
         text=True,
         capture_output=True,
@@ -27,8 +29,9 @@ def test_map_root():
 def test_map_after_unlock_hidden():
     env = os.environ.copy()
     env['ET_EXTRA_SEED'] = '123'
+    env['PYTHONPATH'] = REPO_ROOT
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='take access.key\nuse access.key\nmap\nquit\n',
         text=True,
         capture_output=True,
@@ -45,8 +48,9 @@ def test_map_after_unlock_hidden():
 def test_map_inside_subdir():
     env = os.environ.copy()
     env['ET_EXTRA_SEED'] = '123'
+    env['PYTHONPATH'] = REPO_ROOT
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='cd dream\ncd subconscious\nmap\nquit\n',
         text=True,
         capture_output=True,

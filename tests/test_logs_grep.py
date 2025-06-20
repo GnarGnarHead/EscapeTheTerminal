@@ -4,7 +4,8 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 from escape import Game
 
-SCRIPT = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'escape.py')
+REPO_ROOT = os.path.dirname(os.path.dirname(__file__))
+CMD = [sys.executable, '-m', 'escape']
 
 
 def test_log_files_created(tmp_path):
@@ -19,7 +20,7 @@ def test_log_files_created(tmp_path):
 
 def test_grep_finds_boot_message():
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='grep BOOT\nquit\n',
         text=True,
         capture_output=True,
@@ -40,8 +41,9 @@ def test_grep_specific_file(tmp_path):
     os.environ['ET_EXTRA_SEED'] = '123'
     game = Game()
     target = sorted(game.logs_path.glob('*.log'))[0].name
+    env['PYTHONPATH'] = REPO_ROOT
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input=f'grep iteration {target}\nquit\n',
         text=True,
         capture_output=True,

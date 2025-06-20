@@ -2,14 +2,16 @@ import os
 import subprocess
 import sys
 
-SCRIPT = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'escape.py')
+REPO_ROOT = os.path.dirname(os.path.dirname(__file__))
+CMD = [sys.executable, '-m', 'escape']
 
 
 def test_extra_dirs_with_seed():
     env = os.environ.copy()
     env['ET_EXTRA_SEED'] = '123'
+    env['PYTHONPATH'] = REPO_ROOT
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input=(
             'cd dream\nls\ncd neon_hall_0\nls\ncd ..\ncd ..\n'
             'cd memory\nls\ncd ..\ncd core\nls\nquit\n'
@@ -33,8 +35,9 @@ def test_extra_dirs_with_seed_and_count():
     env = os.environ.copy()
     env['ET_EXTRA_SEED'] = '123'
     env['ET_EXTRA_COUNT'] = '2'
+    env['PYTHONPATH'] = REPO_ROOT
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input=(
             'cd dream\nls\ncd ..\n'
             'cd memory\nls\ncd ..\n'

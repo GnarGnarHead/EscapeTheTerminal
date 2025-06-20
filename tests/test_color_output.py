@@ -1,13 +1,14 @@
 import subprocess, sys, os
 
-SCRIPT = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'escape.py')
+REPO_ROOT = os.path.dirname(os.path.dirname(__file__))
+CMD = [sys.executable, '-m', 'escape']
 
 
 def test_color_env_variable():
     env = os.environ.copy()
     env['ET_COLOR'] = '1'
     result = subprocess.run(
-        [sys.executable, SCRIPT],
+        CMD,
         input='ls\nquit\n',
         text=True,
         capture_output=True,
@@ -21,7 +22,7 @@ def test_color_env_variable():
 
 def test_color_flag():
     result = subprocess.run(
-        [sys.executable, SCRIPT, '--color'],
+        CMD + ['--color'],
         input='ls\nquit\n',
         text=True,
         capture_output=True,
