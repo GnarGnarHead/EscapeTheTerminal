@@ -93,6 +93,14 @@ Endings include:
 
 ---
 
+## ✨ Expanded Narrative Scope
+
+The world now includes optional side quests and branching conversations with NPCs.
+Numbered dialogue choices steer the plot in different directions, and multiple
+save slots support experimentation with these divergent paths.
+
+---
+
 ## 🗺 Future Ideas
 
 * Procedural directory tree generation (`/dream`, `/memory`, `/core`, `/logs`)
