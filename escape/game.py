@@ -17,6 +17,8 @@ class Game:
             self.use_color = env_val not in ("0", "false", "")
         else:
             self.use_color = use_color
+
+        self.auto_save = os.getenv("ET_AUTOSAVE") not in (None, "", "0", "false")
         self.inventory = []
         # base filesystem state; the hidden directory is injected when unlocked
         self.hidden_dir = {
@@ -904,5 +906,7 @@ class Game:
                 should_quit = handler(arg)
                 if should_quit:
                     break
+                if self.auto_save:
+                    self._save()
             else:
                 self._output(f"Unknown command: {cmd}")
