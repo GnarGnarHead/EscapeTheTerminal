@@ -114,3 +114,33 @@ def test_alias_with_args(monkeypatch, capsys):
     assert 'pick up the access.key' in out
     assert 'Inventory: access.key' in out
     assert 'Goodbye' in out
+
+
+def test_unalias_command(monkeypatch, capsys):
+    game = Game()
+    inputs = iter([
+        'alias ll look',
+        'unalias ll',
+        'll',
+        'quit',
+    ])
+    monkeypatch.setattr('builtins.input', lambda _='': next(inputs))
+    game.run()
+    out = capsys.readouterr().out
+    assert 'Alias ll -> look' in out
+    assert 'Removed alias ll' in out
+    assert 'Unknown command: ll' in out
+    assert 'Goodbye' in out
+
+
+def test_unalias_missing(monkeypatch, capsys):
+    game = Game()
+    inputs = iter([
+        'unalias nope',
+        'quit',
+    ])
+    monkeypatch.setattr('builtins.input', lambda _='': next(inputs))
+    game.run()
+    out = capsys.readouterr().out
+    assert 'No such alias: nope' in out
+    assert 'Goodbye' in out

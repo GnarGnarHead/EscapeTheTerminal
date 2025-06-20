@@ -44,8 +44,10 @@ unexpected ways.
   - `history` – display the commands you've entered this session
   - `sleep [reset|inc]` – fall asleep and enter the dream. Use `reset` to
     clear glitches or `inc` to deepen them
+  - `alias <name> <command>` – create a custom shortcut
+  - `unalias <name>` – remove a previously defined shortcut
 
-   **Core files/items**
+  **Core files/items**
   - `access.key` – unlocks the hidden directory when used on the door
    - `voice.log` – whispers a clue when read
    - `mem.fragment` – a corrupted memory chunk found in `hidden/`
