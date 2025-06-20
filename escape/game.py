@@ -286,8 +286,22 @@ class Game:
                             sys.modules[module_name] = module
                             importer.exec_module(module)
                         else:
-                            module = importer.load_module(module_name)
+                            # zipimporter on older Python versions lacks exec_module
+                            # so we manually execute the plugin code with the game
+                            # instance available in globals
+                            import zipfile
+
+                            with zipfile.ZipFile(path) as zf:
+                                target = f"{path.stem}.py"
+                                if target in zf.namelist():
+                                    source = zf.read(target).decode("utf-8")
+                                else:
+                                    raise FileNotFoundError(f"{target} not found in {path.name}")
+
+                            module = importlib.util.module_from_spec(spec)
                             module.game = self
+                            sys.modules[module_name] = module
+                            exec(compile(source, target, "exec"), module.__dict__)
                     except Exception as exc:
                         print(f"Failed to load plugin {path.name}: {exc}")
 
