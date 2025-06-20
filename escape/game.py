@@ -130,6 +130,7 @@ class Game:
             "node.log": "Logs from a secure network node.",
             "auth.token": "A multi-factor token used for deeper authentication.",
             "deep.node.log": "Diagnostics from the heart of the network.",
+            "firmware.patch": "A subtle exploit enabling access to even deeper nodes.",
         }
         # populate multiple directories with extra procedurally generated content
         self._generate_extra_dirs(["dream", "memory", "core"])
@@ -599,6 +600,9 @@ class Game:
             self._output("Discovered node (locked).")
             return
         if directory.startswith("node"):
+            if target.get("locked"):
+                self._output("You must hack this node before scanning deeper.")
+                return
             idx = 1
             if directory != "node":
                 try:
@@ -607,7 +611,11 @@ class Game:
                     idx = 1
             next_name = f"node{idx+1}"
             if next_name not in target["dirs"]:
-                target["dirs"][next_name] = self.deep_network_node.copy()
+                node_data = self.deep_network_node.copy()
+                node_data["items"] = list(node_data["items"])
+                if next_name == "node2":
+                    node_data["items"].append("firmware.patch")
+                target["dirs"][next_name] = node_data
                 self._output(f"Discovered {next_name} (locked).")
                 return
         entries = []
@@ -644,6 +652,9 @@ class Game:
         if target_name.startswith("node") and target_name != "node":
             if "auth.token" not in self.inventory:
                 self._output("You need the auth.token to hack this node.")
+                return
+            if target_name == "node3" and "firmware.patch" not in self.inventory:
+                self._output("You need the firmware.patch to hack this node.")
                 return
         target.pop("locked", None)
         self._output("Access granted. The node is now unlocked.")

@@ -146,3 +146,84 @@ def test_hack_node2_success():
     out = result.stdout
     assert 'Access granted' in out
     assert 'deep.node.log' in out
+    assert 'firmware.patch' in out
+
+
+def test_scan_node3_after_hack_node2():
+    result = subprocess.run(
+        CMD,
+        input=(
+            'cd lab\n'
+            'take port.scanner\n'
+            'cd ..\n'
+            'scan network\n'
+            'hack network\n'
+            'cd network\n'
+            'scan node\n'
+            'cd node\n'
+            'take auth.token\n'
+            'hack node2\n'
+            'scan node2\n'
+            'quit\n'
+        ),
+        text=True,
+        capture_output=True,
+    )
+    out = result.stdout
+    assert 'Discovered node3' in out
+
+
+def test_hack_node3_requires_patch():
+    result = subprocess.run(
+        CMD,
+        input=(
+            'cd lab\n'
+            'take port.scanner\n'
+            'cd ..\n'
+            'scan network\n'
+            'hack network\n'
+            'cd network\n'
+            'scan node\n'
+            'cd node\n'
+            'take auth.token\n'
+            'hack node2\n'
+            'scan node2\n'
+            'cd node2\n'
+            'hack node3\n'
+            'quit\n'
+        ),
+        text=True,
+        capture_output=True,
+    )
+    out = result.stdout
+    assert 'You need the firmware.patch to hack this node.' in out
+
+
+def test_hack_node3_success():
+    result = subprocess.run(
+        CMD,
+        input=(
+            'cd lab\n'
+            'take port.scanner\n'
+            'cd ..\n'
+            'scan network\n'
+            'hack network\n'
+            'cd network\n'
+            'scan node\n'
+            'cd node\n'
+            'take auth.token\n'
+            'hack node2\n'
+            'scan node2\n'
+            'cd node2\n'
+            'take firmware.patch\n'
+            'hack node3\n'
+            'cd node3\n'
+            'ls\n'
+            'quit\n'
+        ),
+        text=True,
+        capture_output=True,
+    )
+    out = result.stdout
+    assert 'Access granted' in out
+    assert 'deep.node.log' in out
