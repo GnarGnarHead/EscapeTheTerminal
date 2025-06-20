@@ -159,6 +159,11 @@ class Game:
 
         seed_val = os.getenv("ET_EXTRA_SEED")
         rnd = random.Random(int(seed_val)) if seed_val is not None else random.Random()
+        count_val = os.getenv("ET_EXTRA_COUNT")
+        try:
+            fixed_count = int(count_val) if count_val is not None else None
+        except ValueError:
+            fixed_count = None
 
         adjectives = ["misty", "vivid", "neon", "echoing"]
         nouns = ["hall", "nexus", "alcove", "node"]
@@ -172,7 +177,7 @@ class Game:
             if not base_node:
                 continue
 
-            count = rnd.randint(2, 3)
+            count = fixed_count if fixed_count is not None else rnd.randint(2, 3)
             for idx in range(count):
                 dname = f"{rnd.choice(adjectives)}_{rnd.choice(nouns)}_{idx}"
                 desc = (

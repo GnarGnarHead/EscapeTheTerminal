@@ -69,6 +69,8 @@ By default the `dream/`, `memory/` and `core/` directories each receive two or
 three generated locations, sometimes containing unique items. Set the
 `ET_EXTRA_SEED` environment variable before launching to make this generation
 deterministic for reproducible testing or custom scenarios.
+You can also set `ET_EXTRA_COUNT` to control exactly how many extra directories
+are created under each base path.
 
 ## Command Registry
 Commands are routed through the ``Game.command_map`` dictionary. Each command
