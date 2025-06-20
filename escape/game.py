@@ -34,6 +34,7 @@ class Game:
         self.auto_save = os.getenv("ET_AUTOSAVE") not in (None, "", "0", "false")
         self.prompt = prompt if prompt is not None else os.getenv("ET_PROMPT", "> ")
         self.inventory = []
+        self.score = 0
         self.data_dir = Path(__file__).parent / "data"
         if world_file is None:
             world_file = self.data_dir / "world.json"
@@ -102,6 +103,7 @@ class Game:
             "history": "Show command history",
             "journal": "View or add personal notes",
             "sleep": "Enter the dream state and rest",
+            "score": "Show your current score",
             "restart": "Restart the game",
             "quit": "Exit the game",
             "alias": "Create command shortcuts",
@@ -138,6 +140,7 @@ class Game:
             "history": lambda arg="": self._history(),
             "journal": lambda arg="": self._journal(arg),
             "sleep": lambda arg="": self._sleep(arg),
+            "score": lambda arg="": self._score(),
             "restart": lambda arg="": self._restart(),
             "quit": lambda arg="": self._quit(),
             "exit": lambda arg="": self._quit(),
@@ -465,6 +468,10 @@ class Game:
         else:
             self._output("Inventory is empty.")
 
+    def _score(self):
+        """Display the player's current score."""
+        self._output(f"Score: {self.score}")
+
     def _examine(self, item: str):
         node = self._current_node()
         if item in self.inventory or item in node["items"]:
@@ -483,21 +490,25 @@ class Game:
             self._output(
                 "The exit sequence executes. You escape the terminal. Congratulations!"
             )
+            self.score += 1
             return self._quit()
         if item == "shutdown.code" and target is None:
             self._output(
                 "The shutdown sequence initiates. Darkness envelops the terminal as power slips away."
             )
+            self.score += 1
             return self._quit()
         if item == "ascend.code" and target is None:
             self._output(
                 "Light floods the interface. You ascend beyond the terminal, becoming one with the network."
             )
+            self.score += 1
             return self._quit()
         if item == "access.key" and (target == "door" or target is None):
             root = self.fs
             if "hidden" not in root["dirs"]:
                 root["dirs"]["hidden"] = self.hidden_dir
+                self.score += 1
             msg = self.use_messages.get(item)
             if msg:
                 self._output(msg)
@@ -617,6 +628,7 @@ class Game:
         if directory == "network" and "node" not in target["dirs"]:
             target["dirs"]["node"] = self.network_node.copy()
             self._output("Discovered node (locked).")
+            self.score += 1
             return
         if directory.startswith("node"):
             if target.get("locked"):
@@ -654,6 +666,7 @@ class Game:
                     node_data["desc"] = override
                 target["dirs"][next_name] = node_data
                 self._output(f"Discovered {next_name} (locked).")
+                self.score += 1
                 return
         entries = []
         for name, sub in target.get("dirs", {}).items():
@@ -855,6 +868,7 @@ class Game:
             "aliases": self.aliases,
             "command_history": self.command_history,
             "journal": self.journal,
+            "score": self.score,
         }
         try:
             with open(fname, "w", encoding="utf-8") as f:
@@ -889,6 +903,7 @@ class Game:
         self.aliases = data.get("aliases", {})
         self.command_history = data.get("command_history", [])
         self.journal = data.get("journal", [])
+        self.score = data.get("score", 0)
         self._output("Game loaded.")
 
     def _history(self) -> None:
