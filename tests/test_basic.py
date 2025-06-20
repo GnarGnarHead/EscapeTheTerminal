@@ -375,3 +375,16 @@ def test_glitch_persistence():
     assert later_glitch in out
     # final look after glitch off should be normal
     assert out.strip().endswith('Goodbye')
+
+
+def test_talk_daemon():
+    result = subprocess.run(
+        [sys.executable, SCRIPT],
+        input='cd core\ncd npc\ntalk daemon\nquit\n',
+        text=True,
+        capture_output=True,
+    )
+    out = result.stdout
+    assert 'acknowledges your presence' in out
+    assert 'more to learn' in out
+    assert 'Goodbye' in out
