@@ -5,12 +5,18 @@ easier while preserving the original command-line interface.
 """
 
 from pathlib import Path
+import os
 
 
 class Game:
     """Simple command dispatcher for the terminal adventure."""
 
-    def __init__(self):
+    def __init__(self, use_color: bool | None = None):
+        if use_color is None:
+            env_val = os.getenv("ET_COLOR", "0").lower()
+            self.use_color = env_val not in ("0", "false", "")
+        else:
+            self.use_color = use_color
         self.inventory = []
         # base filesystem state; the hidden directory is injected when unlocked
         self.hidden_dir = {
@@ -235,6 +241,8 @@ class Game:
                 noise = rnd.choice(["...glitch...", "~~~", "<!>"])
                 print(noise)
             self._apply_glitch_effects()
+        if self.use_color and text:
+            text = self._apply_colors(text)
         print(text)
 
     def _apply_glitch_effects(self) -> None:
@@ -275,6 +283,29 @@ class Game:
             if ch.isalpha() and rnd.random() < prob:
                 chars[i] = rnd.choice("@#$%&*")
         return "".join(chars)
+
+    def _apply_colors(self, text: str) -> str:
+        """Return ``text`` with ANSI colors for items and directories."""
+        dirs, items = self._collect_names()
+        for name in sorted(dirs, key=len, reverse=True):
+            text = text.replace(f"{name}/", f"\x1b[33m{name}/\x1b[0m")
+        for name in sorted(items, key=len, reverse=True):
+            text = text.replace(name, f"\x1b[36m{name}\x1b[0m")
+        return text
+
+    def _collect_names(self) -> tuple[set[str], set[str]]:
+        dirs: set[str] = set()
+        items: set[str] = set()
+
+        def walk(node: dict) -> None:
+            for dname, sub in node.get("dirs", {}).items():
+                dirs.add(dname)
+                walk(sub)
+            for item in node.get("items", []):
+                items.add(item)
+
+        walk(self.fs)
+        return dirs, items
 
     def _print_help(self):
         self._output(
@@ -598,8 +629,15 @@ class Game:
                 self._output(f"Unknown command: {cmd}")
 
 
-def main():
-    Game().run()
+def main(argv: list[str] | None = None):
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Escape the Terminal")
+    parser.add_argument("--color", action="store_true", help="enable ANSI colors")
+    args = parser.parse_args(argv)
+
+    game_color = True if args.color else None
+    Game(use_color=game_color).run()
 
 
 if __name__ == '__main__':
