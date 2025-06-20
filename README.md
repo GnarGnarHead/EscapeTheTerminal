@@ -21,6 +21,8 @@ This project is a minimalist terminal game. For the long-term vision, see [VISIO
    contents of the current room and `cd <dir>` to move between rooms.
    Use `cat <file>` to read narrative logs stored under the `data` directory.
    Use `save` to write your progress to `game.sav` and `load` to restore it.
+   Enter `glitch` to toggle glitch mode, which corrupts descriptions for a
+   disorienting effect.
 
 ## Running Tests
 Tests require `pytest` and can be executed with:
