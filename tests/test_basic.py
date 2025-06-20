@@ -139,6 +139,19 @@ def test_use_item_after_take():
     assert 'Goodbye' in result.stdout
 
 
+def test_drop_item():
+    result = subprocess.run(
+        [sys.executable, SCRIPT],
+        input='take access.key\ndrop access.key\nlook\nquit\n',
+        text=True,
+        capture_output=True,
+    )
+    assert 'pick up the access.key' in result.stdout
+    assert 'drop the access.key' in result.stdout
+    assert 'You see: access.key' in result.stdout
+    assert 'Goodbye' in result.stdout
+
+
 def test_save_and_load(tmp_path):
     save_file = tmp_path / 'game.sav'
 
