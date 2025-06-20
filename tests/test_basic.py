@@ -757,3 +757,27 @@ def test_alias_persists_after_save_load(tmp_path):
     assert 'dimly lit terminal' in out
     assert 'Unknown command: ll' not in out
 
+
+def test_score_command_cli():
+    result = subprocess.run(
+        CMD,
+        input='score\nquit\n',
+        text=True,
+        capture_output=True,
+    )
+    assert 'Score: 0' in result.stdout
+    assert 'Goodbye' in result.stdout
+
+
+def test_score_increments(capsys):
+    game = Game()
+    assert game.score == 0
+    game._scan('network')
+    assert game.score == 1
+    game._take('access.key')
+    game._use('access.key')
+    assert game.score == 2
+    game.inventory.append('escape.code')
+    game._use('escape.code')
+    assert game.score == 3
+
