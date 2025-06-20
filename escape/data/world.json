@@ -29,7 +29,9 @@
       },
       "core": {
         "desc": "The core systems thrum with latent energy.",
-        "items": [],
+        "items": [
+          "system_reboot.log"
+        ],
         "dirs": {
           "npc": {
             "desc": "A quiet daemon lingers here, waiting to be addressed.",
@@ -219,7 +221,8 @@
     "runtime.log": "A record detailing your own execution environment.",
     "dream.index": "A fused log bridging memory and dream.",
     "mirror.log": "A log that reflects your actions with unsettling clarity.",
-    "truth.log": "A blunt record exposing the system's true nature."
+    "truth.log": "A blunt record exposing the system's true nature.",
+    "system_reboot.log": "Logs hinting at previous shutdowns and restarts."
   },
   "recipes": {
     "flashback.log+reverie.log": "dream.index"
