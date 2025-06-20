@@ -108,6 +108,7 @@ class Game:
             "journal": "View or add personal notes",
             "sleep": "Enter the dream state and rest",
             "score": "Show your current score",
+            "achievements": "List unlocked achievements",
             "restart": "Restart the game",
             "quit": "Exit the game",
             "alias": "Create command shortcuts",
@@ -146,6 +147,7 @@ class Game:
             "journal": lambda arg="": self._journal(arg),
             "sleep": lambda arg="": self._sleep(arg),
             "score": lambda arg="": self._score(),
+            "achievements": lambda arg="": self._achievements(),
             "restart": lambda arg="": self._restart(),
             "quit": lambda arg="": self._quit(),
             "exit": lambda arg="": self._quit(),
@@ -503,6 +505,15 @@ class Game:
     def list_achievements(self) -> list[str]:
         """Return a copy of the unlocked achievements list."""
         return list(self.achievements)
+
+    def _achievements(self) -> None:
+        """Display unlocked achievements or a default message."""
+        names = self.list_achievements()
+        if names:
+            for name in names:
+                self._output(name)
+        else:
+            self._output("No achievements unlocked.")
 
     def _examine(self, item: str):
         node = self._current_node()

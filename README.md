@@ -43,6 +43,7 @@ unexpected ways.
     messages may appear.
   - `color on` / `color off` / `color toggle` – enable, disable or toggle ANSI colors
   - `history` – display the commands you've entered this session
+  - `achievements` – list any achievements you've unlocked
   - `man <command>` – show the manual page for a command
   - `journal` – view notes or `journal add <text>` to record a message
   - `sleep [reset|inc]` – fall asleep and enter the dream. Use `reset` to
@@ -197,4 +198,5 @@ Certain actions unlock persistent achievements stored in ``Game.achievements``.
 Use ``Game.unlock_achievement(name)`` to record one and ``Game.list_achievements``
 to retrieve the list. The mem.fragment decode and unlocking the ``runtime`` node
 award achievements out of the box. Achievements are saved along with other game
-state when using the ``save`` and ``load`` commands.
+state when using the ``save`` and ``load`` commands. Inside the game you can run
+the ``achievements`` command to display any that have been unlocked.
