@@ -35,6 +35,17 @@ class Game:
                     "items": ["old.note"],
                     "dirs": {},
                 },
+                "core": {
+                    "desc": "The core systems thrum with latent energy.",
+                    "items": [],
+                    "dirs": {
+                        "npc": {
+                            "desc": "A quiet daemon lingers here, waiting to be addressed.",
+                            "items": ["daemon.log"],
+                            "dirs": {},
+                        }
+                    },
+                },
             },
         }
         self.current = []  # path as list of directory names
@@ -45,11 +56,13 @@ class Game:
             "voice.log": "An audio log that might contain a clue.",
             "decoder": "A handheld device used to decode encrypted signals.",
             "old.note": "A weathered note scribbled with barely readable commands.",
+            "daemon.log": "A log file chronicling the mutterings of a resident daemon.",
         }
         self.use_messages = {
             "access.key": "The key hums softly and a hidden directory flickers into view.",
             "mem.fragment": "Fragments of your past flash before your eyes.",
             "voice.log": "A haunting voice whispers: 'Find the fragment.'",
+            "daemon.log": "The daemon rasps from deep within the system: 'Keep your code clean.'",
         }
         self.save_file = "game.sav"
         self.data_dir = Path(__file__).parent / "data"
@@ -168,6 +181,10 @@ class Game:
             self._output(f"Failed to read {filename}: {e}")
             return
         self._output(text.rstrip())
+        if filename == "daemon.log":
+            msg = self.use_messages.get("daemon.log")
+            if msg:
+                self._output(msg)
 
     def _ls(self):
         node = self._current_node()

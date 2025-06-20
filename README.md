@@ -37,12 +37,14 @@ unexpected ways.
    - `voice.log` – whispers a clue when read
    - `mem.fragment` – a corrupted memory chunk found in `hidden/`
    - `treasure.txt` – reward text tucked away in `hidden/`
-   - `decoder` – located in the `lab/` directory
-   - `old.note` – stashed away in the `archive/` directory
+  - `decoder` – located in the `lab/` directory
+  - `old.note` – stashed away in the `archive/` directory
+  - `daemon.log` – consult the system daemon when read or used, found in `core/npc/`
 
    **Rooms**
    - `lab/` – a cluttered research area humming with equipment
-   - `archive/` – dusty shelves of old backups and forgotten notes
+  - `archive/` – dusty shelves of old backups and forgotten notes
+  - `core/npc/` – a secluded nook where a daemon awaits interaction
 
 ## Running Tests
 Tests are written with `pytest` and live under the `tests/` directory. After installing
