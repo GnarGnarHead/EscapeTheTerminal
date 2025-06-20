@@ -9,13 +9,13 @@ unexpected ways.
 
 ## Setup
 1. Install Python 3.
-2. Install dependencies:
+2. Install the project in editable mode:
    ```bash
-   pip install -r requirements.txt
+   pip install -e .
    ```
-3. Run the game:
+3. Run the game using the console entry point:
    ```bash
-   python escape.py
+   escape-terminal
    ```
    Use `help` (or `h`) inside the game for available commands and `quit` (or `exit`) to exit.
    Common command aliases like `i`/`inv` for `inventory` and `look around` for `look` are also supported.
