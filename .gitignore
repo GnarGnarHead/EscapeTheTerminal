@@ -194,3 +194,4 @@ cython_debug/
 .cursorindexingignore
 !data/voice.log
 !data/daemon.log
+!data/flashback.log
