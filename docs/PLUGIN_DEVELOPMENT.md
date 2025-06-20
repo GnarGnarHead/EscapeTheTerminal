@@ -57,4 +57,19 @@ This would load plugins from ``/path/to/mods`` and ``/other/plugins`` in additio
 
 Plugins execute arbitrary Python code so only use plugins from trusted sources.
 
+## Built-in Theme Plugin
+
+The repository ships with a small ``theme.py`` plugin located in
+``escape/plugins/``. It loads automatically and adds a ``theme`` command for
+changing the highlight colors at runtime.
+
+```
+theme dark   # blue directories, magenta items
+theme mono   # monochrome output
+theme neon   # bright green directories and magenta items
+```
+
+Running one of these commands sets ``game.dir_color`` and ``game.item_color`` to
+predefined ANSI codes.
+
 

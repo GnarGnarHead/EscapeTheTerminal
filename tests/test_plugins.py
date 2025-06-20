@@ -99,3 +99,13 @@ def test_counter_plugin_state(monkeypatch, capsys, tmp_path):
         plugin_path.unlink(missing_ok=True)
         monkeypatch.delenv('ET_PLUGIN_PATH', raising=False)
         sys.modules.pop('my_counter', None)
+
+
+def test_theme_plugin(monkeypatch, capsys):
+    game = Game()
+    assert 'theme' in game.command_map
+    inputs = iter(['theme neon', 'quit'])
+    monkeypatch.setattr('builtins.input', lambda _='': next(inputs))
+    game.run()
+    assert game.dir_color == '\x1b[92m'
+    assert game.item_color == '\x1b[95m'
