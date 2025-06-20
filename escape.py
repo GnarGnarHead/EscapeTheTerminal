@@ -32,7 +32,13 @@ class Game:
         }
         self.network_node = {
             "desc": "A remote node secured behind layers of authentication.",
-            "items": ["node.log"],
+            "items": ["node.log", "auth.token"],
+            "dirs": {},
+            "locked": True,
+        }
+        self.deep_network_node = {
+            "desc": "An even more secure enclave hidden in the traffic.",
+            "items": ["deep.node.log"],
             "dirs": {},
             "locked": True,
         }
@@ -116,6 +122,8 @@ class Game:
             "escape.code": "A brief sequence hinting at a path to freedom.",
             "port.scanner": "A handheld tool for probing network ports.",
             "node.log": "Logs from a secure network node.",
+            "auth.token": "A multi-factor token used for deeper authentication.",
+            "deep.node.log": "Diagnostics from the heart of the network.",
         }
         # populate multiple directories with extra procedurally generated content
         self._generate_extra_dirs(["dream", "memory", "core"])
@@ -545,17 +553,29 @@ class Game:
             return
         target = node["dirs"][directory]
         if directory == "network" and "node" not in target["dirs"]:
-            target["dirs"]["node"] = self.network_node
+            target["dirs"]["node"] = self.network_node.copy()
             self._output("Discovered node (locked).")
+            return
+        if directory.startswith("node"):
+            idx = 1
+            if directory != "node":
+                try:
+                    idx = int(directory[4:])
+                except ValueError:
+                    idx = 1
+            next_name = f"node{idx+1}"
+            if next_name not in target["dirs"]:
+                target["dirs"][next_name] = self.deep_network_node.copy()
+                self._output(f"Discovered {next_name} (locked).")
+                return
+        entries = []
+        for name, sub in target.get("dirs", {}).items():
+            status = " (locked)" if sub.get("locked") else ""
+            entries.append(name + status)
+        if entries:
+            self._output("Available nodes: " + ", ".join(entries))
         else:
-            entries = []
-            for name, sub in target.get("dirs", {}).items():
-                status = " (locked)" if sub.get("locked") else ""
-                entries.append(name + status)
-            if entries:
-                self._output("Available nodes: " + ", ".join(entries))
-            else:
-                self._output("No nodes discovered.")
+            self._output("No nodes discovered.")
 
     def _hack(self, directory: str) -> None:
         if not directory:
@@ -566,8 +586,10 @@ class Game:
             self._output(f"No such directory: {directory}")
             return
         target = node["dirs"][directory]
+        target_name = directory
         if directory == "network":
             target = target["dirs"].get("node")
+            target_name = "node"
             if not target:
                 self._output("Nothing to hack here.")
                 return
@@ -577,6 +599,10 @@ class Game:
         if "port.scanner" not in self.inventory:
             self._output("You need the port.scanner to hack this node.")
             return
+        if target_name.startswith("node") and target_name != "node":
+            if "auth.token" not in self.inventory:
+                self._output("You need the auth.token to hack this node.")
+                return
         target.pop("locked", None)
         self._output("Access granted. The node is now unlocked.")
 
