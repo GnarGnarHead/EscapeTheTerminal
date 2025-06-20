@@ -390,6 +390,20 @@ def test_talk_daemon():
     assert 'Goodbye' in out
 
 
+def test_talk_dreamer():
+    result = subprocess.run(
+        [sys.executable, SCRIPT],
+        input='cd dream\ncd npc\ntalk dreamer\n1\nquit\n',
+        text=True,
+        capture_output=True,
+    )
+    out = result.stdout
+    assert 'dreamer watches you' in out
+    assert '1. Ask about escape' in out
+    assert 'Ask about escape' in out
+    assert 'Goodbye' in out
+
+
 def test_dream_contains_subconscious():
     result = subprocess.run(
         [sys.executable, SCRIPT],

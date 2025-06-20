@@ -63,3 +63,19 @@ string or alias maps to a handler method. When adding a new command simply
 register it in ``command_map`` with a callable that accepts the raw argument
 string. The main loop will pass any text following the command name to the
 handler automatically.
+
+## Creating NPC Dialogs
+NPC conversations are stored under ``data/npc`` using the naming scheme
+``<name>.dialog``. The ``talk <name>`` command will load the matching file if the
+player is in the correct directory for that NPC. Lines beginning with ``>`` are
+treated as simple menu options and will be displayed as a numbered list for the
+player to choose from. A minimal ``dreamer.dialog`` might look like:
+
+```
+The dreamer watches you closely.
+> Ask about escape
+> Ask about dreams
+```
+
+Modders can create additional files following this pattern and place their NPCs
+in the game world by extending ``Game.npc_locations``.
