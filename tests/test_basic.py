@@ -240,6 +240,32 @@ def test_use_voice_log():
     assert 'Goodbye' in result.stdout
 
 
+def test_cat_daemon_log():
+    result = subprocess.run(
+        [sys.executable, SCRIPT],
+        input='cd core\ncd npc\ncat daemon.log\nquit\n',
+        text=True,
+        capture_output=True,
+    )
+    out = result.stdout
+    assert 'daemon monitors your actions' in out
+    assert 'Keep your code clean' in out
+    assert 'Goodbye' in out
+
+
+def test_use_daemon_log():
+    result = subprocess.run(
+        [sys.executable, SCRIPT],
+        input='cd core\ncd npc\ntake daemon.log\nuse daemon.log\nquit\n',
+        text=True,
+        capture_output=True,
+    )
+    out = result.stdout
+    assert 'pick up the daemon.log' in out
+    assert 'Keep your code clean' in out
+    assert 'Goodbye' in out
+
+
 def test_examine_mem_fragment():
     result = subprocess.run(
         [sys.executable, SCRIPT],
