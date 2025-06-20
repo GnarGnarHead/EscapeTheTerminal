@@ -16,6 +16,7 @@ This project is a minimalist terminal game. For the long-term vision, see [VISIO
    Use `help` (or `h`) inside the game for available commands and `quit` (or `exit`) to exit.
    Common command aliases like `i`/`inv` for `inventory` and `look around` for `look` are also supported.
    The `use <item>` command lets you interact with objects in your inventory.
+   Items can be discarded with `drop <item>`.
    Use `save` to write your progress to `game.sav` and `load` to restore it.
 
 ## Running Tests

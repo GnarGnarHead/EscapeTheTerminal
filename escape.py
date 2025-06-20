@@ -25,8 +25,8 @@ class Game:
 
     def _print_help(self):
         print(
-            "Available commands: help, look, take <item>, inventory, "
-            "examine <item>, use <item>, save, load, quit"
+            "Available commands: help, look, take <item>, drop <item>, "
+            "inventory, examine <item>, use <item>, save, load, quit"
         )
 
     def _look(self):
@@ -41,6 +41,14 @@ class Game:
             print(f"You pick up the {item}.")
         else:
             print(f"There is no {item} here.")
+
+    def _drop(self, item: str):
+        if item in self.inventory:
+            self.inventory.remove(item)
+            self.room_items.append(item)
+            print(f"You drop the {item}.")
+        else:
+            print(f"You do not have {item} to drop.")
 
     def _inventory(self):
         if self.inventory:
@@ -112,6 +120,9 @@ class Game:
             elif cmd.startswith('take '):
                 item = cmd.split(' ', 1)[1]
                 self._take(item)
+            elif cmd.startswith('drop '):
+                item = cmd.split(' ', 1)[1]
+                self._drop(item)
             elif cmd in ('inventory', 'inv', 'i'):
                 self._inventory()
             elif cmd.startswith('examine '):
