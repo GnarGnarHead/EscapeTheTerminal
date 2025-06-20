@@ -80,6 +80,8 @@ class Game:
             "daemon": ["core", "npc"],
             "dreamer": ["dream", "npc"],
         }
+        # track dialogue progress for each NPC
+        self.npc_state: dict[str, int] = {}
         self.item_descriptions = {
             "access.key": "A slim digital token rumored to unlock hidden directories.",
             "treasure.txt": "A file filled with untold riches.",
@@ -421,10 +423,22 @@ class Game:
 
         dialog_file = self.data_dir / "npc" / f"{npc}.dialog"
         try:
-            lines = dialog_file.read_text(encoding="utf-8").splitlines()
+            raw_lines = dialog_file.read_text(encoding="utf-8").splitlines()
         except FileNotFoundError:
             self._output(f"{npc.capitalize()} has nothing to say.")
             return
+
+        sections: list[list[str]] = [[]]
+        for line in raw_lines:
+            if line.strip() == "---":
+                sections.append([])
+                continue
+            sections[-1].append(line)
+
+        state = self.npc_state.get(npc, 0)
+        if state >= len(sections):
+            state = len(sections) - 1
+        lines = sections[state]
 
         i = 0
         while i < len(lines):
@@ -443,6 +457,11 @@ class Game:
                 continue
             self._output(lines[i])
             i += 1
+
+        if state < len(sections) - 1:
+            self.npc_state[npc] = state + 1
+        else:
+            self.npc_state[npc] = state
 
     def _ls(self):
         node = self._current_node()
@@ -497,6 +516,7 @@ class Game:
             "current": self.current,
             "glitch_mode": self.glitch_mode,
             "glitch_steps": self.glitch_steps,
+            "npc_state": self.npc_state,
         }
         try:
             with open(fname, "w", encoding="utf-8") as f:
@@ -527,6 +547,7 @@ class Game:
         self.current = data.get("current", [])
         self.glitch_mode = data.get("glitch_mode", False)
         self.glitch_steps = data.get("glitch_steps", 0)
+        self.npc_state = data.get("npc_state", {})
         self._output("Game loaded.")
 
     def _quit(self) -> bool:
