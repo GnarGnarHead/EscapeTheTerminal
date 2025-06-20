@@ -1,0 +1,13 @@
+The sysop glances over from a console.
+> Greet politely [+polite]
+> Demand access [-polite]
+?polite:The sysop nods at your respect.
+?!polite:The sysop scowls at your tone.
+---
+?polite:The sysop welcomes your return.
+?!polite:The sysop folds their arms warily.
+> Ask about commands
+> Leave
+"Try 'glitch' when things feel unstable."
+---
+The sysop is lost in system readouts.

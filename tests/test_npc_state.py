@@ -32,3 +32,32 @@ def test_dreamer_follow_up():
     assert 'Trust the path the fragment reveals' in out
     assert 'Goodbye' in out
 
+
+def test_sysop_polite_branch():
+    result = subprocess.run(
+        [sys.executable, SCRIPT],
+        input='cd core\ncd npc\ntalk sysop\n1\ntalk sysop\n1\nquit\n',
+        text=True,
+        capture_output=True,
+    )
+    out = result.stdout
+    assert 'sysop glances over' in out
+    assert 'nods at your respect' in out
+    assert 'welcomes your return' in out
+    assert 'glitch' in out
+    assert 'Goodbye' in out
+
+
+def test_wanderer_helped_branch():
+    result = subprocess.run(
+        [sys.executable, SCRIPT],
+        input='cd dream\ncd npc\ntalk wanderer\n2\ntalk wanderer\n1\nquit\n',
+        text=True,
+        capture_output=True,
+    )
+    out = result.stdout
+    assert 'weary wanderer drifts' in out
+    assert 'shares a secret path' in out
+    assert 'Paths shift with each reboot' in out
+    assert 'Goodbye' in out
+
