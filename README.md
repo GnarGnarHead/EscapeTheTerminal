@@ -48,6 +48,7 @@ unexpected ways.
   - `achievements` – list any achievements you've unlocked
   - `man <command>` – show the manual page for a command
   - `journal` – view notes or `journal add <text>` to record a message
+  - `quest` – list quests or `quest add <text>` / `quest complete <id>`
   - `sleep [reset|inc]` – fall asleep and enter the dream. Use `reset` to
     clear glitches or `inc` to deepen them
   - `score` – display your current score
