@@ -74,6 +74,9 @@ class Game:
         # notes recorded by the player
         self.journal: list[str] = []
 
+        # active quests tracked by the player
+        self.quests: list[str] = []
+
         # runtime command aliases created via the 'alias' command
         self.aliases: dict[str, str] = {}
 
@@ -109,6 +112,7 @@ class Game:
             "prompt": "Change or display the input prompt",
             "history": "Show command history",
             "journal": "View or add personal notes",
+            "quest": "List, add or complete quests",
             "sleep": "Enter the dream state and rest",
             "score": "Show your current score",
             "achievements": "List unlocked achievements",
@@ -150,6 +154,7 @@ class Game:
             "prompt": lambda arg="": self._prompt(arg),
             "history": lambda arg="": self._history(),
             "journal": lambda arg="": self._journal(arg),
+            "quest": lambda arg="": self._quest(arg),
             "sleep": lambda arg="": self._sleep(arg),
             "score": lambda arg="": self._score(),
             "achievements": lambda arg="": self._achievements(),
@@ -974,6 +979,7 @@ class Game:
             "aliases": self.aliases,
             "command_history": self.command_history,
             "journal": self.journal,
+            "quests": self.quests,
             "score": self.score,
             "achievements": self.achievements,
         }
@@ -1011,6 +1017,7 @@ class Game:
         self.aliases = data.get("aliases", {})
         self.command_history = data.get("command_history", [])
         self.journal = data.get("journal", [])
+        self.quests = data.get("quests", [])
         self.score = data.get("score", 0)
         self.achievements = data.get("achievements", [])
         self._output("Game loaded.")
@@ -1042,6 +1049,46 @@ class Game:
             self._output("Note added.")
         else:
             self._output("Usage: journal [add <text>]")
+
+    def _quest(self, arg: str = "") -> None:
+        """List current quests or modify the quest list."""
+        arg = arg.strip()
+        if not arg:
+            if not self.quests:
+                self._output("No quests.")
+            else:
+                for idx, q in enumerate(self.quests, 1):
+                    self._output(f"{idx}. {q}")
+            return
+        lower = arg.lower()
+        if lower.startswith("add "):
+            text = arg[4:].strip()
+            if not text:
+                self._output("Usage: quest add <text>")
+                return
+            self.quests.append(text)
+            self._output("Quest added.")
+        elif lower.startswith("complete "):
+            target = arg[9:].strip()
+            if not target:
+                self._output("Usage: quest complete <num|text>")
+                return
+            done = False
+            if target.isdigit():
+                idx = int(target) - 1
+                if 0 <= idx < len(self.quests):
+                    self.quests.pop(idx)
+                    done = True
+            else:
+                if target in self.quests:
+                    self.quests.remove(target)
+                    done = True
+            if done:
+                self._output("Quest completed.")
+            else:
+                self._output("No such quest.")
+        else:
+            self._output("Usage: quest [add <text>|complete <num|text>]")
 
     def _alias(self, arg: str) -> None:
         """Create a new alias or list existing aliases."""
