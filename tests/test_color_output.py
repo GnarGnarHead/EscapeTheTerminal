@@ -87,3 +87,65 @@ def test_custom_color_codes_env():
     assert '\x1b[36m' not in out
     assert '\x1b[33m' not in out
     assert 'Goodbye' in out
+
+def test_theme_command_changes_colors():
+    env = os.environ.copy()
+    env['ET_COLOR'] = '1'
+    result = subprocess.run(
+        CMD,
+        input='ls\ntheme dark\nls\nquit\n',
+        text=True,
+        capture_output=True,
+        env=env,
+    )
+    lines = result.stdout.splitlines()
+    idx = lines.index('> Theme set to dark.')
+    first_ls = lines[idx - 1]
+    second_ls = lines[idx + 1]
+    assert '\x1b[33m' in first_ls
+    assert '\x1b[36m' in first_ls
+    assert '\x1b[34m' in second_ls
+    assert '\x1b[35m' in second_ls
+    assert 'Goodbye' in lines[-1]
+
+
+def test_theme_overrides_env_colors():
+    env = os.environ.copy()
+    env['ET_COLOR'] = '1'
+    env['ET_COLOR_DIR'] = '32'
+    env['ET_COLOR_ITEM'] = '35'
+    result = subprocess.run(
+        CMD,
+        input='ls\ntheme neon\nls\nquit\n',
+        text=True,
+        capture_output=True,
+        env=env,
+    )
+    lines = result.stdout.splitlines()
+    idx = lines.index('> Theme set to neon.')
+    first_ls = lines[idx - 1]
+    second_ls = lines[idx + 1]
+    assert '\x1b[32m' in first_ls
+    assert '\x1b[35m' in first_ls
+    assert '\x1b[92m' in second_ls
+    assert '\x1b[95m' in second_ls
+    assert '\x1b[32m' not in second_ls
+    assert 'Goodbye' in lines[-1]
+
+
+def test_theme_command_respects_color_toggle():
+    result = subprocess.run(
+        CMD,
+        input='theme neon\nls\ncolor on\nls\nquit\n',
+        text=True,
+        capture_output=True,
+    )
+    lines = result.stdout.splitlines()
+    idx_theme = lines.index('> Theme set to neon.')
+    idx_on = lines.index('> Color enabled.')
+    first_ls = lines[idx_theme + 1]
+    second_ls = lines[idx_on + 1]
+    assert '\x1b[' not in first_ls
+    assert '\x1b[92m' in second_ls
+    assert '\x1b[95m' in second_ls
+    assert 'Goodbye' in lines[-1]
