@@ -215,6 +215,9 @@ class Game:
             "alias": lambda arg="": self._alias(arg),
         }
 
+        # discover and load optional plugin modules
+        self._load_plugins()
+
     def _generate_extra_dirs(self, bases: list[str] | str = "dream") -> None:
         """Populate directories under each base path with random subdirectories."""
         import os
@@ -286,6 +289,29 @@ class Game:
         self.fs["dirs"]["logs"] = {"desc": "System logs are stored here.", "items": files, "dirs": {}}
         for name in files:
             self.item_descriptions.setdefault(name, "A cryptic system log file.")
+
+    def _load_plugins(self) -> None:
+        """Import plugin modules from the ``plugins`` directory."""
+        import importlib.util
+        import sys
+
+        plugins_dir = Path(__file__).parent / "plugins"
+        if not plugins_dir.is_dir():
+            return
+
+        for path in plugins_dir.glob("*.py"):
+            if path.name.startswith("__"):
+                continue
+            module_name = f"escape.plugins.{path.stem}"
+            spec = importlib.util.spec_from_file_location(module_name, path)
+            if spec and spec.loader:
+                module = importlib.util.module_from_spec(spec)
+                module.game = self
+                sys.modules[module_name] = module
+                try:
+                    spec.loader.exec_module(module)
+                except Exception as exc:
+                    print(f"Failed to load plugin {path.name}: {exc}")
 
     def _toggle_glitch(self):
         self.glitch_mode = not self.glitch_mode

@@ -103,3 +103,9 @@ Modders can create additional files following this pattern and place their NPCs
 in the game world by extending ``Game.npc_locations``.
 The provided ``oracle.dialog`` shows a multi-stage conversation for an oracle
 NPC located under ``dream/oracle/``.
+
+## Plugins
+Python files placed in ``escape/plugins/`` are imported automatically when a
+``Game`` instance is created. Each module receives the active ``game`` object
+via a global variable and may register new commands by updating
+``game.command_map`` during import.
