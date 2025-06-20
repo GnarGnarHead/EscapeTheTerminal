@@ -32,3 +32,13 @@ def test_temp_plugin_command(monkeypatch, capsys):
     finally:
         plugin_path.unlink(missing_ok=True)
         sys.modules.pop('escape.plugins.temp_plugin', None)
+
+
+def test_dance_plugin_loaded(monkeypatch, capsys):
+    game = Game()
+    inputs = iter(['dance happily', 'quit'])
+    monkeypatch.setattr('builtins.input', lambda _='': next(inputs))
+    game.run()
+    out = capsys.readouterr().out
+    assert 'Dancing happily' in out
+    assert 'Goodbye' in out
