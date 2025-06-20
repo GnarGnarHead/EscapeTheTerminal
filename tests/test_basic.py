@@ -108,6 +108,18 @@ def test_look_around_alias():
     assert 'Goodbye' in result.stdout
 
 
+def test_look_specific_directory():
+    result = subprocess.run(
+        CMD,
+        input='look lab\npwd\nquit\n',
+        text=True,
+        capture_output=True,
+    )
+    out = result.stdout
+    assert 'cluttered research lab' in out
+    assert '> /' in out
+
+
 def test_help_alias():
     result = subprocess.run(
         CMD,
@@ -127,7 +139,7 @@ def test_help_specific_command():
         capture_output=True,
     )
     out = result.stdout
-    assert 'look: Describe the current room' in out
+    assert 'look: Describe the current room or a subdirectory' in out
     assert 'Goodbye' in out
 
 
