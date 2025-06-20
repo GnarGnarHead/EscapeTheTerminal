@@ -96,6 +96,12 @@ automated testing.
 Set the `ET_PROMPT` environment variable to change the input prompt shown to
 the player. The default prompt is `> `.
 
+## Color Customization
+Set `ET_COLOR=1` to start the game with ANSI colors enabled. You can override
+the highlight colors by defining `ET_COLOR_ITEM` and `ET_COLOR_DIR` with numeric
+ANSI codes (e.g. `35` for magenta, `32` for green). These values control the
+colors used for items and directories respectively.
+
 ## Command Registry
 Commands are routed through the ``Game.command_map`` dictionary. Each command
 string or alias maps to a handler method. When adding a new command simply
