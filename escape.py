@@ -234,7 +234,21 @@ class Game:
             if rnd.random() < 0.2:
                 noise = rnd.choice(["...glitch...", "~~~", "<!>"])
                 print(noise)
+            self._apply_glitch_effects()
         print(text)
+
+    def _apply_glitch_effects(self) -> None:
+        """Mutate the filesystem when glitch intensity crosses thresholds."""
+        root_items = self.fs.setdefault("items", [])
+        if self.glitch_steps >= 5 and "glitch.note" not in root_items:
+            root_items.append("glitch.note")
+            self.item_descriptions["glitch.note"] = "A fragment of corrupted data."
+        if self.glitch_steps >= 10:
+            if "glitch.note" in root_items:
+                root_items.remove("glitch.note")
+            desc = self.fs.get("desc", "")
+            if "(corrupted)" not in desc:
+                self.fs["desc"] = desc + " (corrupted)"
 
     def _glitch_text(self, text: str, step: int) -> str:
         """Return ``text`` with deterministic corruption based on ``step``."""
