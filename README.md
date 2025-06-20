@@ -32,6 +32,12 @@ unexpected ways.
    - `save` / `load` – write and restore your progress to `game.sav`
    - `glitch` – toggle glitch mode for scrambled descriptions
 
+   **Core files/items**
+   - `access.key` – unlocks the hidden directory when used
+   - `voice.log` – whispers a clue when read
+   - `mem.fragment` – a corrupted memory chunk found in `hidden/`
+   - `treasure.txt` – reward text tucked away in `hidden/`
+
 ## Running Tests
 Tests are written with `pytest` and live under the `tests/` directory. After installing
 the requirements, simply run `pytest` from the project root:
