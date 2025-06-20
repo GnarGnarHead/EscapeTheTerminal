@@ -462,3 +462,51 @@ def test_hidden_vault_and_escape_plan():
     assert 'vault/' in out
     assert 'escape.plan' in out
     assert 'Goodbye' in out
+
+
+def test_save_slots_independent(tmp_path):
+    save1 = tmp_path / 'game1.sav'
+    save2 = tmp_path / 'game2.sav'
+
+    # first slot with access.key
+    subprocess.run(
+        [sys.executable, SCRIPT],
+        input='take access.key\nsave 1\nquit\n',
+        text=True,
+        capture_output=True,
+        cwd=tmp_path,
+    )
+
+    # second slot with voice.log
+    subprocess.run(
+        [sys.executable, SCRIPT],
+        input='take voice.log\nsave 2\nquit\n',
+        text=True,
+        capture_output=True,
+        cwd=tmp_path,
+    )
+
+    assert save1.exists()
+    assert save2.exists()
+
+    result = subprocess.run(
+        [sys.executable, SCRIPT],
+        input='load 1\ninventory\nquit\n',
+        text=True,
+        capture_output=True,
+        cwd=tmp_path,
+    )
+    out1 = result.stdout
+    assert 'Inventory: access.key' in out1
+    assert 'voice.log' not in out1
+
+    result = subprocess.run(
+        [sys.executable, SCRIPT],
+        input='load 2\ninventory\nquit\n',
+        text=True,
+        capture_output=True,
+        cwd=tmp_path,
+    )
+    out2 = result.stdout
+    assert 'Inventory: voice.log' in out2
+    assert 'access.key' not in out2

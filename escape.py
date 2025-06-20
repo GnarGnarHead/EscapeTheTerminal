@@ -126,8 +126,8 @@ class Game:
             "use": lambda arg="": self._use_command(arg),
             "cat": lambda arg="": self._cat(arg),
             "talk": lambda arg="": self._talk(arg),
-            "save": lambda arg="": self._save(),
-            "load": lambda arg="": self._load(),
+            "save": lambda arg="": self._save(arg),
+            "load": lambda arg="": self._load(arg),
             "glitch": lambda arg="": self._toggle_glitch(),
             "quit": lambda arg="": self._quit(),
             "exit": lambda arg="": self._quit(),
@@ -220,7 +220,7 @@ class Game:
     def _print_help(self):
         self._output(
             "Available commands: help, look, ls, cd <dir>, pwd, take <item>, drop <item>, "
-            "inventory, examine <item>, use <item> [on <target>], cat <file>, talk <npc>, save, load, glitch, quit"
+            "inventory, examine <item>, use <item> [on <target>], cat <file>, talk <npc>, save [slot], load [slot], glitch, quit"
         )
 
     def _current_node(self):
@@ -384,14 +384,16 @@ class Game:
         else:
             self._output(f"No such directory: {directory}")
 
-    def _save(self):
+    def _save(self, slot: str = ""):
+        """Save game state to ``game<slot>.sav`` (default ``game.sav``)."""
+        fname = self.save_file if not slot else f"game{slot}.sav"
         data = {
             "fs": self.fs,
             "inventory": self.inventory,
             "current": self.current,
         }
         try:
-            with open(self.save_file, "w", encoding="utf-8") as f:
+            with open(fname, "w", encoding="utf-8") as f:
                 import json
 
                 json.dump(data, f)
@@ -400,11 +402,13 @@ class Game:
         else:
             self._output("Game saved.")
 
-    def _load(self):
+    def _load(self, slot: str = ""):
+        """Load game state from ``game<slot>.sav`` (default ``game.sav``)."""
+        fname = self.save_file if not slot else f"game{slot}.sav"
         import json
 
         try:
-            with open(self.save_file, "r", encoding="utf-8") as f:
+            with open(fname, "r", encoding="utf-8") as f:
                 data = json.load(f)
         except FileNotFoundError:
             self._output("No save file found.")
