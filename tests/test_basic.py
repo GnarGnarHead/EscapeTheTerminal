@@ -664,3 +664,28 @@ def test_history_command():
     assert '> look\ninventory\nhistory' in out
     assert 'Goodbye' in result.stdout
 
+
+def test_alias_persists_after_save_load(tmp_path):
+    env = os.environ.copy()
+    env['PYTHONPATH'] = REPO_ROOT
+    subprocess.run(
+        CMD,
+        input='alias ll look\nsave\nquit\n',
+        text=True,
+        capture_output=True,
+        cwd=tmp_path,
+        env=env,
+    )
+
+    result = subprocess.run(
+        CMD,
+        input='load\nll\nquit\n',
+        text=True,
+        capture_output=True,
+        cwd=tmp_path,
+        env=env,
+    )
+    out = result.stdout
+    assert 'dimly lit terminal' in out
+    assert 'Unknown command: ll' not in out
+

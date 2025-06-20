@@ -731,6 +731,7 @@ class Game:
             "glitch_mode": self.glitch_mode,
             "glitch_steps": self.glitch_steps,
             "npc_state": self.npc_state,
+            "aliases": self.aliases,
         }
         try:
             with open(fname, "w", encoding="utf-8") as f:
@@ -762,6 +763,7 @@ class Game:
         self.glitch_mode = data.get("glitch_mode", False)
         self.glitch_steps = data.get("glitch_steps", 0)
         self.npc_state = data.get("npc_state", {})
+        self.aliases = data.get("aliases", {})
         self._output("Game loaded.")
 
     def _history(self) -> None:
