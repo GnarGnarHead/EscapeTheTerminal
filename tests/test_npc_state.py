@@ -89,3 +89,17 @@ def test_wanderer_ignored_branch():
     assert 'barely notices you' in out
     assert 'Paths shift with each reboot' in out
     assert 'Goodbye' in out
+
+
+def test_oracle_follow_up():
+    result = subprocess.run(
+        [sys.executable, SCRIPT],
+        input='cd dream\ncd oracle\ntalk oracle\n1\n1\ntalk oracle\n1\nquit\n',
+        text=True,
+        capture_output=True,
+    )
+    out = result.stdout
+    assert 'oracle hovers in a loop' in out
+    assert 'watches your every move' in out
+    assert 'Decode the echoes of your past' in out
+    assert 'Goodbye' in out

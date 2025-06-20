@@ -58,6 +58,7 @@ unexpected ways.
   - `archive/` – dusty shelves of old backups and forgotten notes
   - `core/npc/` – a secluded nook where a daemon awaits interaction
   - `network/` – a tangle of digital links hiding a locked node
+  - `dream/oracle/` – an enigmatic hall where the oracle offers cryptic advice
 
 ## Running Tests
 Tests are written with `pytest` and live under the `tests/` directory. After installing
@@ -99,3 +100,5 @@ The dreamer watches you closely.
 
 Modders can create additional files following this pattern and place their NPCs
 in the game world by extending ``Game.npc_locations``.
+The provided ``oracle.dialog`` shows a multi-stage conversation for an oracle
+NPC located under ``dream/oracle/``.

@@ -84,6 +84,11 @@ class Game:
                             "items": [],
                             "dirs": {},
                         },
+                        "oracle": {
+                            "desc": "An enigmatic chamber humming with distant voices.",
+                            "items": [],
+                            "dirs": {},
+                        },
                     },
                 },
                 "memory": {
@@ -104,6 +109,7 @@ class Game:
             "dreamer": ["dream", "npc"],
             "sysop": ["core", "npc"],
             "wanderer": ["dream", "npc"],
+            "oracle": ["dream", "oracle"],
         }
         # track dialogue progress and flags for each NPC
         self.npc_state: dict[str, dict] = {}
