@@ -31,9 +31,10 @@ unexpected ways.
    - `ls` – list directories and items in the current location
    - `cd <dir>` – move between directories/rooms
    - `map` – display the directory tree from the current location
-   - `cat <file>` – read narrative logs from `data/`
-   - `decode mem.fragment` – combine the decoder with the memory fragment to reveal an escape code
-   - `talk <npc>` – initiate conversation and choose numbered replies
+  - `cat <file>` – read narrative logs from `data/`
+  - `decode mem.fragment` – combine the decoder with the memory fragment to reveal an escape code
+  - `combine <item1> <item2>` – craft a new item when a valid recipe exists
+  - `talk <npc>` – initiate conversation and choose numbered replies
    - `scan <dir>` – search a directory for hidden nodes
    - `hack <dir>` – attempt to unlock a scanned node
   - `grep <pattern> [file]` – search log files for matching text
