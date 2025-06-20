@@ -70,6 +70,8 @@ class Game:
             "lucid.note": "A scribbled note describing techniques for conscious dreaming.",
             "flashback.log": "A recorded memory playback waiting to be relived.",
         }
+        # populate the dream directory with extra procedurally generated content
+        self._generate_extra_dirs()
         self.use_messages = {
             "access.key": "The key hums softly and a hidden directory flickers into view.",
             "mem.fragment": "Fragments of your past flash before your eyes.",
@@ -82,6 +84,38 @@ class Game:
         self.data_dir = Path(__file__).parent / "data"
         self.glitch_mode = False
         self.glitch_steps = 0
+
+    def _generate_extra_dirs(self, base: str = "dream") -> None:
+        """Populate ``base`` directory with random subdirectories."""
+        import os
+        import random
+
+        seed_val = os.getenv("ET_EXTRA_SEED")
+        rnd = random.Random(int(seed_val)) if seed_val is not None else random.Random()
+
+        base_node = self.fs["dirs"].get(base)
+        if not base_node:
+            return
+
+        adjectives = ["misty", "vivid", "neon", "echoing"]
+        nouns = ["hall", "nexus", "alcove", "node"]
+        item_defs = [
+            ("dream.shard", "A sliver of surreal memory."),
+            ("echo.bit", "An echo of a forgotten idea."),
+            ("vision.chip", "A chip flickering with ephemeral scenes."),
+        ]
+
+        count = rnd.randint(2, 3)
+        for idx in range(count):
+            dname = f"{rnd.choice(adjectives)}_{rnd.choice(nouns)}_{idx}"
+            desc = f"A {rnd.choice(['strange', 'fleeting', 'curious'])} place within the dream."
+            items: list[str] = []
+            if rnd.random() < 0.5:
+                it_name, it_desc = rnd.choice(item_defs)
+                it_name = it_name.replace(".", f"{idx}.")
+                items.append(it_name)
+                self.item_descriptions[it_name] = it_desc
+            base_node["dirs"][dname] = {"desc": desc, "items": items, "dirs": {}}
 
     def _toggle_glitch(self):
         self.glitch_mode = not self.glitch_mode
