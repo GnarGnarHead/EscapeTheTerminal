@@ -142,6 +142,12 @@
       "node9": {
         "desc": "The fabled quantum gateway for only the elite."
       },
+      "node10": {
+        "desc": "A mysterious node cloaked in quantum firewalls."
+      },
+      "node11": {
+        "desc": "The last bastion before the runtime environment."
+      },
       "runtime": {
         "desc": "An experimental runtime environment logging each command."
       }
@@ -209,6 +215,7 @@
     "master.process": "A mysterious executable rumored to control it all.",
     "hypervisor.command": "A privileged command set for manipulating the hypervisor.",
     "quantum.access": "An advanced key enabling entry to quantum subsystems.",
+    "security.override": "A backdoor routine for bypassing advanced security.",
     "runtime.log": "A record detailing your own execution environment.",
     "dream.index": "A fused log bridging memory and dream.",
     "mirror.log": "A log that reflects your actions with unsettling clarity.",
