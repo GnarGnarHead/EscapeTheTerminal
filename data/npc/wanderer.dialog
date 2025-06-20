@@ -1,0 +1,13 @@
+A weary wanderer drifts through the data fog.
+> Ask about memories
+> Offer help [+helped]
+> Leave
+"Wander while you can, friend."
+---
+?helped:The wanderer smiles and shares a secret path.
+?!helped:The wanderer barely notices you.
+> Seek advice
+> Leave
+"Paths shift with each reboot."
+---
+The wanderer fades into the mist.

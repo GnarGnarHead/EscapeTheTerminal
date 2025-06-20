@@ -85,9 +85,11 @@ class Game:
         self.npc_locations = {
             "daemon": ["core", "npc"],
             "dreamer": ["dream", "npc"],
+            "sysop": ["core", "npc"],
+            "wanderer": ["dream", "npc"],
         }
-        # track dialogue progress for each NPC
-        self.npc_state: dict[str, int] = {}
+        # track dialogue progress and flags for each NPC
+        self.npc_state: dict[str, dict] = {}
         self.item_descriptions = {
             "access.key": "A slim digital token rumored to unlock hidden directories.",
             "treasure.txt": "A file filled with untold riches.",
@@ -516,17 +518,41 @@ class Game:
                 continue
             sections[-1].append(line)
 
-        state = self.npc_state.get(npc, 0)
+        entry = self.npc_state.get(npc, {"section": 0, "flags": {}})
+        if isinstance(entry, dict):
+            state = entry.get("section", 0)
+            flags = entry.get("flags", {})
+        else:
+            state = int(entry)
+            flags = {}
         if state >= len(sections):
             state = len(sections) - 1
         lines = sections[state]
 
         i = 0
         while i < len(lines):
-            if lines[i].lstrip().startswith(">"):
-                choices = []
+            stripped = lines[i].lstrip()
+            if stripped.startswith(">"):
+                choices: list[str] = []
+                effects: list[tuple[str, object] | None] = []
                 while i < len(lines) and lines[i].lstrip().startswith(">"):
-                    choices.append(lines[i].lstrip()[1:].strip())
+                    choice_line = lines[i].lstrip()[1:].strip()
+                    effect = None
+                    if "[" in choice_line and choice_line.endswith("]"):
+                        base, meta = choice_line.rsplit("[", 1)
+                        choice_line = base.strip()
+                        meta = meta[:-1]
+                        if meta.startswith("+"):
+                            effect = (meta[1:], True)
+                        elif meta.startswith("-"):
+                            effect = (meta[1:], False)
+                        elif "=" in meta:
+                            k, v = meta.split("=", 1)
+                            effect = (k.strip(), v.strip())
+                        else:
+                            effect = (meta.strip(), True)
+                    choices.append(choice_line)
+                    effects.append(effect)
                     i += 1
                 for idx, choice in enumerate(choices, 1):
                     self._output(f"{idx}. {choice}")
@@ -535,14 +561,27 @@ class Game:
                     idx = int(sel) - 1
                     if 0 <= idx < len(choices):
                         self._output(choices[idx])
+                        effect = effects[idx]
+                        if effect:
+                            flags[effect[0]] = effect[1]
+                continue
+            if stripped.startswith("?"):
+                cond, _, text = stripped[1:].partition(":")
+                cond = cond.strip()
+                negate = cond.startswith("!")
+                if negate:
+                    cond = cond[1:]
+                present = bool(flags.get(cond))
+                if present != negate:
+                    self._output(text.lstrip())
+                i += 1
                 continue
             self._output(lines[i])
             i += 1
 
         if state < len(sections) - 1:
-            self.npc_state[npc] = state + 1
-        else:
-            self.npc_state[npc] = state
+            state += 1
+        self.npc_state[npc] = {"section": state, "flags": flags}
 
     def _ls(self):
         node = self._current_node()
