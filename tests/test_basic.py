@@ -403,27 +403,31 @@ def test_glitch_intensity_increases():
 def test_talk_daemon():
     result = subprocess.run(
         [sys.executable, SCRIPT],
-        input='cd core\ncd npc\ntalk daemon\nquit\n',
+        input='cd core\ncd npc\ntalk daemon\n1\n1\nquit\n',
         text=True,
         capture_output=True,
     )
     out = result.stdout
     assert 'acknowledges your presence' in out
-    assert 'more to learn' in out
+    assert '1. Ask about system status' in out
+    assert '1. Request a hint' in out
+    assert 'Decoding the fragment might reveal an escape path' in out
     assert 'Goodbye' in out
 
 
 def test_talk_dreamer():
     result = subprocess.run(
         [sys.executable, SCRIPT],
-        input='cd dream\ncd npc\ntalk dreamer\n1\nquit\n',
+        input='cd dream\ncd npc\ntalk dreamer\n1\n2\nquit\n',
         text=True,
         capture_output=True,
     )
     out = result.stdout
     assert 'dreamer watches you' in out
     assert '1. Ask about escape' in out
+    assert '3. Ask about the fragment' in out
     assert 'Ask about escape' in out
+    assert 'The decoder in the lab will reveal what the fragment hides.' in out
     assert 'Goodbye' in out
 
 
