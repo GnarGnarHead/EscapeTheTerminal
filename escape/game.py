@@ -14,7 +14,12 @@ import json
 class Game:
     """Simple command dispatcher for the terminal adventure."""
 
-    def __init__(self, use_color: bool | None = None, world_file: str | Path | None = None):
+    def __init__(
+        self,
+        use_color: bool | None = None,
+        world_file: str | Path | None = None,
+        prompt: str | None = None,
+    ):
         if use_color is None:
             env_val = os.getenv("ET_COLOR", "0").lower()
             self.use_color = env_val not in ("0", "false", "")
@@ -22,6 +27,7 @@ class Game:
             self.use_color = use_color
 
         self.auto_save = os.getenv("ET_AUTOSAVE") not in (None, "", "0", "false")
+        self.prompt = prompt if prompt is not None else os.getenv("ET_PROMPT", "> ")
         self.inventory = []
         self.data_dir = Path(__file__).parent / "data"
         if world_file is None:
@@ -849,7 +855,7 @@ class Game:
         self._output("Type 'help' for a list of commands. Type 'quit' to exit.")
         while True:
             try:
-                raw = input('> ')
+                raw = input(self.prompt)
                 cmd = raw.strip()
                 self.command_history.append(cmd)
                 cmd = cmd.lower()
