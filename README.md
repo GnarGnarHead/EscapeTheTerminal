@@ -13,7 +13,8 @@ This project is a minimalist terminal game. For the long-term vision, see [VISIO
    ```bash
    python escape.py
    ```
-   Use `help` inside the game for available commands and `quit` to exit.
+   Use `help` (or `h`) inside the game for available commands and `quit` (or `exit`) to exit.
+   Common command aliases like `i`/`inv` for `inventory` and `look around` for `look` are also supported.
 
 ## Running Tests
 Tests require `pytest` and can be executed with:
