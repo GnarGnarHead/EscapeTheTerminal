@@ -85,16 +85,19 @@ three generated locations, sometimes containing unique items. Set the
 `ET_EXTRA_SEED` environment variable before launching to make this generation
 deterministic for reproducible testing or custom scenarios.
 You can also set `ET_EXTRA_COUNT` to control exactly how many extra directories
-are created under each base path.
+are created under each base path. The same seed can be supplied on the command
+line via ``--seed <num>``.
 
 ## Autosave
 Set the `ET_AUTOSAVE` environment variable to automatically write `game.sav`
 after every successful command. This is handy for continuous progress backups or
-automated testing.
+automated testing. Running ``escape-terminal --autosave`` enables the same
+behavior without setting the environment variable.
 
 ## Custom Prompt
 Set the `ET_PROMPT` environment variable to change the input prompt shown to
-the player. The default prompt is `> `.
+the player. The default prompt is `> `. You can also pass ``--prompt <text>`` on
+the command line.
 
 ## Color Customization
 Set `ET_COLOR=1` to start the game with ANSI colors enabled. You can override
