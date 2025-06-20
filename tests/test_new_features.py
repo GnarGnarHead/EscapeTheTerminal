@@ -66,3 +66,16 @@ def test_load_missing_save_slot(tmp_path):
     )
     assert 'No save file found.' in result.stdout
     assert 'Goodbye' in result.stdout
+
+
+def test_glitch_thresholds_modify_fs(capsys):
+    game = Game()
+    game.glitch_mode = True
+    for _ in range(5):
+        game._output('tick')
+    assert 'glitch.note' in game.fs['items']
+
+    for _ in range(5):
+        game._output('tick')
+    assert 'glitch.note' not in game.fs['items']
+    assert '(corrupted)' in game.fs['desc']
