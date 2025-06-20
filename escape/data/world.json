@@ -19,7 +19,13 @@
         "items": [
           "old.note"
         ],
-        "dirs": {}
+        "dirs": {
+          "npc": {
+            "desc": "An old sage maintains the wisdom stored here.",
+            "items": [],
+            "dirs": {}
+          }
+        }
       },
       "core": {
         "desc": "The core systems thrum with latent energy.",
@@ -130,6 +136,10 @@
     "oracle": [
       "dream",
       "oracle"
+    ],
+    "sage": [
+      "archive",
+      "npc"
     ]
   },
   "item_descriptions": {
