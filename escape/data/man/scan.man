@@ -1,0 +1,3 @@
+scan - Scan a directory for hidden nodes
+Usage: scan <dir>
+Example: scan network

@@ -1,0 +1,3 @@
+prompt - Change or display the input prompt
+Usage: prompt [text]
+Example: prompt >

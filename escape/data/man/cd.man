@@ -1,0 +1,3 @@
+cd - Change directory
+Usage: cd <dir>
+Example: cd dream

@@ -1,0 +1,3 @@
+journal - View or add personal notes
+Usage: journal [add <text>]
+Example: journal add Remember this

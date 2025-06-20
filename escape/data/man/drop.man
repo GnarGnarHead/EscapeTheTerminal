@@ -1,0 +1,3 @@
+drop - Remove an item from your inventory
+Usage: drop <item>
+Example: drop decoder

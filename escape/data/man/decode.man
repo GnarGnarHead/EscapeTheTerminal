@@ -1,0 +1,3 @@
+decode - Decode the mem.fragment
+Usage: decode mem.fragment
+Example: decode mem.fragment

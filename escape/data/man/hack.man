@@ -1,0 +1,3 @@
+hack - Attempt to unlock a node
+Usage: hack <dir>
+Example: hack node

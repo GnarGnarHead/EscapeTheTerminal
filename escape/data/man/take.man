@@ -1,0 +1,3 @@
+take - Add an item to your inventory
+Usage: take <item>
+Example: take decoder

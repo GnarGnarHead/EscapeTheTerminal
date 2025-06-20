@@ -1,0 +1,3 @@
+quest - List, add or complete quests
+Usage: quest [add <text>|complete <num|text>]
+Example: quest add escape

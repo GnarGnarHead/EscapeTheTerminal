@@ -1,0 +1,3 @@
+combine - Combine two items if a recipe matches
+Usage: combine <item1> <item2>
+Example: combine item1 item2

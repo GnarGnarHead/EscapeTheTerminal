@@ -1,0 +1,3 @@
+color - Toggle ANSI color output
+Usage: color [on|off|toggle]
+Example: color toggle
