@@ -518,6 +518,34 @@ def test_decode_fragment_unlocks_escape_directory():
     assert 'Goodbye' in out
 
 
+def test_use_escape_code_wins_game():
+    result = subprocess.run(
+        [sys.executable, SCRIPT],
+        input=(
+            'take access.key\n'
+            'use access.key\n'
+            'cd hidden\n'
+            'take mem.fragment\n'
+            'cd ..\n'
+            'cd lab\n'
+            'take decoder\n'
+            'decode mem.fragment\n'
+            'cd ..\n'
+            'cd hidden\n'
+            'cd vault\n'
+            'cd escape\n'
+            'take escape.code\n'
+            'use escape.code\n'
+        ),
+        text=True,
+        capture_output=True,
+    )
+    out = result.stdout
+    assert 'You escape the terminal' in out
+    assert 'Goodbye' in out
+    assert result.returncode == 0
+
+
 def test_save_slots_independent(tmp_path):
     save1 = tmp_path / 'game1.sav'
     save2 = tmp_path / 'game2.sav'

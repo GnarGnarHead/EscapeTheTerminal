@@ -419,6 +419,11 @@ class Game:
             return
 
         # item on target interactions
+        if item == "escape.code" and target is None:
+            self._output(
+                "The exit sequence executes. You escape the terminal. Congratulations!"
+            )
+            return self._quit()
         if item == "access.key" and (target == "door" or target is None):
             root = self.fs
             if "hidden" not in root["dirs"]:
@@ -440,7 +445,7 @@ class Game:
         else:
             self._output(f"You can't use {item} right now.")
 
-    def _use_command(self, arg: str) -> None:
+    def _use_command(self, arg: str) -> bool | None:
         """Parse arguments for the ``use`` command and dispatch to :meth:`_use`."""
         use_args = arg
         if " on " in use_args:
@@ -451,7 +456,7 @@ class Game:
             item = use_args.strip()
             target = None
         if item:
-            self._use(item, target)
+            return self._use(item, target)
 
     def _decode(self, item: str) -> None:
         target = item.strip()
