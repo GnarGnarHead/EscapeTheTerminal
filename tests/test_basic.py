@@ -205,6 +205,19 @@ def test_ls_and_cd():
     assert 'Goodbye' in out
 
 
+def test_root_contains_dream_and_memory():
+    result = subprocess.run(
+        [sys.executable, SCRIPT],
+        input='ls\nquit\n',
+        text=True,
+        capture_output=True,
+    )
+    out = result.stdout
+    assert 'dream/' in out
+    assert 'memory/' in out
+    assert 'Goodbye' in out
+
+
 def test_pwd_command():
     result = subprocess.run(
         [sys.executable, SCRIPT],
@@ -262,6 +275,30 @@ def test_cat_daemon_log():
     out = result.stdout
     assert 'daemon monitors your actions' in out
     assert 'Keep your code clean' in out
+    assert 'Goodbye' in out
+
+
+def test_cat_lucid_note():
+    result = subprocess.run(
+        [sys.executable, SCRIPT],
+        input='cd dream\ncat lucid.note\nquit\n',
+        text=True,
+        capture_output=True,
+    )
+    out = result.stdout
+    assert 'dreams you may chart' in out
+    assert 'Goodbye' in out
+
+
+def test_cat_flashback_log():
+    result = subprocess.run(
+        [sys.executable, SCRIPT],
+        input='cd memory\ncat flashback.log\nquit\n',
+        text=True,
+        capture_output=True,
+    )
+    out = result.stdout
+    assert 'old memories scroll' in out
     assert 'Goodbye' in out
 
 

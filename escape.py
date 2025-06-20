@@ -46,6 +46,16 @@ class Game:
                         }
                     },
                 },
+                "dream": {
+                    "desc": "A hazy directory where reality blurs and ideas take shape.",
+                    "items": ["lucid.note"],
+                    "dirs": {},
+                },
+                "memory": {
+                    "desc": "Stacks of recollections archived for later reflection.",
+                    "items": ["flashback.log"],
+                    "dirs": {},
+                },
             },
         }
         self.current = []  # path as list of directory names
@@ -57,12 +67,16 @@ class Game:
             "decoder": "A handheld device used to decode encrypted signals.",
             "old.note": "A weathered note scribbled with barely readable commands.",
             "daemon.log": "A log file chronicling the mutterings of a resident daemon.",
+            "lucid.note": "A scribbled note describing techniques for conscious dreaming.",
+            "flashback.log": "A recorded memory playback waiting to be relived.",
         }
         self.use_messages = {
             "access.key": "The key hums softly and a hidden directory flickers into view.",
             "mem.fragment": "Fragments of your past flash before your eyes.",
             "voice.log": "A haunting voice whispers: 'Find the fragment.'",
             "daemon.log": "The daemon rasps from deep within the system: 'Keep your code clean.'",
+            "lucid.note": "The words resonate, sharpening your awareness of the dream.",
+            "flashback.log": "Memories surge forth, revealing forgotten paths.",
         }
         self.save_file = "game.sav"
         self.data_dir = Path(__file__).parent / "data"
