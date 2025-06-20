@@ -130,7 +130,9 @@ Python files placed in ``escape/plugins/`` are discovered on startup. The game
 scans this directory for ``*.py`` modules (ignoring names beginning with
 ``__``) and imports each one. Plugins are loaded inside ``Game._load_plugins``
 which injects the active ``Game`` instance into each module before executing
-it:
+it. Plugin directories may also contain ``*.zip`` archives. Each archive is
+treated as a module named after the zip file and loaded via
+``zipimport.zipimporter``:
 
 ```python
 for path in plugins_dir.glob("*.py"):
