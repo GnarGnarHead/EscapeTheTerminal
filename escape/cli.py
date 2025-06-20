@@ -10,8 +10,26 @@ def main(argv: list[str] | None = None):
     parser = argparse.ArgumentParser(description="Escape the Terminal")
     parser.add_argument("--color", action="store_true", help="enable ANSI colors")
     parser.add_argument("--world", metavar="file", help="path to custom world JSON")
+    parser.add_argument("--prompt", metavar="text", help="custom input prompt")
+    parser.add_argument(
+        "--autosave",
+        action="store_true",
+        help="autosave after each command",
+    )
+    parser.add_argument(
+        "--seed",
+        metavar="num",
+        help="seed for procedural extras",
+    )
     args = parser.parse_args(argv)
 
+    import os
+
+    if args.autosave:
+        os.environ["ET_AUTOSAVE"] = "1"
+    if args.seed is not None:
+        os.environ["ET_EXTRA_SEED"] = str(args.seed)
+
     game_color = True if args.color else None
-    Game(use_color=game_color, world_file=args.world).run()
+    Game(use_color=game_color, world_file=args.world, prompt=args.prompt).run()
 
