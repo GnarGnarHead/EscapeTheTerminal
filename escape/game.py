@@ -182,6 +182,7 @@ class Game:
             "load": "Load a saved game",
             "glitch": "Toggle glitch mode",
             "history": "Show command history",
+            "restart": "Restart the game",
             "quit": "Exit the game",
             "alias": "Create command shortcuts",
         }
@@ -213,6 +214,7 @@ class Game:
             "load": lambda arg="": self._load(arg),
             "glitch": lambda arg="": self._toggle_glitch(),
             "history": lambda arg="": self._history(),
+            "restart": lambda arg="": self._restart(),
             "quit": lambda arg="": self._quit(),
             "exit": lambda arg="": self._quit(),
             "alias": lambda arg="": self._alias(arg),
@@ -865,6 +867,12 @@ class Game:
         name, target = parts[0].lower(), parts[1].lower()
         self.aliases[name] = target
         self._output(f"Alias {name} -> {target}")
+
+    def _restart(self) -> None:
+        """Reset game state while preserving color settings."""
+        use_color = self.use_color
+        self.__init__(use_color=use_color)
+        self._output("Game restarted.")
 
     def _quit(self) -> bool:
         """Print exit message and signal the main loop to stop."""
