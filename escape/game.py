@@ -48,6 +48,7 @@ class Game:
         self.deep_network_node = world.get("deep_network_node", {})
         self.npc_locations = world.get("npc_locations", {})
         self.item_descriptions = world.get("item_descriptions", {})
+        self.recipes = world.get("recipes", {})
         self.current = []  # path as list of directory names
         # track dialogue progress and flags for each NPC
         self.npc_state: dict[str, dict] = {}
@@ -93,6 +94,7 @@ class Game:
             "inventory": "List inventory contents",
             "examine": "Examine an item in detail",
             "use": "Use an item, optionally on a target",
+            "combine": "Combine two items if a recipe matches",
             "cat": "Display the contents of a file",
             "grep": "Search log files for text",
             "decode": "Decode the mem.fragment",
@@ -133,6 +135,7 @@ class Game:
             "i": lambda arg="": self._inventory(),
             "examine": lambda arg="": self._examine(arg),
             "use": lambda arg="": self._use_command(arg),
+            "combine": lambda arg="": self._combine(arg),
             "cat": lambda arg="": self._cat(arg),
             "grep": lambda arg="": self._grep(arg),
             "decode": lambda arg="": self._decode(arg),
@@ -1063,6 +1066,34 @@ class Game:
             self._output(f"Removed alias {name}")
         else:
             self._output(f"No such alias: {name}")
+
+    def _combine(self, arg: str) -> None:
+        """Combine two inventory items when a recipe matches."""
+        arg = arg.strip()
+        if not arg:
+            self._output("Usage: combine <item1> <item2>")
+            return
+        if " with " in arg:
+            parts = arg.split(" with ", 1)
+        else:
+            parts = arg.split()
+        if len(parts) != 2:
+            self._output("Usage: combine <item1> <item2>")
+            return
+        item1, item2 = parts[0].strip(), parts[1].strip()
+        if item1 not in self.inventory or item2 not in self.inventory:
+            self._output("You don't have the required items to combine.")
+            return
+        result = self.recipes.get(f"{item1}+{item2}") or self.recipes.get(
+            f"{item2}+{item1}"
+        )
+        if not result:
+            self._output("Nothing happens.")
+            return
+        self.inventory.remove(item1)
+        self.inventory.remove(item2)
+        self.inventory.append(result)
+        self._output(f"You combine {item1} and {item2} into {result}.")
 
     def _sleep(self, arg: str = "") -> None:
         """Enter the dream directory and optionally modify glitch intensity."""
