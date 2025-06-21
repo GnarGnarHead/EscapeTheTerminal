@@ -88,6 +88,10 @@ directory and item colors explicitly.
 
 A second bundled plugin named `puzzle.py` offers a small code-breaking riddle. Run `puzzle` without arguments to see the encoded phrase and pass your decoded answer to solve it. The module remembers if you solved the puzzle so subsequent runs simply report that it is already complete.
 
+## Built-in Cipher Plugin
+
+The `cipher.py` plugin presents a short ROT13 message. Run `cipher` to display the scrambled text and supply the decoded phrase to complete the challenge.
+
 ## Built-in Riddle Plugin
 
 The `riddle.py` module presents a short question the first time you run `riddle`. Run the command again with your guess and it will tell you if you are correct.
