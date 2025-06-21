@@ -830,5 +830,7 @@ def test_stats_counts():
     out = result.stdout
     assert "Visited locations: 2" in out
     assert "Items obtained: 1" in out
+    assert "Active quests: 1" in out
+    assert "Achievements unlocked: 0" in out
     assert "Score: 0" in out
     assert "Goodbye" in out
