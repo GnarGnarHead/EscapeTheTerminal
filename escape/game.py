@@ -1067,11 +1067,23 @@ class Game:
                         self._output(choices[idx])
                         effect_list = effects[idx]
                         for effect in effect_list:
-                            if effect[0] == "journal":
-                                self.journal.append(str(effect[1]))
-                            else:
-                                flags[effect[0]] = effect[1]
-                                combined_flags[effect[0]] = effect[1]
+                            key = effect[0]
+                            val = effect[1]
+                            if key == "journal":
+                                self.journal.append(str(val))
+                                continue
+                            if key.startswith("g+"):
+                                gflag = key[2:]
+                                self.npc_global_flags[gflag] = True
+                                combined_flags[gflag] = True
+                                continue
+                            if key.startswith("g-"):
+                                gflag = key[2:]
+                                self.npc_global_flags[gflag] = False
+                                combined_flags[gflag] = False
+                                continue
+                            flags[key] = val
+                            combined_flags[key] = val
                 continue
             if stripped.startswith("?"):
                 cond, _, text = stripped[1:].partition(":")
@@ -1094,6 +1106,7 @@ class Game:
         else:
             given_items = []
         self.npc_state[npc] = {"section": state, "flags": flags, "given": given_items}
+        self._update_quests_after_talk(npc)
 
     def _ls(self):
         node = self._current_node()
@@ -1320,6 +1333,25 @@ class Game:
             self._output(f"Removed alias {name}")
         else:
             self._output(f"No such alias: {name}")
+
+    def _update_quests_after_talk(self, npc: str) -> None:
+        """Modify quest list based on conversation progression."""
+        if npc == "archivist" and self.npc_global_flags.get("archivist_met"):
+            if "Seek the dreamer" not in self.quests:
+                self.quests.append("Seek the dreamer")
+        elif npc == "dreamer" and self.npc_global_flags.get("dreamer_met"):
+            if "Seek the dreamer" in self.quests:
+                self.quests.remove("Seek the dreamer")
+            if "Train with the mentor" not in self.quests:
+                self.quests.append("Train with the mentor")
+        elif npc == "mentor" and self.npc_global_flags.get("mentor_met"):
+            if "Train with the mentor" in self.quests:
+                self.quests.remove("Train with the mentor")
+            if "Gain the guardian's approval" not in self.quests:
+                self.quests.append("Gain the guardian's approval")
+        elif npc == "guardian" and self.npc_global_flags.get("guardian_met"):
+            if "Gain the guardian's approval" in self.quests:
+                self.quests.remove("Gain the guardian's approval")
 
     def _combine(self, arg: str) -> None:
         """Combine two inventory items when a recipe matches."""

@@ -3,10 +3,10 @@ The dreamer watches you closely.
 ?runtime:The dreamer hints at a runtime beyond dreams.
 ?glitched:The dreamer flickers with digital noise.
 ?!glitched:The dreamer seems stable.
-> Ask about escape
-> Ask about dreams
-> Ask about the fragment
-> Mention the sage's wisdom [+sage_hint;journal=The dreamer advised visiting the sage.]
+> Ask about escape [+g+dreamer_met]
+> Ask about dreams [+g+dreamer_met]
+> Ask about the fragment [+g+dreamer_met]
+> Mention the sage's wisdom [+g+dreamer_met;+sage_hint;journal=The dreamer advised visiting the sage.]
 ?glitched:The dreamer grins through static.
 ?!glitched:The dreamer smiles faintly.
 ?glitched:"The decoder in the lab reveals more than you expect."
