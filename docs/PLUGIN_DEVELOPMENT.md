@@ -2,6 +2,8 @@
 
 EscapeTheTerminal supports optional plugins that extend the game with new commands or behaviour. Plugins are discovered at startup and may live either in the built in `escape/plugins/` directory or in additional paths specified through the `ET_PLUGIN_PATH` environment variable.
 
+The same paths can be provided on the command line using the `--plugin-path` option when starting the game.
+
 ``ET_PLUGIN_PATH`` may contain one or more directories separated by the operating system path separator (``:`` on Unix-like systems, ``;`` on Windows). Each directory is scanned for ``*.py`` files and ``*.zip`` archives and everything found is imported as a module.
 
 ## Simple ``.py`` Plugin
@@ -51,6 +53,12 @@ On startup the game imports all plugins from ``escape/plugins/``. If ``ET_PLUGIN
 
 ```bash
 ET_PLUGIN_PATH=/path/to/mods:/other/plugins escape-terminal
+```
+
+The same result can be achieved with the command line flag:
+
+```bash
+escape-terminal --plugin-path /path/to/mods:/other/plugins
 ```
 
 This would load plugins from ``/path/to/mods`` and ``/other/plugins`` in addition to the bundled ones.

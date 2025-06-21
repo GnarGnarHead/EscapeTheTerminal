@@ -14,6 +14,11 @@ def main(argv: list[str] | None = None):
     parser.add_argument("--world", metavar="file", help="path to custom world JSON")
     parser.add_argument("--prompt", metavar="text", help="custom input prompt")
     parser.add_argument(
+        "--plugin-path",
+        metavar="path",
+        help="additional plugin directories (separated by os.pathsep)",
+    )
+    parser.add_argument(
         "--autosave",
         action="store_true",
         help="autosave after each command",
@@ -43,6 +48,8 @@ def main(argv: list[str] | None = None):
 
     if args.autosave:
         os.environ["ET_AUTOSAVE"] = "1"
+    if args.plugin_path:
+        os.environ["ET_PLUGIN_PATH"] = args.plugin_path
     if args.seed is not None:
         os.environ["ET_EXTRA_SEED"] = str(args.seed)
     if args.extra_count is not None:
