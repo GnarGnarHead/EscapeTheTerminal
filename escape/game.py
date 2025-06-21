@@ -76,6 +76,8 @@ class Game:
 
         # active quests tracked by the player
         self.quests: list[str] = []
+        # begin with an initial quest
+        self.quests.append("Recover your lost memory")
 
         # runtime command aliases created via the 'alias' command
         self.aliases: dict[str, str] = {}
@@ -870,25 +872,29 @@ class Game:
             stripped = lines[i].lstrip()
             if stripped.startswith(">"):
                 choices: list[str] = []
-                effects: list[tuple[str, object] | None] = []
+                effects: list[list[tuple[str, object]]] = []
                 while i < len(lines) and lines[i].lstrip().startswith(">"):
                     choice_line = lines[i].lstrip()[1:].strip()
-                    effect = None
+                    effect_list: list[tuple[str, object]] = []
                     if "[" in choice_line and choice_line.endswith("]"):
                         base, meta = choice_line.rsplit("[", 1)
                         choice_line = base.strip()
                         meta = meta[:-1]
-                        if meta.startswith("+"):
-                            effect = (meta[1:], True)
-                        elif meta.startswith("-"):
-                            effect = (meta[1:], False)
-                        elif "=" in meta:
-                            k, v = meta.split("=", 1)
-                            effect = (k.strip(), v.strip())
-                        else:
-                            effect = (meta.strip(), True)
+                        for piece in meta.split(";"):
+                            piece = piece.strip()
+                            if not piece:
+                                continue
+                            if piece.startswith("+"):
+                                effect_list.append((piece[1:], True))
+                            elif piece.startswith("-"):
+                                effect_list.append((piece[1:], False))
+                            elif "=" in piece:
+                                k, v = piece.split("=", 1)
+                                effect_list.append((k.strip(), v.strip()))
+                            else:
+                                effect_list.append((piece.strip(), True))
                     choices.append(choice_line)
-                    effects.append(effect)
+                    effects.append(effect_list)
                     i += 1
                 for idx, choice in enumerate(choices, 1):
                     self._output(f"{idx}. {choice}")
@@ -897,9 +903,12 @@ class Game:
                     idx = int(sel) - 1
                     if 0 <= idx < len(choices):
                         self._output(choices[idx])
-                        effect = effects[idx]
-                        if effect:
-                            flags[effect[0]] = effect[1]
+                        effect_list = effects[idx]
+                        for effect in effect_list:
+                            if effect[0] == "journal":
+                                self.journal.append(str(effect[1]))
+                            else:
+                                flags[effect[0]] = effect[1]
                 continue
             if stripped.startswith("?"):
                 cond, _, text = stripped[1:].partition(":")
