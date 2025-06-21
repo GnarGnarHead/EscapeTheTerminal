@@ -432,6 +432,16 @@ class Game:
     def _apply_glitch_effects(self) -> None:
         """Mutate the filesystem when glitch intensity crosses thresholds."""
         root_items = self.fs.setdefault("items", [])
+        if self.glitch_steps == 12:
+            self._output(
+                "For a split second a directory named 'beyond/' blinks into existence then fades."
+            )
+            self.glitch_steps -= 1
+        if self.glitch_steps == 18:
+            self._output(
+                "A phantom file 'escape.exe' materializes before dissolving back into nothingness."
+            )
+            self.glitch_steps -= 1
         if self.glitch_steps >= 5 and "glitch.note" not in root_items:
             root_items.append("glitch.note")
             self.item_descriptions["glitch.note"] = "A fragment of corrupted data."
