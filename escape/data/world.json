@@ -118,6 +118,20 @@
           "truth.log"
         ],
         "dirs": {}
+      },
+      "void": {
+        "desc": "A desolate space lingering after recursion.",
+        "items": [
+          "void.log"
+        ],
+        "dirs": {
+          "npc": {
+            "desc": "A hidden corner where a wanderer waits.",
+            "items": [],
+            "dirs": {}
+          }
+        },
+        "locked": true
       }
     }
   },
@@ -332,6 +346,7 @@
     "memory10.log": "Records of wiping your own identity.",
     "memory11.log": "Proof you triggered the escape protocol.",
     "memory12.log": "The last memory before reaching the runtime.",
+    "void.log": "A bleak record written outside normal memory.",
     "guardian.key": "A special key required to breach the final node."
   },
   "recipes": {
