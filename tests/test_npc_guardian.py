@@ -25,4 +25,5 @@ def test_guardian_after_hack(monkeypatch, capsys):
     game._talk("guardian")
     out = capsys.readouterr().out
     assert "guardian stands" in out.lower()
+    assert "Ask if the sysop can vouch for you" in out
     assert "guardian nods solemnly" in out.lower()

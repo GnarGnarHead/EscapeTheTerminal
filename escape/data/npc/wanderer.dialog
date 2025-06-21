@@ -3,8 +3,10 @@ A weary wanderer drifts through the data fog.
 ?runtime:The wanderer speaks of a hidden runtime path.
 > Ask about memories
 > Offer help [+helped]
+> Ask about the oracle [+oracle_hint;journal=The wanderer pointed toward the oracle.]
 > Leave
 "Wander while you can, friend."
+?oracle_hint:"The oracle may foresee the path you seek."
 ---
 ?helped:The wanderer smiles and shares a secret path.
 ?!helped:The wanderer barely notices you.
