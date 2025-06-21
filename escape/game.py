@@ -56,6 +56,8 @@ class Game:
         self.npc_state: dict[str, dict] = {}
         # flags that apply to all NPCs based on achievements
         self.npc_global_flags: dict[str, bool] = {}
+        # per-NPC trust levels for conditional dialog
+        self.npc_trust: dict[str, int] = {}
         # populate multiple directories with extra procedurally generated content
         self._generate_extra_dirs(["dream", "memory", "core"])
         self.use_messages = {
@@ -1044,6 +1046,18 @@ class Game:
                                 effect_list.append((piece[1:], True))
                             elif piece.startswith("-"):
                                 effect_list.append((piece[1:], False))
+                            elif piece.startswith("trust+="):
+                                try:
+                                    amt = int(piece.split("=", 1)[1])
+                                except ValueError:
+                                    amt = 1
+                                effect_list.append(("trust_adj", amt))
+                            elif piece.startswith("trust-="):
+                                try:
+                                    amt = int(piece.split("=", 1)[1])
+                                except ValueError:
+                                    amt = 1
+                                effect_list.append(("trust_adj", -amt))
                             elif piece.startswith("give="):
                                 required_item = piece.split("=", 1)[1].strip()
                             elif "=" in piece:
@@ -1072,6 +1086,9 @@ class Game:
                             if key == "journal":
                                 self.journal.append(str(val))
                                 continue
+                            if key == "trust_adj":
+                                self.npc_trust[npc] = self.npc_trust.get(npc, 0) + int(val)
+                                continue
                             if key.startswith("g+"):
                                 gflag = key[2:]
                                 self.npc_global_flags[gflag] = True
@@ -1091,7 +1108,25 @@ class Game:
                 negate = cond.startswith("!")
                 if negate:
                     cond = cond[1:]
-                present = bool(combined_flags.get(cond))
+                import re
+                trust_val = self.npc_trust.get(npc, 0)
+                m = re.match(r"trust\s*(>=|<=|==|!=|>|<)\s*(-?\d+)", cond)
+                if m:
+                    op, num = m.group(1), int(m.group(2))
+                    if op == ">":
+                        present = trust_val > num
+                    elif op == "<":
+                        present = trust_val < num
+                    elif op == ">=":
+                        present = trust_val >= num
+                    elif op == "<=":
+                        present = trust_val <= num
+                    elif op == "==":
+                        present = trust_val == num
+                    else:  # !=
+                        present = trust_val != num
+                else:
+                    present = bool(combined_flags.get(cond))
                 if present != negate:
                     self._output(text.lstrip())
                 i += 1
@@ -1172,6 +1207,7 @@ class Game:
             "glitch_steps": self.glitch_steps,
             "npc_state": self.npc_state,
             "npc_global_flags": self.npc_global_flags,
+            "npc_trust": self.npc_trust,
             "aliases": self.aliases,
             "command_history": self.command_history,
             "journal": self.journal,
@@ -1211,6 +1247,7 @@ class Game:
         self.glitch_steps = data.get("glitch_steps", 0)
         self.npc_state = data.get("npc_state", {})
         self.npc_global_flags = data.get("npc_global_flags", {})
+        self.npc_trust = data.get("npc_trust", {})
         self.aliases = data.get("aliases", {})
         self.command_history = data.get("command_history", [])
         self.journal = data.get("journal", [])
