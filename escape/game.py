@@ -14,6 +14,20 @@ import json
 class Game:
     """Simple command dispatcher for the terminal adventure."""
 
+    REQUIRED_ITEMS = {
+        "node3": "firmware.patch",
+        "node4": "root.access",
+        "node5": "super.user",
+        "node6": "admin.override",
+        "node7": "kernel.key",
+        "node8": "master.process",
+        "node9": "hypervisor.command",
+        "node10": "quantum.access",
+        "node11": "security.override",
+        "node12": "guardian.key",
+        "runtime": "kernel.key",
+    }
+
     def __init__(
         self,
         use_color: bool | None = None,
@@ -905,38 +919,10 @@ class Game:
             if "auth.token" not in self.inventory:
                 self._output("You need the auth.token to hack this node.")
                 return
-            if target_name == "node3" and "firmware.patch" not in self.inventory:
-                self._output("You need the firmware.patch to hack this node.")
-                return
-            if target_name == "node4" and "root.access" not in self.inventory:
-                self._output("You need the root.access to hack this node.")
-                return
-            if target_name == "node5" and "super.user" not in self.inventory:
-                self._output("You need the super.user to hack this node.")
-                return
-            if target_name == "node6" and "admin.override" not in self.inventory:
-                self._output("You need the admin.override to hack this node.")
-                return
-            if target_name == "node7" and "kernel.key" not in self.inventory:
-                self._output("You need the kernel.key to hack this node.")
-                return
-            if target_name == "node8" and "master.process" not in self.inventory:
-                self._output("You need the master.process to hack this node.")
-                return
-            if target_name == "node9" and "hypervisor.command" not in self.inventory:
-                self._output("You need the hypervisor.command to hack this node.")
-                return
-            if target_name == "node10" and "quantum.access" not in self.inventory:
-                self._output("You need the quantum.access to hack this node.")
-                return
-            if target_name == "node11" and "security.override" not in self.inventory:
-                self._output("You need the security.override to hack this node.")
-                return
-            if target_name == "node12" and "guardian.key" not in self.inventory:
-                self._output("You need the guardian.key to hack this node.")
-                return
-            if target_name == "runtime" and "kernel.key" not in self.inventory:
-                self._output("You need the kernel.key to hack this node.")
+
+            required = self.REQUIRED_ITEMS.get(target_name)
+            if required and required not in self.inventory:
+                self._output(f"You need the {required} to hack this node.")
                 return
         target.pop("locked", None)
         self._output("Access granted. The node is now unlocked.")
