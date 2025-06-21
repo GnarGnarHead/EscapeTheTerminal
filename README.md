@@ -160,6 +160,7 @@ treated as a module named after the zip file and loaded via
 ``zipimport.zipimporter``:
 
 You can add additional plugin directories by setting the `ET_PLUGIN_PATH` environment variable to one or more paths separated by the system path separator.
+The same value can be supplied on the command line with `--plugin-path`.
 
 
 ```python

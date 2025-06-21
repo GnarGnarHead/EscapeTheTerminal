@@ -1,5 +1,6 @@
 import os
 import sys
+import subprocess
 from pathlib import Path
 
 # Ensure local package is importable
@@ -132,3 +133,25 @@ def test_puzzle_plugin(monkeypatch, capsys):
     out_lines = capsys.readouterr().out.splitlines()
     assert any('Decode this:' in line for line in out_lines)
     assert 'Correct! Puzzle solved.' in out_lines
+
+
+def test_cli_plugin_path_flag(tmp_path):
+    plugin_dir = tmp_path / 'mods'
+    plugin_dir.mkdir()
+    plugin_file = plugin_dir / 'cliplug.py'
+    plugin_file.write_text(
+        "def hi(arg=\"\"):\n    game._output('Hi via CLI')\n\n"
+        "if 'game' in globals():\n    game.command_map['hi'] = lambda arg=\"\": hi(arg)\n"
+    )
+
+    env = os.environ.copy()
+    env['PYTHONPATH'] = os.path.dirname(os.path.dirname(__file__))
+    result = subprocess.run(
+        [sys.executable, '-m', 'escape', '--plugin-path', str(plugin_dir)],
+        input='hi\nquit\n',
+        text=True,
+        capture_output=True,
+        env=env,
+    )
+    assert 'Hi via CLI' in result.stdout
+    assert 'Goodbye' in result.stdout
