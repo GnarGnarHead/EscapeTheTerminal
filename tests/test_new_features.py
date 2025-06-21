@@ -89,7 +89,7 @@ def test_glitch_thresholds_modify_fs(capsys):
     for _ in range(5):
         game._output('tick')
     import random
-    expected = ['access.key', 'voice.log']
+    expected = ['access.key', 'voice.log', 'door']
     rnd = random.Random(20)
     rnd.shuffle(expected)
     assert game.fs['items'] == expected
