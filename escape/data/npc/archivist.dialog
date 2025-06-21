@@ -3,8 +3,10 @@ The archivist catalogues swirling fragments with meticulous precision.
 ?runtime:The archivist whispers of a hidden runtime.
 > Ask about restoring memories [+curious]
 > Browse the catalog [-curious]
+> Ask about training with the mentor [+mentor_tip;journal=The archivist suggested seeking the mentor.]
 > Leave
 "These records are fragile. Treat them kindly."
+?mentor_tip:"You might consult the mentor in the core to refine your skills."
 ---
 ?curious:The archivist opens a secure drawer filled with numbered logs.
 ?!curious:The archivist keeps the archives at a distance.

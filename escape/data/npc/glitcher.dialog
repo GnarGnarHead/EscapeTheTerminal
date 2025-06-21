@@ -3,6 +3,8 @@ The glitcher crackles with unstable energy.
 ?runtime:The glitcher vibrates, sensing the runtime breach.
 > Observe
 > Retreat
+> Ask about the guardian [+guardian_tip;journal=The glitcher whispered about the guardian.]
 "Fragments... fragments everywhere."
+?guardian_tip:"The guardian keeps the runtime stable... for now."
 ---
 ?*:The entity flickers out of phase.
