@@ -71,6 +71,11 @@
             "desc": "A shimmering path bridging memory and dream.",
             "items": [],
             "dirs": {}
+          },
+          "tech_lab": {
+            "desc": "A high-tech lab humming with experimental energy.",
+            "items": [],
+            "dirs": {}
           }
         }
       },
@@ -266,6 +271,10 @@
     "sandboxer": [
       "sandbox",
       "npc"
+    ],
+    "technomancer": [
+      "dream",
+      "tech_lab"
     ],
     "guardian": [
       "deep_network_node",
