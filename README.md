@@ -53,6 +53,7 @@ unexpected ways.
   - `sleep [reset|inc]` – fall asleep and enter the dream. Use `reset` to
     clear glitches or `inc` to deepen them
   - `score` – display your current score
+  - `stats` – show counts of visited locations and items collected
   - `restart` – reset the game while keeping color settings
   - `alias <name> <command>` – create a custom shortcut
   - `unalias <name>` – remove a previously defined shortcut
