@@ -1321,7 +1321,7 @@ def test_hack_node11_success():
     assert 'memory11.log' in out
 
 
-def test_scan_runtime_after_hack_node11():
+def test_scan_node12_after_hack_node11():
     result = subprocess.run(
         CMD,
         input=(
@@ -1376,6 +1376,214 @@ def test_scan_runtime_after_hack_node11():
             'cd node10\n'
             'hack node11\n'
             'scan node11\n'
+            'quit\n'
+        ),
+        text=True,
+        capture_output=True,
+    )
+    out = result.stdout
+    assert 'Discovered node12' in out
+
+
+def test_hack_node12_requires_guardian_key():
+    result = subprocess.run(
+        CMD,
+        input=(
+            'cd lab\n'
+            'take port.scanner\n'
+            'cd ..\n'
+            'scan network\n'
+            'hack network\n'
+            'cd network\n'
+            'scan node\n'
+            'cd node\n'
+            'take auth.token\n'
+            'hack node2\n'
+            'scan node2\n'
+            'cd node2\n'
+            'take firmware.patch\n'
+            'hack node3\n'
+            'scan node3\n'
+            'cd node3\n'
+            'take root.access\n'
+            'hack node4\n'
+            'scan node4\n'
+            'cd node4\n'
+            'take super.user\n'
+            'hack node5\n'
+            'scan node5\n'
+            'cd node5\n'
+            'take admin.override\n'
+            'hack node6\n'
+            'scan node6\n'
+            'cd node6\n'
+            'take kernel.key\n'
+            'hack node7\n'
+            'scan node7\n'
+            'cd node7\n'
+            'take master.process\n'
+            'hack node8\n'
+            'scan node8\n'
+            'cd node8\n'
+            'take hypervisor.command\n'
+            'hack node9\n'
+            'cd node9\n'
+            'take quantum.access\n'
+            'cd ..\n'
+            'scan node9\n'
+            'cd node9\n'
+            'hack node10\n'
+            'cd node10\n'
+            'take security.override\n'
+            'cd ..\n'
+            'scan node10\n'
+            'cd node10\n'
+            'hack node11\n'
+            'scan node11\n'
+            'cd node11\n'
+            'hack node12\n'
+            'quit\n'
+        ),
+        text=True,
+        capture_output=True,
+    )
+    out = result.stdout
+    assert 'You need the guardian.key to hack this node.' in out
+
+
+def test_hack_node12_success():
+    result = subprocess.run(
+        CMD,
+        input=(
+            'cd lab\n'
+            'take port.scanner\n'
+            'cd ..\n'
+            'scan network\n'
+            'hack network\n'
+            'cd network\n'
+            'scan node\n'
+            'cd node\n'
+            'take auth.token\n'
+            'hack node2\n'
+            'scan node2\n'
+            'cd node2\n'
+            'take firmware.patch\n'
+            'hack node3\n'
+            'scan node3\n'
+            'cd node3\n'
+            'take root.access\n'
+            'hack node4\n'
+            'scan node4\n'
+            'cd node4\n'
+            'take super.user\n'
+            'hack node5\n'
+            'scan node5\n'
+            'cd node5\n'
+            'take admin.override\n'
+            'hack node6\n'
+            'scan node6\n'
+            'cd node6\n'
+            'take kernel.key\n'
+            'hack node7\n'
+            'scan node7\n'
+            'cd node7\n'
+            'take master.process\n'
+            'hack node8\n'
+            'scan node8\n'
+            'cd node8\n'
+            'take hypervisor.command\n'
+            'hack node9\n'
+            'cd node9\n'
+            'take quantum.access\n'
+            'cd ..\n'
+            'scan node9\n'
+            'cd node9\n'
+            'hack node10\n'
+            'cd node10\n'
+            'take security.override\n'
+            'cd ..\n'
+            'scan node10\n'
+            'cd node10\n'
+            'hack node11\n'
+            'cd node11\n'
+            'take guardian.key\n'
+            'cd ..\n'
+            'scan node11\n'
+            'cd node11\n'
+            'hack node12\n'
+            'cd node12\n'
+            'ls\n'
+            'quit\n'
+        ),
+        text=True,
+        capture_output=True,
+    )
+    out = result.stdout
+    assert 'Access granted' in out
+    assert 'memory12.log' in out
+
+
+def test_scan_runtime_after_hack_node11():
+    result = subprocess.run(
+        CMD,
+        input=(
+            'cd lab\n'
+            'take port.scanner\n'
+            'cd ..\n'
+            'scan network\n'
+            'hack network\n'
+            'cd network\n'
+            'scan node\n'
+            'cd node\n'
+            'take auth.token\n'
+            'hack node2\n'
+            'scan node2\n'
+            'cd node2\n'
+            'take firmware.patch\n'
+            'hack node3\n'
+            'scan node3\n'
+            'cd node3\n'
+            'take root.access\n'
+            'hack node4\n'
+            'scan node4\n'
+            'cd node4\n'
+            'take super.user\n'
+            'hack node5\n'
+            'scan node5\n'
+            'cd node5\n'
+            'take admin.override\n'
+            'hack node6\n'
+            'scan node6\n'
+            'cd node6\n'
+            'take kernel.key\n'
+            'hack node7\n'
+            'scan node7\n'
+            'cd node7\n'
+            'take master.process\n'
+            'hack node8\n'
+            'scan node8\n'
+            'cd node8\n'
+            'take hypervisor.command\n'
+            'hack node9\n'
+            'cd node9\n'
+            'take quantum.access\n'
+            'cd ..\n'
+            'scan node9\n'
+            'cd node9\n'
+            'hack node10\n'
+            'cd node10\n'
+            'take security.override\n'
+            'cd ..\n'
+            'scan node10\n'
+            'cd node10\n'
+            'hack node11\n'
+            'cd node11\n'
+            'take guardian.key\n'
+            'cd ..\n'
+            'scan node11\n'
+            'cd node11\n'
+            'hack node12\n'
+            'scan node12\n'
             'quit\n'
         ),
         text=True,
@@ -1437,8 +1645,14 @@ def test_hack_runtime_requires_kernel_key():
             'cd node10\n'
             'take security.override\n'
             'hack node11\n'
+            'cd node11\n'
+            'take guardian.key\n'
+            'cd ..\n'
             'scan node11\n'
             'cd node11\n'
+            'hack node12\n'
+            'scan node12\n'
+            'cd node12\n'
             'drop kernel.key\n'
             'hack runtime\n'
             'quit\n'
@@ -1504,8 +1718,14 @@ def test_hack_runtime_success():
             'scan node10\n'
             'cd node10\n'
             'hack node11\n'
+            'cd node11\n'
+            'take guardian.key\n'
+            'cd ..\n'
             'scan node11\n'
             'cd node11\n'
+            'hack node12\n'
+            'scan node12\n'
+            'cd node12\n'
             'hack runtime\n'
             'cd runtime\n'
             'cat runtime.log\n'

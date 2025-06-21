@@ -790,7 +790,7 @@ class Game:
                     idx = int(directory[4:])
                 except ValueError:
                     idx = 1
-            if idx >= 11:
+            if idx >= 12:
                 next_name = "runtime"
             else:
                 next_name = f"node{idx+1}"
@@ -901,6 +901,9 @@ class Game:
                 return
             if target_name == "node11" and "security.override" not in self.inventory:
                 self._output("You need the security.override to hack this node.")
+                return
+            if target_name == "node12" and "guardian.key" not in self.inventory:
+                self._output("You need the guardian.key to hack this node.")
                 return
             if target_name == "runtime" and "kernel.key" not in self.inventory:
                 self._output("You need the kernel.key to hack this node.")

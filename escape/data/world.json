@@ -192,7 +192,15 @@
       "node11": {
         "desc": "The last bastion before the runtime environment.",
         "items": [
-          "memory11.log"
+          "memory11.log",
+          "guardian.key"
+        ]
+      },
+      "node12": {
+        "desc": "A heavily fortified node guarding the final gateway.",
+        "items": [
+          "guardian.key",
+          "memory12.log"
         ]
       },
       "runtime": {
@@ -313,7 +321,9 @@
     "memory8.log": "A consent form for this simulation test.",
     "memory9.log": "Your encryption signature embedded deep within.",
     "memory10.log": "Records of wiping your own identity.",
-    "memory11.log": "Proof you triggered the escape protocol."
+    "memory11.log": "Proof you triggered the escape protocol.",
+    "memory12.log": "The last memory before reaching the runtime.",
+    "guardian.key": "A special key required to breach the final node."
   },
   "recipes": {
     "flashback.log+reverie.log": "dream.index",
