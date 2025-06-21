@@ -481,11 +481,11 @@ class Game:
             else:
                 self._output(f"No help available for '{command}'.")
             return
-        self._output(
-            "Available commands: help, look, ls, cd <dir>, pwd, take <item>, drop <item>, "
-            "inventory, examine <item>, use <item> [on <target>], cat <file>, talk <npc>, "
-            "save [slot], load [slot], color [on|off|toggle], glitch, alias <name> <cmd>, unalias <name>, quit"
-        )
+
+        self._output("Available commands:")
+        for cmd in sorted(self.command_descriptions):
+            desc = self.command_descriptions[cmd]
+            self._output(f"{cmd}: {desc}")
 
     def _current_node(self):
         node = self.fs
