@@ -39,3 +39,39 @@ Game restarted.
 Persistent achievements are stored inside `Game.achievements`. They are saved
 alongside other game data and can be listed with the `achievements` command.
 
+## Journal Notes
+The `journal` command lets you keep simple notes. Without arguments it prints
+any saved lines. Use `journal add <text>` to append a new entry.
+
+```text
+> journal add Met the archivist in the vault
+Note added.
+> journal
+Met the archivist in the vault
+```
+
+## Quests
+Quests help track ongoing objectives. Run `quest` to list them, `quest add <text>`
+to create one and `quest complete <num|text>` to mark it finished.
+
+```text
+> quest add Find the hidden key
+Quest added.
+> quest
+1. Recover your lost memory
+2. Find the hidden key
+> quest complete 2
+Quest completed.
+```
+
+## Mood Changes
+Reading certain memory logs updates the avatar's emotional state. When the mood
+changes a short line like `(You feel alarmed.)` is shown before the next
+message.
+
+```text
+> cat memory8.log
+(You feel alarmed.)
+...log contents...
+```
+
