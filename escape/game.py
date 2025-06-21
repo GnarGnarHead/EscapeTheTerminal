@@ -79,8 +79,8 @@ class Game:
         self.npc_global_flags: dict[str, bool] = {}
         # per-NPC trust levels for conditional dialog
         self.npc_trust: dict[str, int] = {}
-        # populate multiple directories with extra procedurally generated content
-        filesystem.generate_extra_dirs(self, ["dream", "memory", "core"])
+        # story progression stage for unlocking features
+        self.progress_stage = 0
         self.use_messages = {
             "access.key": "The key hums softly and a hidden directory flickers into view.",
             "mem.fragment": "Fragments of your past flash before your eyes.",
@@ -730,6 +730,8 @@ class Game:
             }
             self.unlock_achievement("fragment_decoded")
             self.npc_global_flags["decoded"] = True
+            self.progress_stage = 1
+            self._generate_extra_dirs(["dream", "memory", "core"])
             if "Trace your runtime origin." not in self.quests:
                 self.quests.append("Trace your runtime origin.")
         self._output(
