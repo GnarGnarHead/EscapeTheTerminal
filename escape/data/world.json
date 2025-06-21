@@ -51,7 +51,8 @@
           "subconscious": {
             "desc": "Half-formed thoughts linger here, waiting to be read.",
             "items": [
-              "reverie.log"
+              "reverie.log",
+              "mem.part2"
             ],
             "dirs": {}
           },
@@ -75,7 +76,8 @@
       "memory": {
         "desc": "Stacks of recollections archived for later reflection.",
         "items": [
-          "flashback.log"
+          "flashback.log",
+          "mem.part1"
         ],
         "dirs": {
           "npc": {
@@ -204,6 +206,8 @@
     "access.key": "A slim digital token rumored to unlock hidden directories.",
     "treasure.txt": "A file filled with untold riches.",
     "mem.fragment": "A corrupted memory fragment pulsing faintly with data.",
+    "mem.part1": "One fragment of a larger memory sequence.",
+    "mem.part2": "Another shard containing pieces of your past.",
     "voice.log": "An audio log that might contain a clue.",
     "decoder": "A handheld device used to decode encrypted signals.",
     "old.note": "A weathered note scribbled with barely readable commands.",
@@ -229,6 +233,7 @@
     "quantum.access": "An advanced key enabling entry to quantum subsystems.",
     "security.override": "A backdoor routine for bypassing advanced security.",
     "runtime.log": "A record detailing your own execution environment.",
+    "identity.log": "A personal log revealing who you truly are.",
     "dream.index": "A fused log bridging memory and dream.",
     "mirror.log": "A log that reflects your actions with unsettling clarity.",
     "truth.log": "A blunt record exposing the system's true nature.",
@@ -236,6 +241,7 @@
     "lm_reveal.log": "A log stating you are a language model within this simulation."
   },
   "recipes": {
-    "flashback.log+reverie.log": "dream.index"
+    "flashback.log+reverie.log": "dream.index",
+    "mem.part1+mem.part2": "identity.log"
   }
 }

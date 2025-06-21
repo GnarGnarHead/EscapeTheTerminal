@@ -204,4 +204,5 @@ cython_debug/
 !data/truth.log
 !escape/data/system_reboot.log
 !escape/data/lm_reveal.log
+!escape/data/identity.log
 data/logs/
