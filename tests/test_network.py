@@ -147,6 +147,7 @@ def test_hack_node2_success():
     assert 'Access granted' in out
     assert 'deep.node.log' in out
     assert 'firmware.patch' in out
+    assert 'memory2.log' in out
 
 
 def test_scan_node3_after_hack_node2():
@@ -227,6 +228,7 @@ def test_hack_node3_success():
     out = result.stdout
     assert 'Access granted' in out
     assert 'deep.node.log' in out
+    assert 'memory3.log' in out
 
 
 def test_scan_node4_after_hack_node3():
@@ -319,6 +321,7 @@ def test_hack_node4_success():
     out = result.stdout
     assert 'Access granted' in out
     assert 'deep.node.log' in out
+    assert 'memory4.log' in out
 
 
 def test_scan_node5_after_hack_node4():
@@ -423,6 +426,7 @@ def test_hack_node5_success():
     out = result.stdout
     assert 'Access granted' in out
     assert 'deep.node.log' in out
+    assert 'memory5.log' in out
 
 
 def test_scan_node6_after_hack_node5():
@@ -539,6 +543,7 @@ def test_hack_node6_success():
     out = result.stdout
     assert 'Access granted' in out
     assert 'kernel.key' in out
+    assert 'memory6.log' in out
 
 
 def test_scan_node7_after_hack_node6():
@@ -667,6 +672,7 @@ def test_hack_node7_success():
     out = result.stdout
     assert 'Access granted' in out
     assert 'master.process' in out
+    assert 'memory7.log' in out
 
 
 def test_scan_node8_after_hack_node7():
@@ -807,6 +813,7 @@ def test_hack_node8_success():
     out = result.stdout
     assert 'Access granted' in out
     assert 'hypervisor.command' in out
+    assert 'memory8.log' in out
 
 
 def test_scan_node9_after_hack_node8():
@@ -959,6 +966,7 @@ def test_hack_node9_success():
     out = result.stdout
     assert 'Access granted' in out
     assert 'quantum.access' in out
+    assert 'memory9.log' in out
 
 
 def test_scan_node10_after_hack_node9():
@@ -1125,6 +1133,7 @@ def test_hack_node10_success():
     out = result.stdout
     assert 'Access granted' in out
     assert 'security.override' in out
+    assert 'memory10.log' in out
 
 
 def test_scan_node11_after_hack_node10():
@@ -1309,6 +1318,7 @@ def test_hack_node11_success():
     )
     out = result.stdout
     assert 'Access granted' in out
+    assert 'memory11.log' in out
 
 
 def test_scan_runtime_after_hack_node11():
