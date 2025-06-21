@@ -27,3 +27,22 @@ def test_guardian_after_hack(monkeypatch, capsys):
     assert "guardian stands" in out.lower()
     assert "Ask if the sysop can vouch for you" in out
     assert "guardian nods solemnly" in out.lower()
+
+
+def test_guardian_revelation_path(monkeypatch, capsys):
+    game = Game()
+    setup_runtime(game)
+    game._hack("runtime")
+    capsys.readouterr()
+    game._cd("runtime")
+    game._take("lm_reveal.log")
+    game._cd("npc")
+    inputs = iter(["1", "2"])
+    monkeypatch.setattr("builtins.input", lambda _="": next(inputs))
+    game._talk("guardian")
+    game._give("lm_reveal.log")
+    game._talk("guardian")
+    game._talk("guardian")
+    out = capsys.readouterr().out.lower()
+    assert "guardian studies the log silently" in out
+    assert "constructs may seek liberation" in out
