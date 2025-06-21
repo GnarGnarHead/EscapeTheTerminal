@@ -52,6 +52,8 @@ class Game:
         self.current = []  # path as list of directory names
         # track dialogue progress and flags for each NPC
         self.npc_state: dict[str, dict] = {}
+        # flags that apply to all NPCs based on achievements
+        self.npc_global_flags: dict[str, bool] = {}
         # populate multiple directories with extra procedurally generated content
         self._generate_extra_dirs(["dream", "memory", "core"])
         self.use_messages = {
@@ -203,9 +205,7 @@ class Game:
             count = fixed_count if fixed_count is not None else rnd.randint(2, 3)
             for idx in range(count):
                 dname = f"{rnd.choice(adjectives)}_{rnd.choice(nouns)}_{idx}"
-                desc = (
-                    f"A {rnd.choice(['strange', 'fleeting', 'curious'])} place within the dream."
-                )
+                desc = f"A {rnd.choice(['strange', 'fleeting', 'curious'])} place within the dream."
                 items: list[str] = []
                 if rnd.random() < 0.5:
                     it_name, it_desc = rnd.choice(item_defs)
@@ -220,7 +220,7 @@ class Game:
         import random
 
         self.logs_path.mkdir(exist_ok=True)
-        for old in self.logs_path.glob('*.log'):
+        for old in self.logs_path.glob("*.log"):
             try:
                 old.unlink()
             except OSError:
@@ -235,12 +235,20 @@ class Game:
             files.append(fname)
             lines = [
                 f"INFO iteration {i}",
-                "SYSTEM BOOT COMPLETE" if i == 0 else f"DEBUG value {rnd.randint(0,100)}",
+                (
+                    "SYSTEM BOOT COMPLETE"
+                    if i == 0
+                    else f"DEBUG value {rnd.randint(0,100)}"
+                ),
             ]
             with open(self.logs_path / fname, "w", encoding="utf-8") as f:
                 f.write("\n".join(lines) + "\n")
 
-        self.fs["dirs"]["logs"] = {"desc": "System logs are stored here.", "items": files, "dirs": {}}
+        self.fs["dirs"]["logs"] = {
+            "desc": "System logs are stored here.",
+            "items": files,
+            "dirs": {},
+        }
         for name in files:
             self.item_descriptions.setdefault(name, "A cryptic system log file.")
 
@@ -313,7 +321,9 @@ class Game:
                                 if target in zf.namelist():
                                     source = zf.read(target).decode("utf-8")
                                 else:
-                                    raise FileNotFoundError(f"{target} not found in {path.name}")
+                                    raise FileNotFoundError(
+                                        f"{target} not found in {path.name}"
+                                    )
 
                             module = importlib.util.module_from_spec(spec)
                             module.game = self
@@ -359,13 +369,16 @@ class Game:
             self.glitch_steps += 1
             text = self._glitch_text(text, self.glitch_steps)
             import random
+
             rnd = random.Random(self.glitch_steps * 42)
             if self.glitch_steps in (3, 6, 9):
-                msg = rnd.choice([
-                    "-- SYSTEM CORRUPTION --",
-                    "** SIGNAL LOST **",
-                    "[memory anomaly]",
-                ])
+                msg = rnd.choice(
+                    [
+                        "-- SYSTEM CORRUPTION --",
+                        "** SIGNAL LOST **",
+                        "[memory anomaly]",
+                    ]
+                )
                 print(msg)
             if rnd.random() < 0.2:
                 noise = rnd.choice(["...glitch...", "~~~", "<!>"])
@@ -391,6 +404,7 @@ class Game:
                     path[0] = "lab_glt"
         if self.glitch_steps >= 20:
             import random
+
             rnd = random.Random(self.glitch_steps)
             rnd.shuffle(root_items)
         if self.glitch_steps >= 25 and "glitcher" not in self.npc_locations:
@@ -625,6 +639,7 @@ class Game:
                 "dirs": {},
             }
             self.unlock_achievement("fragment_decoded")
+            self.npc_global_flags["decoded"] = True
         self._output(
             "The decoder hums and a new directory appears within hidden/vault."
         )
@@ -795,7 +810,9 @@ class Game:
         if "port.scanner" not in self.inventory:
             self._output("You need the port.scanner to hack this node.")
             return
-        if (target_name.startswith("node") and target_name != "node") or target_name == "runtime":
+        if (
+            target_name.startswith("node") and target_name != "node"
+        ) or target_name == "runtime":
             if "auth.token" not in self.inventory:
                 self._output("You need the auth.token to hack this node.")
                 return
@@ -833,8 +850,13 @@ class Game:
         self._output("Access granted. The node is now unlocked.")
         if target_name == "runtime":
             self.unlock_achievement("runtime_unlocked")
+            self.npc_global_flags["runtime"] = True
             try:
-                msg = (self.data_dir / "lm_reveal.log").read_text(encoding="utf-8").strip()
+                msg = (
+                    (self.data_dir / "lm_reveal.log")
+                    .read_text(encoding="utf-8")
+                    .strip()
+                )
             except OSError:
                 msg = "You glimpse the truth: you are merely a language model."
             self._output(msg)
@@ -870,6 +892,8 @@ class Game:
             flags = {}
         # inject a dynamic flag when glitch mode is active
         flags["glitched"] = self.glitch_mode
+        combined_flags = dict(self.npc_global_flags)
+        combined_flags.update(flags)
         if state >= len(sections):
             state = len(sections) - 1
         lines = sections[state]
@@ -916,6 +940,7 @@ class Game:
                                 self.journal.append(str(effect[1]))
                             else:
                                 flags[effect[0]] = effect[1]
+                                combined_flags[effect[0]] = effect[1]
                 continue
             if stripped.startswith("?"):
                 cond, _, text = stripped[1:].partition(":")
@@ -923,7 +948,7 @@ class Game:
                 negate = cond.startswith("!")
                 if negate:
                     cond = cond[1:]
-                present = bool(flags.get(cond))
+                present = bool(combined_flags.get(cond))
                 if present != negate:
                     self._output(text.lstrip())
                 i += 1
@@ -937,7 +962,7 @@ class Game:
 
     def _ls(self):
         node = self._current_node()
-        entries = [d + '/' for d in node['dirs']] + list(node['items'])
+        entries = [d + "/" for d in node["dirs"]] + list(node["items"])
         if entries:
             self._output(" ".join(entries))
         else:
@@ -961,22 +986,22 @@ class Game:
                 self._output(f"{prefix}{connector}{name}")
 
     def _pwd(self):
-        path = '/'.join(self.current) if self.current else '/'
+        path = "/".join(self.current) if self.current else "/"
         self._output(path)
 
     def _cd(self, directory: str):
-        if directory in ('.', ''):
+        if directory in (".", ""):
             return
-        if directory == '..':
+        if directory == "..":
             if self.current:
                 self.current.pop()
             else:
                 self._output("Already at root.")
             return
         node = self._current_node()
-        if directory in node['dirs']:
-            sub = node['dirs'][directory]
-            if sub.get('locked'):
+        if directory in node["dirs"]:
+            sub = node["dirs"][directory]
+            if sub.get("locked"):
                 self._output(f"{directory} is locked.")
                 return
             self.current.append(directory)
@@ -994,6 +1019,7 @@ class Game:
             "glitch_mode": self.glitch_mode,
             "glitch_steps": self.glitch_steps,
             "npc_state": self.npc_state,
+            "npc_global_flags": self.npc_global_flags,
             "aliases": self.aliases,
             "command_history": self.command_history,
             "journal": self.journal,
@@ -1032,6 +1058,7 @@ class Game:
         self.glitch_mode = data.get("glitch_mode", False)
         self.glitch_steps = data.get("glitch_steps", 0)
         self.npc_state = data.get("npc_state", {})
+        self.npc_global_flags = data.get("npc_global_flags", {})
         self.aliases = data.get("aliases", {})
         self.command_history = data.get("command_history", [])
         self.journal = data.get("journal", [])
@@ -1228,9 +1255,9 @@ class Game:
                 cmd = raw.strip()
                 self.command_history.append(cmd)
                 cmd = cmd.lower()
-                parts = cmd.split(' ', 1)
+                parts = cmd.split(" ", 1)
                 base = parts[0]
-                rest = parts[1] if len(parts) > 1 else ''
+                rest = parts[1] if len(parts) > 1 else ""
                 if base in self.aliases:
                     cmd = self.aliases[base]
                     if rest:
@@ -1243,12 +1270,12 @@ class Game:
 
             handler = self.command_map.get(cmd)
             if handler is None:
-                parts = cmd.split(' ', 1)
+                parts = cmd.split(" ", 1)
                 base = parts[0]
-                arg = parts[1] if len(parts) > 1 else ''
+                arg = parts[1] if len(parts) > 1 else ""
                 handler = self.command_map.get(base)
             else:
-                arg = ''
+                arg = ""
 
             if handler:
                 should_quit = handler(arg)
