@@ -556,9 +556,11 @@ class Game:
         self._output(f"Score: {self.score}")
 
     def _stats(self) -> None:
-        """Display counts of visited locations, collected items and score."""
+        """Display counts of visited locations, items, quests, achievements and score."""
         self._output(f"Visited locations: {len(self.visited_dirs)}")
         self._output(f"Items obtained: {len(self.collected_items)}")
+        self._output(f"Active quests: {len(self.quests)}")
+        self._output(f"Achievements unlocked: {len(self.achievements)}")
         self._output(f"Score: {self.score}")
 
     def unlock_achievement(self, name: str) -> None:
