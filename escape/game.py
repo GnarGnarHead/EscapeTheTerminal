@@ -231,8 +231,30 @@ class Game:
     def _toggle_glitch(self):
         self.glitch_mode = not self.glitch_mode
         state = "activated" if self.glitch_mode else "deactivated"
-        if not self.glitch_mode:
+        if self.glitch_mode:
+            if "glitch_root" not in self.fs.get("dirs", {}):
+                self.fs.setdefault("dirs", {})["glitch_root"] = {
+                    "desc": "A distorted mirror of the filesystem.",
+                    "items": [".ghost"],
+                    "dirs": {
+                        "false": {
+                            "desc": "A directory that denies its own existence.",
+                            "items": ["root"],
+                            "dirs": {},
+                        }
+                    },
+                }
+                self.item_descriptions.setdefault(
+                    ".ghost", "A hidden presence phasing in and out of reality."
+                )
+                self.item_descriptions.setdefault(
+                    "root", "An impossible file claiming to be the root."
+                )
+        else:
             self.glitch_steps = 0
+            self.fs.get("dirs", {}).pop("glitch_root", None)
+            if self.current and self.current[0] == "glitch_root":
+                self.current = []
         print(f"Glitch mode {state}.")
 
     def _color(self, arg: str = "") -> None:
@@ -310,6 +332,25 @@ class Game:
     def _apply_glitch_effects(self) -> None:
         """Mutate the filesystem when glitch intensity crosses thresholds."""
         root_items = self.fs.setdefault("items", [])
+        root_dirs = self.fs.setdefault("dirs", {})
+        if self.glitch_mode and "glitch_root" not in root_dirs:
+            root_dirs["glitch_root"] = {
+                "desc": "A distorted mirror of the filesystem.",
+                "items": [".ghost"],
+                "dirs": {
+                    "false": {
+                        "desc": "A directory that denies its own existence.",
+                        "items": ["root"],
+                        "dirs": {},
+                    }
+                },
+            }
+            self.item_descriptions.setdefault(
+                ".ghost", "A hidden presence phasing in and out of reality."
+            )
+            self.item_descriptions.setdefault(
+                "root", "An impossible file claiming to be the root."
+            )
         if self.glitch_steps == 12:
             self._output(
                 "For a split second a directory named 'beyond/' blinks into existence then fades."
