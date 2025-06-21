@@ -1,0 +1,3 @@
+audit - Show model and prompt audit info
+Usage: audit
+Example: audit

@@ -37,6 +37,7 @@ COMMAND_DESCRIPTIONS: dict[str, str] = {
     "sleep": "Enter the dream state and rest",
     "score": "Show your current score",
     "stats": "Show gameplay statistics",
+    "audit": "Show model and prompt audit info",
     "achievements": "List unlocked achievements",
     "tutorial": "Guided introduction to core commands",
     "restart": "Restart the game",
@@ -93,4 +94,5 @@ def build_command_map(game: "Game") -> dict[str, Callable[[str], bool | None]]:
         "alias": lambda arg="": game._alias(arg),
         "unalias": lambda arg="": game._unalias(arg),
         "plugins": lambda arg="": game._plugins(),
+        "audit": lambda arg="": game._audit(),
     }
