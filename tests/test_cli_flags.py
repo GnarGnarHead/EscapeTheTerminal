@@ -54,3 +54,15 @@ def test_extra_count_flag():
     assert 'misty_alcove_0/' in out
     assert 'neon_alcove_0/' in out
     assert 'echoing_hall_1/' in out
+
+
+def test_version_flag():
+    import importlib.metadata
+
+    version = importlib.metadata.version('escape-the-terminal')
+    result = subprocess.run(
+        CMD + ['--version'],
+        text=True,
+        capture_output=True,
+    )
+    assert version in result.stdout

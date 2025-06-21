@@ -3,6 +3,8 @@ from __future__ import annotations
 
 from .game import Game
 
+import importlib.metadata
+
 
 def main(argv: list[str] | None = None):
     import argparse
@@ -26,7 +28,16 @@ def main(argv: list[str] | None = None):
         metavar="num",
         help="number of extra directories per base",
     )
+    parser.add_argument(
+        "--version",
+        action="store_true",
+        help="show program version and exit",
+    )
     args = parser.parse_args(argv)
+
+    if args.version:
+        print(importlib.metadata.version("escape-the-terminal"))
+        return
 
     import os
 
