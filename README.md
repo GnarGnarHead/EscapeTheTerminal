@@ -225,3 +225,9 @@ state when using the ``save`` and ``load`` commands. Inside the game you can run
 the ``achievements`` command to display any that have been unlocked.
 See [docs/GAME_MECHANICS.md](docs/GAME_MECHANICS.md) for details on scoring and
 the restart command.
+
+## Emotional Feedback
+Reading certain memory logs now changes your avatar's mood. The current
+`emotion_state` starts as `confused` and may become `alarmed` or `hopeful`
+when key memories surface. Whenever this state changes a short thought like
+`(You feel hopeful.)` is printed before the next line of output.
