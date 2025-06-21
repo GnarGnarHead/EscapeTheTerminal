@@ -98,7 +98,9 @@ Endings include:
 
 The world now includes optional side quests and branching conversations with NPCs.
 Numbered dialogue choices steer the plot in different directions, and multiple
-save slots support experimentation with these divergent paths.
+save slots support experimentation with these divergent paths. Some quests span
+several NPCs, requiring you to deliver items and build trust using the new
+`give` command before further dialog unlocks.
 
 ---
 

@@ -25,7 +25,7 @@ unexpected ways.
 
    **Core commands**
    - `look [dir]` / `look around` – describe the current room or a subdirectory
-  - `take <item>` / `drop <item>` / `give <item>` – manage or hand over inventory items
+  - `take <item>` / `drop <item>` / `give <item>` – manage inventory and hand requested items to NPCs
    - `inventory` / `i` / `inv` – show what you're carrying
    - `examine <item>` – get a closer look at an object
   - `use <item> [on <target>]` – interact with items (e.g. `use access.key on door` reveals hidden areas)
@@ -50,6 +50,7 @@ unexpected ways.
   - `man <command>` – show the manual page for a command
   - `journal` – view notes or `journal add <text>` to record a message
   - `quest` – list quests or `quest add <text>` / `quest complete <id>`
+    (quests can span multiple NPCs and progress through item exchanges)
   - `sleep [reset|inc]` – fall asleep and enter the dream. Use `reset` to
     clear glitches or `inc` to deepen them
   - `score` – display your current score
@@ -152,6 +153,11 @@ Modders can create additional files following this pattern and place their NPCs
 in the game world by extending ``Game.npc_locations``.
 The provided ``oracle.dialog`` shows a multi-stage conversation for an oracle
 NPC located under ``dream/oracle/``.
+
+Cross-NPC quests let conversations hand off objectives between characters. An
+NPC might ask you to deliver an item or speak with someone else before they
+reveal more dialog. Use ``give <item>`` after talking to them to hand over what
+they want and progress the shared quest chain.
 
 ## Plugins
 See [docs/PLUGIN_DEVELOPMENT.md](docs/PLUGIN_DEVELOPMENT.md) for a full guide on creating and loading plugins.

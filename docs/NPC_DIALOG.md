@@ -9,6 +9,8 @@ Lines beginning with `>` are presented to the player as numbered options. The se
 > Ask about escape [+curious]
 > Demand access [-polite]
 > Pick a style [style=quiet]
+> Offer assistance [trust+=1]
+> Discuss the archives [give=flashback.log;trust+=1]
 ```
 
 - `+flag` sets `flag` to `true`.
@@ -16,8 +18,9 @@ Lines beginning with `>` are presented to the player as numbered options. The se
 - `flag` without a prefix also sets the flag to `true`.
 - `flag=value` stores an arbitrary value.
 - `give=item` shows the choice only after the item was given with the `give` command.
+- `trust+=1` adds to a numeric trust counter used to unlock later dialog.
 
-Use the in-game `give` command after speaking with an NPC to hand over the requested item. Subsequent dialog can reference this item using the `[give=item]` directive on choices.
+Use the in-game `give` command after speaking with an NPC to hand over the requested item. Subsequent dialog can reference this item using the `[give=item]` directive on choices. You can also increase rapport with `[trust+=1]` to reveal new lines over multiple conversations.
 
 ## Conditional lines
 Lines starting with `?` show text only when a flag condition is met. Prefix the flag with `!` to invert the check.
