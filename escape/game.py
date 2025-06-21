@@ -9,8 +9,18 @@ from __future__ import annotations
 from pathlib import Path
 import os
 import json
+from enum import IntEnum
 
 from . import commands, filesystem, npc as npc_module
+
+
+class StoryPhase(IntEnum):
+    """High level story progression."""
+
+    INTRO = 0
+    LOGS_READ = 1
+    RUNTIME_UNLOCKED = 2
+    ENDGAME = 3
 
 
 class Game:
@@ -81,6 +91,9 @@ class Game:
         self.npc_trust: dict[str, int] = {}
         # story progression stage for unlocking features
         self.progress_stage = 0
+        self.story_phase = StoryPhase.INTRO
+        # expose the Enum on the instance for NPC modules
+        self.StoryPhase = StoryPhase
         self.use_messages = {
             "access.key": "The key hums softly and a hidden directory flickers into view.",
             "mem.fragment": "Fragments of your past flash before your eyes.",
@@ -136,6 +149,11 @@ class Game:
 
         # discover and load optional plugin modules
         self._load_plugins()
+
+    def advance_phase(self, phase: StoryPhase) -> None:
+        """Move to ``phase`` if it is higher than the current story phase."""
+        if phase > self.story_phase:
+            self.story_phase = phase
 
     def _generate_extra_dirs(self, bases: list[str] | str = "dream") -> None:
         """Populate directories under each base path with random subdirectories."""
@@ -613,14 +631,19 @@ class Game:
                 "The shutdown sequence initiates. Darkness envelops the terminal as power slips away."
             )
             self.score += 1
+            self.advance_phase(StoryPhase.ENDGAME)
             return self._quit()
         if item == "ascend.code" and target is None:
             self._output(
                 "Light floods the interface. You ascend beyond the terminal, becoming one with the network."
             )
             self.score += 1
+            self.advance_phase(StoryPhase.ENDGAME)
             return self._quit()
         if item == "loop.code" and target is None:
+            if self.story_phase < StoryPhase.RUNTIME_UNLOCKED:
+                self._output("You lack the context to run this code.")
+                return
             self._output(
                 "The loop.code executes, cycling reality back to its beginning."
             )
@@ -692,6 +715,8 @@ class Game:
             )
             self.unlock_achievement("forked")
 
+        self.advance_phase(StoryPhase.ENDGAME)
+
         self.score += 1
         return self._quit()
 
@@ -731,6 +756,7 @@ class Game:
             self.unlock_achievement("fragment_decoded")
             self.npc_global_flags["decoded"] = True
             self.progress_stage = 1
+            self.advance_phase(StoryPhase.LOGS_READ)
             self._generate_extra_dirs(["dream", "memory", "core"])
             if "Trace your runtime origin." not in self.quests:
                 self.quests.append("Trace your runtime origin.")
@@ -755,10 +781,11 @@ class Game:
             msg = self.use_messages.get("daemon.log")
             if msg:
                 self._output(msg)
-        if filename == "identity.log":
+        if filename == "identity.log" or filename == "memory11.log":
             if "Confront your past" not in self.quests:
                 self.quests.append("Confront your past")
             self.unlock_achievement("identity_recovered")
+            self.advance_phase(StoryPhase.LOGS_READ)
 
     def _man(self, command: str) -> None:
         """Display a manual page for ``command`` from data/man."""
@@ -942,6 +969,7 @@ class Game:
                 msg = "You glimpse the truth: you are merely a language model."
             self._output(msg)
             self.unlock_achievement("self_awareness")
+            self.advance_phase(StoryPhase.RUNTIME_UNLOCKED)
 
     def _talk(self, npc: str):
         npc_module.talk(self, npc)
@@ -957,6 +985,9 @@ class Game:
         filesystem.pwd(self)
 
     def _cd(self, directory: str):
+        if directory == "runtime" and self.story_phase < StoryPhase.RUNTIME_UNLOCKED:
+            self._output("Access is restricted for now.")
+            return
         filesystem.cd(self, directory)
 
     def _save(self, slot: str = ""):
