@@ -20,6 +20,7 @@ The sage sits quietly among ancient files.
 > Offer thanks [+grateful]
 > Depart
 "The path is yours to walk."
+?count>2:The sage grows skeptical of your shifting stance, fearing you might delete these archives or fork them.
 ---
 ?grateful:The sage blesses your journey before returning to silence.
 ?!grateful:The sage resumes quiet contemplation.
