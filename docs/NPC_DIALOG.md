@@ -15,6 +15,9 @@ Lines beginning with `>` are presented to the player as numbered options. The se
 - `-flag` sets `flag` to `false`.
 - `flag` without a prefix also sets the flag to `true`.
 - `flag=value` stores an arbitrary value.
+- `give=item` shows the choice only after the item was given with the `give` command.
+
+Use the in-game `give` command after speaking with an NPC to hand over the requested item. Subsequent dialog can reference this item using the `[give=item]` directive on choices.
 
 ## Conditional lines
 Lines starting with `?` show text only when a flag condition is met. Prefix the flag with `!` to invert the check.

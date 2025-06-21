@@ -25,7 +25,7 @@ unexpected ways.
 
    **Core commands**
    - `look [dir]` / `look around` – describe the current room or a subdirectory
-   - `take <item>` / `drop <item>` – manage inventory items
+  - `take <item>` / `drop <item>` / `give <item>` – manage or hand over inventory items
    - `inventory` / `i` / `inv` – show what you're carrying
    - `examine <item>` – get a closer look at an object
   - `use <item> [on <target>]` – interact with items (e.g. `use access.key on door` reveals hidden areas)

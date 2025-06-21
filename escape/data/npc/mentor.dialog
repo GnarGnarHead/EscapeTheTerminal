@@ -6,11 +6,13 @@ The mentor studies you from behind a screen of scrolling code.
 > Ask about the archives [+archive_hint;journal=The mentor suggested speaking to the archivist.]
 > Leave
 "Focus is the foundation of mastery."
+"Bring me the lucid note from the dream if you find it."
 ?archive_hint:"The archivist in memory can help recover what you've lost."
 ---
 ?respect:The mentor nods approvingly at your dedication.
 ?!respect:The mentor's eyes narrow at your defiance.
 > Ask about advanced techniques [+curious]
+> Demonstrate lucid techniques [give=lucid.note]
 > Step away
 "Practice turns knowledge into skill."
 ---
