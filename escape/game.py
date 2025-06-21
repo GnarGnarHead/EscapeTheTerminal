@@ -1396,6 +1396,19 @@ class Game:
             if "Gain the guardian's approval" in self.quests:
                 self.quests.remove("Gain the guardian's approval")
 
+        if (
+            self.npc_global_flags.get("dreamer_hint")
+            and not self.npc_global_flags.get("dreamer_met")
+            and "Seek the dreamer" not in self.quests
+        ):
+            self.quests.append("Seek the dreamer")
+        if (
+            self.npc_global_flags.get("mentor_tip")
+            and not self.npc_global_flags.get("mentor_met")
+            and "Train with the mentor" not in self.quests
+        ):
+            self.quests.append("Train with the mentor")
+
     def _combine(self, arg: str) -> None:
         """Combine two inventory items when a recipe matches."""
         arg = arg.strip()

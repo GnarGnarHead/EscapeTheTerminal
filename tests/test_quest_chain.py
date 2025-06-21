@@ -63,6 +63,22 @@ def test_sequential_quest_chain(monkeypatch, capsys):
     assert "Gain the guardian's approval" not in game.quests
 
 
+def test_dreamer_hint_from_archivist(monkeypatch, capsys):
+    game = Game()
+    game._cd("memory")
+    game._cd("npc")
+    # preconfigure archivist to final section with item given
+    game.npc_state["archivist"] = {"section": 4, "flags": {}, "given": ["flashback.log"]}
+    game.npc_trust["archivist"] = 1
+    inputs = iter(["1"])
+    monkeypatch.setattr("builtins.input", lambda _="": next(inputs))
+    game._talk("archivist")
+    out = capsys.readouterr().out
+    assert "dreamer can piece together" in out
+    assert game.npc_global_flags.get("dreamer_hint")
+    assert "Seek the dreamer" in game.quests
+
+
 def test_quest_chain_final_state(monkeypatch, capsys):
     game = Game()
     # archivist step

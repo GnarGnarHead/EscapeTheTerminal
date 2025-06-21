@@ -24,5 +24,6 @@ The archivist catalogues swirling fragments with meticulous precision.
 The archivist files away another memory and says no more.
 ---
 ?trust>0:The archivist awaits the promised log.
-> Discuss the flashback entry [give=flashback.log;trust+=1]
+> Discuss the flashback entry [give=flashback.log;trust+=1;+g+dreamer_hint]
 ?trust>1:The archivist quietly reveals a hidden backup archive.
+?trust>1:"Perhaps the dreamer can piece together what we cannot."
