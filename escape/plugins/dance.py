@@ -1,3 +1,11 @@
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from escape import Game
+
+    game: Game
+
+
 def dance(arg=""):
     """Print a playful dance message."""
     game._output(f"Dancing {arg}" if arg else "Dancing")
