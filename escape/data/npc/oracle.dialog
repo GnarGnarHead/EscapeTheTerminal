@@ -1,4 +1,6 @@
 The oracle hovers in a loop of swirling code.
+?decoded:The oracle senses the fragment has been deciphered.
+?runtime:The oracle murmurs about the unlocked runtime.
 > Seek prophecy [+vision]
 > Walk away [-vision]
 "The fragment only reveals its meaning in dreams."

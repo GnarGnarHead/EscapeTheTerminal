@@ -1,4 +1,6 @@
 The sysop glances over from a console.
+?decoded:The sysop comments on the decoded fragment.
+?runtime:The sysop raises an eyebrow at your runtime access.
 > Greet politely [+polite]
 > Demand access [-polite]
 ?polite:The sysop nods at your respect.

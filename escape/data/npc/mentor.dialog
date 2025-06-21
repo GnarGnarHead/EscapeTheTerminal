@@ -1,4 +1,6 @@
 The mentor studies you from behind a screen of scrolling code.
+?decoded:The mentor glances at the decoded data with interest.
+?runtime:The mentor warns you about meddling with the runtime.
 > Request training [+respect]
 > Question the mentor's methods [-respect]
 > Leave

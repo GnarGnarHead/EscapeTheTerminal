@@ -1,4 +1,6 @@
 The archivist catalogues swirling fragments with meticulous precision.
+?decoded:The archivist nods at your decrypted fragment.
+?runtime:The archivist whispers of a hidden runtime.
 > Ask about restoring memories [+curious]
 > Browse the catalog [-curious]
 > Leave
