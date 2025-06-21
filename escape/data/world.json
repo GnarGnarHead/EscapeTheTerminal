@@ -201,7 +201,13 @@
           "runtime.log",
           "lm_reveal.log"
         ],
-        "dirs": {}
+        "dirs": {
+          "npc": {
+            "desc": "A vigilant guardian monitors access here.",
+            "items": [],
+            "dirs": {}
+          }
+        }
       },
       "node2": {
         "items": [
@@ -251,6 +257,11 @@
     ],
     "sandboxer": [
       "sandbox",
+      "npc"
+    ],
+    "guardian": [
+      "deep_network_node",
+      "runtime",
       "npc"
     ]
   },

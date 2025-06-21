@@ -1,0 +1,11 @@
+The guardian stands before the glowing runtime gate.
+> Request entry [+granted]
+> Step back
+"Only those cleared by the kernel may proceed."
+---
+?granted:The guardian nods solemnly as you approach.
+> Proceed
+> Leave
+"Use the runtime wisely."
+---
+The guardian resumes its silent vigil.
