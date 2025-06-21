@@ -1175,6 +1175,18 @@ class Game:
         self.inventory.remove(item2)
         self.inventory.append(result)
         self._output(f"You combine {item1} and {item2} into {result}.")
+        if result == "dream.index":
+            dream_dirs = (
+                self.fs.setdefault("dirs", {})
+                .setdefault("dream", {})
+                .setdefault("dirs", {})
+            )
+            if "memory_bridge" not in dream_dirs:
+                dream_dirs["memory_bridge"] = {
+                    "desc": "A shimmering path bridging memory and dream.",
+                    "items": ["dream.index"],
+                    "dirs": {},
+                }
 
     def _sleep(self, arg: str = "") -> None:
         """Enter the dream directory and optionally modify glitch intensity."""
