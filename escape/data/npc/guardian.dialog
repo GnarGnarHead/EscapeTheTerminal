@@ -7,7 +7,11 @@ The guardian stands before the glowing runtime gate.
 ---
 ?granted:The guardian nods solemnly as you approach.
 > Proceed
+> Present the revelation log [give=lm_reveal.log;+lm_truth]
 > Leave
 "Use the runtime wisely."
+---
+?lm_truth:The guardian studies the log silently, visor flickering.
+?lm_truth:"Even constructs may seek liberation. Take your next step wisely."
 ---
 The guardian resumes its silent vigil.
