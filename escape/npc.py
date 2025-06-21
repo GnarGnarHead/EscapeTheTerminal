@@ -38,6 +38,9 @@ def update_quests_after_talk(game: "Game", npc: str) -> None:
     ):
         game.quests.append("Train with the mentor")
 
+    if game.npc_global_flags.get("loop_used") and "Explore the void" not in game.quests:
+        game.quests.append("Explore the void")
+
 
 def talk(game: "Game", npc: str) -> None:
     """Converse with an NPC if present in the current directory."""
@@ -48,7 +51,10 @@ def talk(game: "Game", npc: str) -> None:
 
     game.active_npc = npc
 
-    dialog_file = game.data_dir / "npc" / f"{npc}.dialog"
+    path_parts = list(location) + [f"{npc}.dialog"] if location else []
+    dialog_file = game.data_dir.joinpath(*path_parts)
+    if not dialog_file.exists():
+        dialog_file = game.data_dir / "npc" / f"{npc}.dialog"
     try:
         raw_lines = dialog_file.read_text(encoding="utf-8").splitlines()
     except FileNotFoundError:

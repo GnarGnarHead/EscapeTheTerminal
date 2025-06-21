@@ -516,6 +516,12 @@ class Game:
             self._output("Loop")
             self.score += 1
             self._restart()
+            # after restarting, mark that the loop was triggered and unlock the void
+            self.npc_global_flags["loop_used"] = True
+            void_dir = self.fs.get("dirs", {}).get("void")
+            if isinstance(void_dir, dict):
+                void_dir.pop("locked", None)
+            self.npc_locations["wanderer"] = ["void", "npc"]
             return
         if item == "access.key" and (target == "door" or target is None):
             root = self.fs
