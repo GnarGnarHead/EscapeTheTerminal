@@ -707,6 +707,10 @@ class Game:
             msg = self.use_messages.get("daemon.log")
             if msg:
                 self._output(msg)
+        if filename == "identity.log":
+            if "Confront your past" not in self.quests:
+                self.quests.append("Confront your past")
+            self.unlock_achievement("identity_recovered")
 
     def _man(self, command: str) -> None:
         """Display a manual page for ``command`` from data/man."""
