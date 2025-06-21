@@ -183,5 +183,6 @@ def test_plugins_command_lists_builtins(monkeypatch, capsys):
         'escape.plugins.puzzle',
         'escape.plugins.theme',
         'escape.plugins.riddle',
+        'escape.plugins.cipher',
     }
     assert expected.issubset(set(out_lines))

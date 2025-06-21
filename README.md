@@ -208,7 +208,12 @@ others.
 
 The repository includes a few example plugins that are loaded automatically.
 Run ``theme dark`` or ``theme neon`` to change the directory and item colors at
-runtime, or try ``puzzle`` to solve a short encoded riddle.
+runtime, or try ``puzzle`` and ``cipher`` to solve short encoded riddles.
+
+Example ``cipher`` usage::
+
+    cipher
+    cipher You found a secret decoder.
 
 ## Custom Worlds
 The starting filesystem, NPC locations and item descriptions are defined in
