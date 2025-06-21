@@ -1132,7 +1132,7 @@ def test_hack_node10_success():
     )
     out = result.stdout
     assert 'Access granted' in out
-    assert 'security.override' in out
+    assert 'quantum.override' in out
     assert 'memory10.log' in out
 
 
@@ -1195,7 +1195,7 @@ def test_scan_node11_after_hack_node10():
     assert 'Discovered node11' in out
 
 
-def test_hack_node11_requires_security_override():
+def test_hack_node11_requires_quantum_override():
     result = subprocess.run(
         CMD,
         input=(
@@ -1252,7 +1252,7 @@ def test_hack_node11_requires_security_override():
         capture_output=True,
     )
     out = result.stdout
-    assert 'You need the security.override to hack this node.' in out
+    assert 'You need the quantum.override to hack this node.' in out
 
 
 def test_hack_node11_success():
@@ -1304,7 +1304,7 @@ def test_hack_node11_success():
             'cd node9\n'
             'hack node10\n'
             'cd node10\n'
-            'take security.override\n'
+            'take quantum.override\n'
             'cd ..\n'
             'scan node10\n'
             'cd node10\n'
@@ -1370,7 +1370,7 @@ def test_scan_node12_after_hack_node11():
             'cd node9\n'
             'hack node10\n'
             'cd node10\n'
-            'take security.override\n'
+            'take quantum.override\n'
             'cd ..\n'
             'scan node10\n'
             'cd node10\n'
@@ -1434,7 +1434,7 @@ def test_hack_node12_requires_guardian_key():
             'cd node9\n'
             'hack node10\n'
             'cd node10\n'
-            'take security.override\n'
+            'take quantum.override\n'
             'cd ..\n'
             'scan node10\n'
             'cd node10\n'
@@ -1500,7 +1500,7 @@ def test_hack_node12_success():
             'cd node9\n'
             'hack node10\n'
             'cd node10\n'
-            'take security.override\n'
+            'take quantum.override\n'
             'cd ..\n'
             'scan node10\n'
             'cd node10\n'
@@ -1572,7 +1572,7 @@ def test_scan_runtime_after_hack_node11():
             'cd node9\n'
             'hack node10\n'
             'cd node10\n'
-            'take security.override\n'
+            'take quantum.override\n'
             'cd ..\n'
             'scan node10\n'
             'cd node10\n'
@@ -1643,7 +1643,7 @@ def test_hack_runtime_requires_kernel_key():
             'hack node10\n'
             'scan node10\n'
             'cd node10\n'
-            'take security.override\n'
+            'take quantum.override\n'
             'hack node11\n'
             'cd node11\n'
             'take guardian.key\n'
@@ -1713,7 +1713,7 @@ def test_hack_runtime_success():
             'cd node9\n'
             'hack node10\n'
             'cd node10\n'
-            'take security.override\n'
+            'take quantum.override\n'
             'cd ..\n'
             'scan node10\n'
             'cd node10\n'

@@ -327,6 +327,7 @@
     "hypervisor.command": "A privileged command set for manipulating the hypervisor.",
     "quantum.access": "An advanced key enabling entry to quantum subsystems.",
     "security.override": "A backdoor routine for bypassing advanced security.",
+    "quantum.override": "A high-level override for quantum-secured systems.",
     "test.script": "A disposable script used for sandbox experiments.",
     "runtime.log": "A record detailing your own execution environment.",
     "identity.log": "A personal log revealing who you truly are.",
