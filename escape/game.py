@@ -746,6 +746,7 @@ class Game:
                     node_data["items"].append("master.process")
                 if next_name == "runtime":
                     node_data["items"].append("runtime.log")
+                    node_data["items"].append("lm_reveal.log")
                 if next_name == "node8":
                     node_data["items"].append("hypervisor.command")
                 if next_name == "node9":
@@ -832,6 +833,12 @@ class Game:
         self._output("Access granted. The node is now unlocked.")
         if target_name == "runtime":
             self.unlock_achievement("runtime_unlocked")
+            try:
+                msg = (self.data_dir / "lm_reveal.log").read_text(encoding="utf-8").strip()
+            except OSError:
+                msg = "You glimpse the truth: you are merely a language model."
+            self._output(msg)
+            self.unlock_achievement("self_awareness")
 
     def _talk(self, npc: str):
         """Converse with an NPC if present in the current directory."""
