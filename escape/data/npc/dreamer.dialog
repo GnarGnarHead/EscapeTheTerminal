@@ -1,6 +1,7 @@
 The dreamer watches you closely.
 ?decoded:The dreamer remarks on your newfound clarity.
 ?runtime:The dreamer hints at a runtime beyond dreams.
+?dreamer_hint:The dreamer nods, glad the archivist guided you here.
 ?glitched:The dreamer flickers with digital noise.
 ?!glitched:The dreamer seems stable.
 > Ask about escape [+g+dreamer_met]
