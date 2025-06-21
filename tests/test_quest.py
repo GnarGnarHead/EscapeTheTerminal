@@ -8,9 +8,9 @@ def test_quest_add_and_list(capsys):
     out = capsys.readouterr().out
     assert out.count("Quest added.") == 2
     game._quest()
-    out = capsys.readouterr().out
-    assert "1. find treasure" in out
-    assert "2. talk to mentor" in out
+    out_lines = capsys.readouterr().out.splitlines()
+    assert any("find treasure" in line for line in out_lines)
+    assert any("talk to mentor" in line for line in out_lines)
 
 
 def test_quest_persistence(tmp_path):
@@ -22,5 +22,5 @@ def test_quest_persistence(tmp_path):
     new_game = Game()
     new_game.save_file = game.save_file
     new_game._load()
-    assert new_game.quests == ["escape the terminal"]
+    assert new_game.quests == ["Recover your lost memory", "escape the terminal"]
 

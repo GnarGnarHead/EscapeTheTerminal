@@ -7,7 +7,7 @@ The sage sits quietly among ancient files.
 ?humble:The sage smiles gently at your approach.
 ?!humble:The sage eyes you warily.
 > Ask about escape [+curious]
-> Ask about the fragment [+fragment]
+> Ask about the fragment [+fragment;journal=The sage hinted at a decoder in the lab.]
 > Take your leave
 "Knowledge flows to those who listen."
 ---
