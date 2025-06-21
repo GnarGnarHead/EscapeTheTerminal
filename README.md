@@ -43,6 +43,7 @@ unexpected ways.
   - `glitch` – toggle glitch mode for scrambled descriptions. The longer it
     stays active the stronger the corruption becomes and occasional glitch
     messages may appear.
+    Special messages trigger at steps 12 and 18, hinting at a fleeting directory or phantom file.
   - `color on` / `color off` / `color toggle` – enable, disable or toggle ANSI colors
   - `prompt [text]` – show or change the input prompt
   - `history` – display the commands you've entered this session
