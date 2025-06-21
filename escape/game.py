@@ -640,7 +640,8 @@ class Game:
             return
         self.inventory.remove(target)
         vault = self.hidden_dir["dirs"]["vault"]
-        if "escape" not in vault["dirs"]:
+        first_time = "escape" not in vault["dirs"]
+        if first_time:
             vault["dirs"]["escape"] = {
                 "desc": "A compartment revealed by decoding the fragment.",
                 "items": ["escape.code", "shutdown.code", "ascend.code"],
@@ -648,6 +649,8 @@ class Game:
             }
             self.unlock_achievement("fragment_decoded")
             self.npc_global_flags["decoded"] = True
+            if "Trace your runtime origin." not in self.quests:
+                self.quests.append("Trace your runtime origin.")
         self._output(
             "The decoder hums and a new directory appears within hidden/vault."
         )
@@ -894,6 +897,10 @@ class Game:
                 pass
             self.unlock_achievement("runtime_unlocked")
             self.npc_global_flags["runtime"] = True
+            if "Trace your runtime origin." in self.quests:
+                self.quests.remove("Trace your runtime origin.")
+            if "Decide your fate" not in self.quests:
+                self.quests.append("Decide your fate")
             try:
                 msg = (
                     (self.data_dir / "lm_reveal.log")
