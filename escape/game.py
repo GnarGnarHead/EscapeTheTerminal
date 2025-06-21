@@ -266,14 +266,14 @@ class Game:
         count = rnd.randint(3, 5)
         files: list[str] = []
         for i in range(count):
-            fname = f"system_{rnd.randint(1000,9999)}.log"
+            fname = f"system_{rnd.randint(1000, 9999)}.log"
             files.append(fname)
             lines = [
                 f"INFO iteration {i}",
                 (
                     "SYSTEM BOOT COMPLETE"
                     if i == 0
-                    else f"DEBUG value {rnd.randint(0,100)}"
+                    else f"DEBUG value {rnd.randint(0, 100)}"
                 ),
             ]
             with open(self.logs_path / fname, "w", encoding="utf-8") as f:

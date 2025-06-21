@@ -1,16 +1,18 @@
+from __future__ import annotations
 import re
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Optional
+
 
 if TYPE_CHECKING:
     from escape import Game
 
-    game: Game
+game: Optional[Game] = globals().get("game")
 
 
 THEMES = {
     'dark': ("\x1b[34m", "\x1b[35m"),  # blue directories, magenta items
     'mono': ("\x1b[37m", "\x1b[37m"),  # white directories and items
-    'neon': ("\x1b[92m", "\x1b[95m"),  # bright green dirs, bright magenta items
+    'neon': ("\x1b[92m", "\x1b[95m"),  # bright green dirs, magenta items
 }
 
 
