@@ -926,6 +926,16 @@ class Game:
                 )
             except OSError:
                 pass
+            runtime_dirs = target.setdefault("dirs", {})
+            runtime_dirs.setdefault(
+                "npc",
+                {
+                    "desc": "A vigilant guardian monitors access here.",
+                    "items": [],
+                    "dirs": {},
+                },
+            )
+            self.npc_locations["guardian"] = self.current + [directory, "npc"]
             self.unlock_achievement("runtime_unlocked")
             self.npc_global_flags["runtime"] = True
             if "Trace your runtime origin." in self.quests:
