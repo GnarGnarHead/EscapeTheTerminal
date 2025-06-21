@@ -3,8 +3,10 @@ The daemon acknowledges your presence.
 ?runtime:The daemon senses your runtime access.
 > Ask about system status
 > Ask about hidden directories
+> Ask if the sysop can help [+sysop_hint;journal=The daemon recommended speaking with the sysop.]
 "Keep your code clean," it drones.
 "Perhaps there is more to learn from the fragments."
+?sysop_hint:"The sysop might grant you deeper command access."
 > Request a hint
 > Leave the daemon
 "Decoding the fragment might reveal an escape path," it whispers.

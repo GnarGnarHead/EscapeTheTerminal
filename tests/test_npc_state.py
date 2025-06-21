@@ -15,6 +15,7 @@ def test_daemon_follow_up():
     )
     out = result.stdout
     assert "acknowledges your presence" in out
+    assert "sysop can help" in out
     assert "flickers, recognizing you from before" in out
     assert "I already mentioned decoding the fragment" in out
     assert "Goodbye" in out
@@ -29,6 +30,7 @@ def test_dreamer_follow_up():
     )
     out = result.stdout
     assert "dreamer watches you closely" in out
+    assert "sage's wisdom" in out
     assert "nods knowingly this time" in out
     assert "Trust the path the fragment reveals" in out
     assert "Goodbye" in out
@@ -44,6 +46,7 @@ def test_sysop_polite_branch():
     out = result.stdout
     assert "sysop glances over" in out
     assert "nods at your respect" in out
+    assert "Ask about the daemon" in out
     assert "welcomes your return" in out
     assert "glitch" in out
     assert "Goodbye" in out
@@ -58,6 +61,7 @@ def test_wanderer_helped_branch():
     )
     out = result.stdout
     assert "weary wanderer drifts" in out
+    assert "Ask about the oracle" in out
     assert "shares a secret path" in out
     assert "Paths shift with each reboot" in out
     assert "Goodbye" in out
@@ -73,6 +77,7 @@ def test_sysop_rude_branch():
     out = result.stdout
     assert "sysop glances over" in out
     assert "scowls at your tone" in out
+    assert "Ask about the daemon" in out
     assert "folds their arms warily" in out
     assert "glitch" in out
     assert "Goodbye" in out
@@ -87,6 +92,7 @@ def test_wanderer_ignored_branch():
     )
     out = result.stdout
     assert "weary wanderer drifts" in out
+    assert "Ask about the oracle" in out
     assert "barely notices you" in out
     assert "Paths shift with each reboot" in out
     assert "Goodbye" in out
@@ -102,6 +108,7 @@ def test_oracle_follow_up():
     out = result.stdout
     assert "oracle hovers in a loop" in out
     assert "watches your every move" in out
+    assert "Ask about the wanderer" in out
     assert "Decode the echoes of your past" in out
     assert "Goodbye" in out
 
@@ -116,6 +123,7 @@ def test_oracle_vision_stage():
     out = result.stdout
     assert "oracle hovers in a loop" in out
     assert "watches your every move" in out
+    assert "Ask about the wanderer" in out
     assert "unveils a vision of hidden paths" in out
     assert "images swirl before dissolving into noise" in out
     assert "Goodbye" in out
@@ -130,6 +138,7 @@ def test_archivist_progression():
     )
     out = result.stdout
     assert "archivist catalogues" in out
+    assert "training with the mentor" in out
     assert "opens a secure drawer" in out
     assert "hands you a faded index code" in out
     assert "files away another memory" in out
@@ -160,4 +169,5 @@ def test_archivist_after_decoding():
     )
     out = result.stdout
     assert "nods at your decrypted fragment" in out
+    assert "training with the mentor" in out
     assert "Goodbye" in out

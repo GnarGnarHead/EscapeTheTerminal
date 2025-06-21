@@ -6,10 +6,12 @@ The dreamer watches you closely.
 > Ask about escape
 > Ask about dreams
 > Ask about the fragment
+> Mention the sage's wisdom [+sage_hint;journal=The dreamer advised visiting the sage.]
 ?glitched:The dreamer grins through static.
 ?!glitched:The dreamer smiles faintly.
 ?glitched:"The decoder in the lab reveals more than you expect."
 ?!glitched:"The decoder in the lab will reveal what the fragment hides."
+?sage_hint:"Seek the sage in the archives for deeper insight."
 > Thank the dreamer
 > Return to reality
 ?glitched:The dream fractures around you.

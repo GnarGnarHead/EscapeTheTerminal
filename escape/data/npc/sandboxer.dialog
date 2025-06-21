@@ -1,7 +1,9 @@
 The sandboxer nods as you approach, eager to share experiments.
 > Ask about this place [+curious]
+> Ask about the glitcher [+glitcher_hint;journal=The sandboxer mentioned the glitcher.]
 > Leave
 "Everything here is isolated. Test freely."
+?glitcher_hint:"If the glitches grow, speak with the glitcher in dream." 
 ---
 ?curious:The sandboxer adjusts some variables and smiles.
 > Request a sample script [+sample]

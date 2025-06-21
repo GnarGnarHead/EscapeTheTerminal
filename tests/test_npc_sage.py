@@ -16,6 +16,7 @@ def test_sage_first_and_second_stage():
     out = result.stdout
     assert 'sage sits quietly' in out
     assert '1. Seek wisdom' in out
+    assert 'Ask about the dreamer' in out
     assert 'Patience reveals hidden truths.' in out
     assert 'sage smiles gently at your approach' in out
     assert 'Knowledge flows to those who listen.' in out

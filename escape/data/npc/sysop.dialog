@@ -9,7 +9,9 @@ The sysop glances over from a console.
 ?polite:The sysop welcomes your return.
 ?!polite:The sysop folds their arms warily.
 > Ask about commands
+> Ask about the daemon [+daemon_hint;journal=The sysop suggested questioning the daemon.]
 > Leave
 "Try 'glitch' when things feel unstable."
+?daemon_hint:"The daemon in core knows many hidden routines."
 ---
 The sysop is lost in system readouts.

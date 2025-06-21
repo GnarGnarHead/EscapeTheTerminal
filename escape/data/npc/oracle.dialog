@@ -7,8 +7,10 @@ The oracle hovers in a loop of swirling code.
 ---
 The oracle watches your every move.
 > Ask again
+> Ask about the wanderer [+wander_hint;journal=The oracle hinted the wanderer knows the paths.]
 > Leave
 "Decode the echoes of your past to open the gate."
+?wander_hint:"Seek the wanderer among the data fog for direction."
 ---
 ?vision:The oracle unveils a vision of hidden paths.
 ?!vision:The oracle's messages remain cryptic.

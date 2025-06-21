@@ -16,6 +16,7 @@ def test_mentor_first_and_second_stage():
     out = result.stdout
     assert 'mentor studies you' in out
     assert '1. Request training' in out
+    assert 'Ask about the archives' in out
     assert 'Focus is the foundation of mastery.' in out
     assert 'mentor nods approvingly' in out
     assert 'Practice turns knowledge into skill.' in out
