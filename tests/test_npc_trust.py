@@ -34,3 +34,33 @@ def test_archivist_trust_increase(monkeypatch, capsys):
     out = capsys.readouterr().out
     assert 'hidden backup archive' in out
 
+
+def test_daemon_trust_branch(monkeypatch, capsys):
+    game = Game()
+    game._cd('core')
+    game._cd('npc')
+    # first conversation requires two selections
+    inputs = iter(['1', '1'])
+    monkeypatch.setattr('builtins.input', lambda _='': next(inputs))
+    game._talk('daemon')
+    capsys.readouterr()
+
+    # second conversation
+    inputs = iter(['1'])
+    monkeypatch.setattr('builtins.input', lambda _='': next(inputs))
+    game._talk('daemon')
+    capsys.readouterr()
+
+    # third conversation - choose trust option
+    inputs = iter(['1'])
+    monkeypatch.setattr('builtins.input', lambda _='': next(inputs))
+    game._talk('daemon')
+    capsys.readouterr()
+
+    # trust gated line appears on fourth talk
+    inputs = iter(['1'])
+    monkeypatch.setattr('builtins.input', lambda _='': next(inputs))
+    game._talk('daemon')
+    out = capsys.readouterr().out
+    assert 'daemon grants you access to hidden protocols' in out.lower()
+

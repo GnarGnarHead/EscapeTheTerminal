@@ -61,3 +61,55 @@ def test_sequential_quest_chain(monkeypatch, capsys):
     game._talk("guardian")
     capsys.readouterr()
     assert "Gain the guardian's approval" not in game.quests
+
+
+def test_quest_chain_final_state(monkeypatch, capsys):
+    game = Game()
+    # archivist step
+    game._cd("memory")
+    game._cd("npc")
+    inputs = iter(["1"])
+    monkeypatch.setattr("builtins.input", lambda _="": next(inputs))
+    game._talk("archivist")
+    capsys.readouterr()
+
+    # dreamer step
+    game._cd("..")
+    game._cd("..")
+    game._cd("dream")
+    game._cd("npc")
+    inputs = iter(["1", "1"])
+    monkeypatch.setattr("builtins.input", lambda _="": next(inputs))
+    game._talk("dreamer")
+    capsys.readouterr()
+
+    # mentor step
+    game._cd("..")
+    game._cd("..")
+    game._cd("core")
+    game._cd("npc")
+    inputs = iter(["1"])
+    monkeypatch.setattr("builtins.input", lambda _="": next(inputs))
+    game._talk("mentor")
+    capsys.readouterr()
+
+    # guardian step
+    game._cd("..")
+    game._cd("..")
+    setup_runtime(game)
+    game._hack("runtime")
+    capsys.readouterr()
+    game._cd("runtime")
+    game._cd("npc")
+    inputs = iter(["1", "1"])
+    monkeypatch.setattr("builtins.input", lambda _="": next(inputs))
+    game._talk("guardian")
+    game._talk("guardian")
+    capsys.readouterr()
+
+    # all quest steps should now be cleared
+    assert all(q not in game.quests for q in [
+        "Seek the dreamer",
+        "Train with the mentor",
+        "Gain the guardian's approval",
+    ])
