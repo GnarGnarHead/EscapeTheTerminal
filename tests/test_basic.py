@@ -28,6 +28,7 @@ def test_look_command():
     assert "dimly lit terminal" in result.stdout
     assert "access.key" in result.stdout
     assert "voice.log" in result.stdout
+    assert "door" in result.stdout
     assert "Goodbye" in result.stdout
 
 
@@ -396,7 +397,7 @@ def test_cat_treasure_after_unlock():
 
 
 def test_glitch_mode_toggle():
-    normal = "You find yourself in a dimly lit terminal session. The prompt blinks patiently."
+    normal = "You find yourself in a dimly lit terminal session. A closed door stands to one side. The prompt blinks patiently."
     first_glitch = Game()._glitch_text(normal, 1)
     result = subprocess.run(
         CMD,
@@ -412,7 +413,7 @@ def test_glitch_mode_toggle():
 
 
 def test_glitch_persistence():
-    normal = "You find yourself in a dimly lit terminal session. The prompt blinks patiently."
+    normal = "You find yourself in a dimly lit terminal session. A closed door stands to one side. The prompt blinks patiently."
     first_glitch = Game()._glitch_text(normal, 1)
     later_glitch = Game()._glitch_text(normal, 3)
     result = subprocess.run(
@@ -429,7 +430,7 @@ def test_glitch_persistence():
 
 
 def test_glitch_intensity_increases():
-    normal = "You find yourself in a dimly lit terminal session. The prompt blinks patiently."
+    normal = "You find yourself in a dimly lit terminal session. A closed door stands to one side. The prompt blinks patiently."
     step1 = Game()._glitch_text(normal, 1)
     step3 = Game()._glitch_text(normal, 3)
     step5 = Game()._glitch_text(normal, 5)
@@ -708,7 +709,7 @@ def test_save_slots_independent(tmp_path):
 
 
 def test_glitch_save_and_load(tmp_path):
-    normal = "You find yourself in a dimly lit terminal session. The prompt blinks patiently."
+    normal = "You find yourself in a dimly lit terminal session. A closed door stands to one side. The prompt blinks patiently."
     step4 = Game()._glitch_text(normal, 4)
 
     env = os.environ.copy()

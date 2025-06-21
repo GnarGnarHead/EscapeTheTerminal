@@ -1,9 +1,10 @@
 {
   "fs": {
-    "desc": "You find yourself in a dimly lit terminal session. The prompt blinks patiently.",
+    "desc": "You find yourself in a dimly lit terminal session. A closed door stands to one side. The prompt blinks patiently.",
     "items": [
       "access.key",
-      "voice.log"
+      "voice.log",
+      "door"
     ],
     "dirs": {
       "lab": {
@@ -238,6 +239,7 @@
   },
   "item_descriptions": {
     "access.key": "A slim digital token rumored to unlock hidden directories.",
+    "door": "A closed panel concealing something behind it.",
     "treasure.txt": "A file filled with untold riches.",
     "mem.fragment": "A corrupted memory fragment pulsing faintly with data.",
     "mem.part1": "One fragment of a larger memory sequence.",
