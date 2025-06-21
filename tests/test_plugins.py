@@ -135,6 +135,20 @@ def test_puzzle_plugin(monkeypatch, capsys):
     assert 'Correct! Puzzle solved.' in out_lines
 
 
+def test_riddle_plugin(monkeypatch, capsys):
+    game = Game()
+    inputs = iter([
+        'riddle',
+        'riddle egg',
+        'quit',
+    ])
+    monkeypatch.setattr('builtins.input', lambda _='': next(inputs))
+    game.run()
+    out_lines = capsys.readouterr().out.splitlines()
+    assert any('What has to be broken' in line for line in out_lines)
+    assert 'Correct! The riddle is solved.' in out_lines
+
+
 def test_cli_plugin_path_flag(tmp_path):
     plugin_dir = tmp_path / 'mods'
     plugin_dir.mkdir()
@@ -168,5 +182,6 @@ def test_plugins_command_lists_builtins(monkeypatch, capsys):
         'escape.plugins.dance',
         'escape.plugins.puzzle',
         'escape.plugins.theme',
+        'escape.plugins.riddle',
     }
     assert expected.issubset(set(out_lines))
