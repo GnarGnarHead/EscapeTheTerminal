@@ -1,0 +1,3 @@
+riddle - Answer a simple question
+Usage: riddle [answer]
+Example: riddle egg

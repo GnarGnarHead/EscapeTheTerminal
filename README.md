@@ -71,6 +71,7 @@ unexpected ways.
   - `daemon.log` – consult the system daemon when read or used, found in `core/npc/`
   - `escape.code` – the deciphered sequence unlocked within the vault
   - `port.scanner` – enables hacking of network nodes, found in the `lab/`
+  - `loop.code` – resets reality and unlocks the optional void quest
   - `test.script` – an experimental file tucked away in the `sandbox/` directory
 
    **Rooms**
@@ -81,6 +82,7 @@ unexpected ways.
   - `sandbox/` – an isolated test area for trying new commands
   - `sandbox/npc/` – meet the sandboxer for tips on experimentation
   - `dream/oracle/` – an enigmatic hall where the oracle offers cryptic advice
+  - `dream/tech_lab/` – home to the technomancer and advanced glitch research
 
 ## Running Tests
 Tests are written with `pytest` and live under the `tests/` directory. After installing
@@ -153,12 +155,16 @@ the CI workflow.
 Modders can create additional files following this pattern and place their NPCs
 in the game world by extending ``Game.npc_locations``.
 The provided ``oracle.dialog`` shows a multi-stage conversation for an oracle
-NPC located under ``dream/oracle/``.
+NPC located under ``dream/oracle/``. A more experimental Technomancer can be
+found within ``dream/tech_lab/``.
 
 Cross-NPC quests let conversations hand off objectives between characters. An
 NPC might ask you to deliver an item or speak with someone else before they
 reveal more dialog. Use ``give <item>`` after talking to them to hand over what
 they want and progress the shared quest chain.
+
+Triggering the ``loop.code`` found in the runtime directory restarts the world
+and unlocks a hidden ``void`` area where the wanderer offers additional insight.
 
 ## Plugins
 See [docs/PLUGIN_DEVELOPMENT.md](docs/PLUGIN_DEVELOPMENT.md) for a full guide on creating and loading plugins.
@@ -208,7 +214,8 @@ others.
 
 The repository includes a few example plugins that are loaded automatically.
 Run ``theme dark`` or ``theme neon`` to change the directory and item colors at
-runtime, or try ``puzzle`` and ``cipher`` to solve short encoded riddles.
+runtime, or try ``puzzle``, ``cipher``, ``riddle`` or ``weather`` for small
+interactive extras.
 
 Example ``cipher`` usage::
 

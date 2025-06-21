@@ -1,0 +1,3 @@
+cipher - Decode a short ROT13 message
+Usage: cipher [answer]
+Example: cipher hello
