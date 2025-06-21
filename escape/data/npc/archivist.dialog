@@ -13,6 +13,7 @@ The archivist catalogues swirling fragments with meticulous precision.
 > Inquire about hidden logs [+trust]
 > Step back
 "The key to recall lies within the fragment you carry."
+"If you bring me the flashback.log it will aid the archives."
 ---
 ?trust:The archivist hands you a faded index code.
 ?!trust:The archivist resumes sorting without comment.
@@ -21,3 +22,6 @@ The archivist catalogues swirling fragments with meticulous precision.
 "Remember: knowledge fades unless preserved."
 ---
 The archivist files away another memory and says no more.
+---
+?trust:The archivist awaits the promised log.
+> Discuss the flashback entry [give=flashback.log]

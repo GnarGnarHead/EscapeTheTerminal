@@ -1,0 +1,3 @@
+give - Hand an item to the active NPC
+Usage: give <item>
+Example: give lucid.note
