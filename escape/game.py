@@ -16,6 +16,11 @@ from . import commands, filesystem, npc as npc_module
 class Game:
     """Simple command dispatcher for the terminal adventure."""
 
+    MAX_CORRUPTION = 400
+
+    def _corruption_percent(self) -> int:
+        return min(int(self.corruption * 100 / self.MAX_CORRUPTION), 100)
+
     REQUIRED_ITEMS = {
         "node3": "firmware.patch",
         "node4": "root.access",
@@ -105,6 +110,10 @@ class Game:
         self.quests: list[str] = []
         # begin with an initial quest
         self.quests.append("Recover your lost memory")
+
+        # system corruption counter
+        self.corruption = 0
+        self._corruption_stage = 0
 
         # runtime command aliases created via the 'alias' command
         self.aliases: dict[str, str] = {}
@@ -259,10 +268,20 @@ class Game:
             self._output("No plugins loaded.")
 
     def _output(self, text: str = "") -> None:
-        """Print text, applying glitch effects when enabled."""
+        """Print ``text`` applying corruption and glitch effects."""
         if self.emotion_state != self._prev_emotion_state:
             print(f"(You feel {self.emotion_state}.)")
             self._prev_emotion_state = self.emotion_state
+        pct = self._corruption_percent()
+        if pct >= 75 and self._corruption_stage < 3:
+            print("-- CORRUPTION 75% --")
+            self._corruption_stage = 3
+        elif pct >= 50 and self._corruption_stage < 2:
+            print("-- CORRUPTION 50% --")
+            self._corruption_stage = 2
+        elif pct >= 25 and self._corruption_stage < 1:
+            print("-- CORRUPTION 25% --")
+            self._corruption_stage = 1
         if self.glitch_mode and text:
             self.glitch_steps += 1
             text = self._glitch_text(text, self.glitch_steps)
@@ -282,6 +301,8 @@ class Game:
                 noise = rnd.choice(["...glitch...", "~~~", "<!>"])
                 print(noise)
             self._apply_glitch_effects()
+        if text:
+            text = self._apply_corruption(text)
         if self.use_color and text:
             text = self._apply_colors(text)
         print(text)
@@ -348,6 +369,32 @@ class Game:
             if rnd.random() < word_prob:
                 words[i] = "".join(rnd.choice("@#$%&*") for _ in w)
         text = " ".join(words)
+
+        chars = list(text)
+        for i, ch in enumerate(chars):
+            if ch.isalpha() and rnd.random() < prob:
+                chars[i] = rnd.choice("@#$%&*")
+        return "".join(chars)
+
+    def _apply_corruption(self, text: str) -> str:
+        """Return ``text`` scrambled according to corruption level."""
+        pct = self._corruption_percent()
+        if pct < 25:
+            return text
+
+        if pct < 50:
+            prob = 0.1
+        elif pct < 75:
+            prob = 0.3
+        else:
+            prob = 0.6
+
+        import random
+        import hashlib
+
+        key = f"{self.corruption}-{text}".encode()
+        seed = int.from_bytes(hashlib.sha256(key).digest()[:4], "little")
+        rnd = random.Random(seed)
 
         chars = list(text)
         for i, ch in enumerate(chars):
@@ -1035,9 +1082,11 @@ class Game:
 
             if handler:
                 should_quit = handler(arg)
-                if should_quit:
-                    break
                 if self.auto_save:
                     self._save()
             else:
                 self._output(f"Unknown command: {cmd}")
+                should_quit = False
+            self.corruption += 1
+            if should_quit:
+                break
