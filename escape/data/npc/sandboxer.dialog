@@ -11,4 +11,5 @@ The sandboxer nods as you approach, eager to share experiments.
 "Here, try running test.script to see what happens."
 ---
 ?sample:The sandboxer returns to tinkering, waiting for your feedback.
+?count>2:The sandboxer hesitates, afraid you'll delete the experiments or fork this sandbox without warning.
 

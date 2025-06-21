@@ -68,13 +68,15 @@ def talk(game: "Game", npc: str) -> None:
             continue
         sections[-1].append(line)
 
-    entry = game.npc_state.get(npc, {"section": 0, "flags": {}})
+    entry = game.npc_state.get(npc, {"section": 0, "flags": {}, "count": 0})
     if isinstance(entry, dict):
         state = entry.get("section", 0)
         flags = entry.get("flags", {})
+        talk_count = entry.get("count", 0) + 1
     else:
         state = int(entry)
         flags = {}
+        talk_count = 1
     flags["glitched"] = game.glitch_mode
     combined_flags = dict(game.npc_global_flags)
     combined_flags.update(flags)
@@ -168,21 +170,25 @@ def talk(game: "Game", npc: str) -> None:
                 cond = cond[1:]
             import re
             trust_val = game.npc_trust.get(npc, 0)
-            m = re.match(r"trust\s*(>=|<=|==|!=|>|<)\s*(-?\d+)", cond)
+            m = re.match(r"(trust|count)\s*(>=|<=|==|!=|>|<)\s*(-?\d+)", cond)
             if m:
-                op, num = m.group(1), int(m.group(2))
+                field, op, num = m.group(1), m.group(2), int(m.group(3))
+                if field == "trust":
+                    val = trust_val
+                else:
+                    val = talk_count
                 if op == ">":
-                    present = trust_val > num
+                    present = val > num
                 elif op == "<":
-                    present = trust_val < num
+                    present = val < num
                 elif op == ">=":
-                    present = trust_val >= num
+                    present = val >= num
                 elif op == "<=":
-                    present = trust_val <= num
+                    present = val <= num
                 elif op == "==":
-                    present = trust_val == num
+                    present = val == num
                 else:  # !=
-                    present = trust_val != num
+                    present = val != num
             else:
                 present = bool(combined_flags.get(cond))
             if present != negate:
@@ -198,5 +204,10 @@ def talk(game: "Game", npc: str) -> None:
         given_items = entry.get("given", [])
     else:
         given_items = []
-    game.npc_state[npc] = {"section": state, "flags": flags, "given": given_items}
+    game.npc_state[npc] = {
+        "section": state,
+        "flags": flags,
+        "given": given_items,
+        "count": talk_count,
+    }
     update_quests_after_talk(game, npc)
