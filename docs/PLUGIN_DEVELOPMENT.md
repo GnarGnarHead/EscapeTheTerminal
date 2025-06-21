@@ -87,3 +87,7 @@ directory and item colors explicitly.
 ## Built-in Puzzle Plugin
 
 A second bundled plugin named `puzzle.py` offers a small code-breaking riddle. Run `puzzle` without arguments to see the encoded phrase and pass your decoded answer to solve it. The module remembers if you solved the puzzle so subsequent runs simply report that it is already complete.
+
+## Built-in Riddle Plugin
+
+The `riddle.py` module presents a short question the first time you run `riddle`. Run the command again with your guess and it will tell you if you are correct.
