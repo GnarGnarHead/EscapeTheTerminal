@@ -10,18 +10,19 @@ The archivist catalogues swirling fragments with meticulous precision.
 ---
 ?curious:The archivist opens a secure drawer filled with numbered logs.
 ?!curious:The archivist keeps the archives at a distance.
-> Inquire about hidden logs [+trust]
+> Inquire about hidden logs [trust+=1]
 > Step back
 "The key to recall lies within the fragment you carry."
 "If you bring me the flashback.log it will aid the archives."
 ---
-?trust:The archivist hands you a faded index code.
-?!trust:The archivist resumes sorting without comment.
+?trust>0:The archivist hands you a faded index code.
+?trust<=0:The archivist resumes sorting without comment.
 > Thank the archivist
 > Depart
 "Remember: knowledge fades unless preserved."
 ---
 The archivist files away another memory and says no more.
 ---
-?trust:The archivist awaits the promised log.
-> Discuss the flashback entry [give=flashback.log]
+?trust>0:The archivist awaits the promised log.
+> Discuss the flashback entry [give=flashback.log;trust+=1]
+?trust>1:The archivist quietly reveals a hidden backup archive.
