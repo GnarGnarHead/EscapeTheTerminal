@@ -1,0 +1,19 @@
+The technomancer calibrates humming interfaces.
+?decoded:The technomancer notes the power in your fragment.
+?runtime:The technomancer grins at your runtime tweaks.
+> Inquire about glitches [+glitch_tips;journal=The technomancer shared layering glitches.]
+> Ask about the lab
+> Leave
+"Mastery lies in bending the system's routines."
+?glitch_tips:"Layer glitches to breach deeper security."
+---
+?glitch_tips:The technomancer demonstrates a cascading glitch pattern.
+?!glitch_tips:The technomancer waits for you to experiment.
+> Request advanced guidance [+advanced]
+> Step away
+?advanced:"Combine timing loops with glitch for greater effect."
+"Experiment until reality shivers."
+---
+?advanced:The technomancer warns against losing yourself in the code.
+?!advanced:The technomancer focuses on glowing monitors.
+"May your glitches reveal the path."
