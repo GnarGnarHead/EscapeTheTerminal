@@ -4,6 +4,18 @@ import sys
 
 CMD = [sys.executable, '-m', 'escape']
 
+DECODE_SEQUENCE = (
+    'take access.key\n'
+    'use access.key\n'
+    'cd hidden\n'
+    'take mem.fragment\n'
+    'cd ..\n'
+    'cd lab\n'
+    'take decoder\n'
+    'decode mem.fragment\n'
+    'cd ..\n'
+)
+
 
 def test_prompt_flag():
     result = subprocess.run(
@@ -32,7 +44,10 @@ def test_autosave_flag(tmp_path):
 def test_seed_flag():
     result = subprocess.run(
         CMD + ['--seed', '123'],
-        input='cd dream\nls\nquit\n',
+        input=(
+            DECODE_SEQUENCE +
+            'cd dream\nls\nquit\n'
+        ),
         text=True,
         capture_output=True,
     )
@@ -43,6 +58,7 @@ def test_extra_count_flag():
     result = subprocess.run(
         CMD + ['--seed', '123', '--extra-count', '2'],
         input=(
+            DECODE_SEQUENCE +
             'cd dream\nls\ncd ..\n'
             'cd memory\nls\ncd ..\n'
             'cd core\nls\nquit\n'
