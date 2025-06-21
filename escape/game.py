@@ -34,6 +34,8 @@ class Game:
         self.auto_save = os.getenv("ET_AUTOSAVE") not in (None, "", "0", "false")
         self.prompt = prompt if prompt is not None else os.getenv("ET_PROMPT", "> ")
         self.inventory = []
+        self.visited_dirs: set[str] = {'/'}
+        self.collected_items: set[str] = set()
         self.score = 0
         self.achievements: list[str] = []
         self.data_dir = Path(__file__).parent / "data"
@@ -122,6 +124,7 @@ class Game:
             "quest": "List, add or complete quests",
             "sleep": "Enter the dream state and rest",
             "score": "Show your current score",
+            "stats": "Show gameplay statistics",
             "achievements": "List unlocked achievements",
             "tutorial": "Guided introduction to core commands",
             "restart": "Restart the game",
@@ -166,6 +169,7 @@ class Game:
             "quest": lambda arg="": self._quest(arg),
             "sleep": lambda arg="": self._sleep(arg),
             "score": lambda arg="": self._score(),
+            "stats": lambda arg="": self._stats(),
             "achievements": lambda arg="": self._achievements(),
             "tutorial": lambda arg="": self._tutorial(),
             "restart": lambda arg="": self._restart(),
@@ -527,6 +531,7 @@ class Game:
         if item in node["items"]:
             node["items"].remove(item)
             self.inventory.append(item)
+            self.collected_items.add(item)
             self._output(f"You pick up the {item}.")
         else:
             self._output(f"There is no {item} here.")
@@ -548,6 +553,12 @@ class Game:
 
     def _score(self):
         """Display the player's current score."""
+        self._output(f"Score: {self.score}")
+
+    def _stats(self) -> None:
+        """Display counts of visited locations, collected items and score."""
+        self._output(f"Visited locations: {len(self.visited_dirs)}")
+        self._output(f"Items obtained: {len(self.collected_items)}")
         self._output(f"Score: {self.score}")
 
     def unlock_achievement(self, name: str) -> None:
@@ -1061,6 +1072,8 @@ class Game:
         if directory == "..":
             if self.current:
                 self.current.pop()
+                path = "/".join(self.current) if self.current else "/"
+                self.visited_dirs.add("/" + path.lstrip("/"))
             else:
                 self._output("Already at root.")
             return
@@ -1071,6 +1084,8 @@ class Game:
                 self._output(f"{directory} is locked.")
                 return
             self.current.append(directory)
+            path = "/" + "/".join(self.current)
+            self.visited_dirs.add(path)
         else:
             self._output(f"No such directory: {directory}")
 

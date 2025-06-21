@@ -818,3 +818,17 @@ def test_score_increments(capsys):
     game.inventory.append("escape.code")
     game._use("escape.code")
     assert game.score == 3
+
+
+def test_stats_counts():
+    result = subprocess.run(
+        CMD,
+        input="cd lab\ncd ..\ntake access.key\nstats\nquit\n",
+        text=True,
+        capture_output=True,
+    )
+    out = result.stdout
+    assert "Visited locations: 2" in out
+    assert "Items obtained: 1" in out
+    assert "Score: 0" in out
+    assert "Goodbye" in out

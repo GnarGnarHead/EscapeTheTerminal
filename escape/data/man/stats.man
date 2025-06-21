@@ -1,0 +1,3 @@
+stats - Show gameplay statistics
+Usage: stats
+Example: stats
