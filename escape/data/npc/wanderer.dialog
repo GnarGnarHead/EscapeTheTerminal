@@ -1,15 +1,15 @@
-A weary wanderer drifts through the data fog.
-?decoded:The wanderer recognizes the clarity in your eyes.
-?runtime:The wanderer speaks of a hidden runtime path.
+A weary wanderer drifts through the data fog, half-lost in memory.
+?decoded:The wanderer recognizes the clarity in your eyes and nods.
+?runtime:The wanderer speaks of a hidden runtime path that few ever find.
 > Ask about memories
 > Offer help [+helped]
 > Leave
-"Wander while you can, friend."
+"Wander while you can, friend; the fog consumes all."
 ---
-?helped:The wanderer smiles and shares a secret path.
-?!helped:The wanderer barely notices you.
+?helped:The wanderer smiles and shares a secret path, marking it into the dust.
+?!helped:The wanderer barely notices you, gaze drifting.
 > Seek advice
 > Leave
-"Paths shift with each reboot."
+"Paths shift with each reboot; nothing stays the same."
 ---
-The wanderer fades into the mist.
+The wanderer fades into the mist, leaving only echoes behind.

@@ -18,7 +18,7 @@ def test_dreamer_dialog_glitched():
     from escape import Game
 
     expected = Game()._glitch_text(
-        "The dreamer flickers with digital noise.", 2
+        "The dreamer flickers with digital noise, unstable yet alluring.", 2
     )
 
     result = subprocess.run(

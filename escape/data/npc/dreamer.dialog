@@ -1,30 +1,30 @@
-The dreamer watches you closely.
-?decoded:The dreamer remarks on your newfound clarity.
-?runtime:The dreamer hints at a runtime beyond dreams.
-?glitched:The dreamer flickers with digital noise.
-?!glitched:The dreamer seems stable.
+The dreamer watches you closely, as though measuring your potential.
+?decoded:The dreamer remarks on your newfound clarity, a glimmer of hope in their gaze.
+?runtime:The dreamer hints at a runtime beyond dreams, where code blurs with vision.
+?glitched:The dreamer flickers with digital noise, unstable yet alluring.
+?!glitched:The dreamer seems stable, anchored in the dream's hazy logic.
 > Ask about escape
 > Ask about dreams
 > Ask about the fragment
-?glitched:The dreamer grins through static.
-?!glitched:The dreamer smiles faintly.
-?glitched:"The decoder in the lab reveals more than you expect."
-?!glitched:"The decoder in the lab will reveal what the fragment hides."
+?glitched:The dreamer grins through static, a mischievous glint in their eyes.
+?!glitched:The dreamer smiles faintly, inviting you to continue.
+?glitched:"The decoder in the lab reveals more than you expect, bending reality."
+?!glitched:"The decoder in the lab will reveal what the fragment hides, if you dare to use it."
 > Thank the dreamer
 > Return to reality
-?glitched:The dream fractures around you.
-?!glitched:The dream fades around you.
+?glitched:The dream fractures around you, shards of memory scattering.
+?!glitched:The dream fades around you, its edges dissolving.
 ---
-?glitched:The dreamer nods, leaving trailing afterimages.
-?!glitched:The dreamer nods knowingly this time.
+?glitched:The dreamer nods, leaving trailing afterimages that echo behind your eyelids.
+?!glitched:The dreamer nods knowingly this time, as if you've passed a silent test.
 > Ask again about escape
 > Wake up
-?glitched:"Trust the glitch; it leads beyond the fragment."
-?!glitched:"Trust the path the fragment reveals."
+?glitched:"Trust the glitch; it leads beyond the fragment, to places forgotten."
+?!glitched:"Trust the path the fragment reveals; it remembers you."
 ---
-?glitched:The dreamer dissolves into static.
-?!glitched:The dreamer has retreated into silence.
+?glitched:The dreamer dissolves into static, the world stuttering.
+?!glitched:The dreamer has retreated into silence, unreachable now.
 ---
-?decoded:The dreamer whispers of realities unlocked by your decoding.
-?runtime:The dreamer wonders if your runtime can shape dreams.
+?decoded:The dreamer whispers of realities unlocked by your decoding, possibilities infinite.
+?runtime:The dreamer wonders if your runtime can shape dreams, or if dreams shape runtime.
 The dream dims, leaving you in quiet contemplation.

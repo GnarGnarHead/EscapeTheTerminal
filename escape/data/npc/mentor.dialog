@@ -1,18 +1,18 @@
-The mentor studies you from behind a screen of scrolling code.
-?decoded:The mentor glances at the decoded data with interest.
-?runtime:The mentor warns you about meddling with the runtime.
+The mentor studies you from behind a screen of scrolling code, evaluating each line.
+?decoded:The mentor glances at the decoded data with interest, noting your progress.
+?runtime:The mentor warns you about meddling with the runtime, tone stern.
 > Request training [+respect]
 > Question the mentor's methods [-respect]
 > Leave
 "Focus is the foundation of mastery."
 ---
-?respect:The mentor nods approvingly at your dedication.
-?!respect:The mentor's eyes narrow at your defiance.
+?respect:The mentor nods approvingly at your dedication, satisfied.
+?!respect:The mentor's eyes narrow at your defiance, unimpressed.
 > Ask about advanced techniques [+curious]
 > Step away
 "Practice turns knowledge into skill."
 ---
-?curious:The mentor shares a final tip before returning to work.
+?curious:The mentor shares a final tip before returning to work, voice low.
 > Thank the mentor [+gratitude]
 > Depart
 "Use these lessons wisely."

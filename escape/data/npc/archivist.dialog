@@ -1,21 +1,21 @@
-The archivist catalogues swirling fragments with meticulous precision.
-?decoded:The archivist nods at your decrypted fragment.
-?runtime:The archivist whispers of a hidden runtime.
+The archivist catalogues swirling fragments with meticulous precision, rarely looking up from their task.
+?decoded:The archivist nods at your decrypted fragment, tracing its edges with a gloved finger.
+?runtime:The archivist whispers of a hidden runtime lurking beneath corrupted memories.
 > Ask about restoring memories [+curious]
 > Browse the catalog [-curious]
 > Leave
-"These records are fragile. Treat them kindly."
+"These records are fragile, etched in fading code. Treat them kindly."
 ---
-?curious:The archivist opens a secure drawer filled with numbered logs.
-?!curious:The archivist keeps the archives at a distance.
+?curious:The archivist opens a secure drawer filled with numbered logs that glow faintly.
+?!curious:The archivist keeps the archives at a distance, protective as a gatekeeper.
 > Inquire about hidden logs [+trust]
 > Step back
-"The key to recall lies within the fragment you carry."
+"The key to recall lies within the fragment you carry; guard it well."
 ---
-?trust:The archivist hands you a faded index code.
-?!trust:The archivist resumes sorting without comment.
+?trust:The archivist hands you a faded index code, the digits smudged by time.
+?!trust:The archivist resumes sorting without comment, focus unbroken.
 > Thank the archivist
 > Depart
-"Remember: knowledge fades unless preserved."
+"Remember: knowledge fades unless it is carefully preserved."
 ---
-The archivist files away another memory and says no more.
+The archivist quietly files away another memory and says no more, disappearing into the stacks.

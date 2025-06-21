@@ -1,23 +1,23 @@
-The sage sits quietly among ancient files.
+The sage sits quietly among ancient files, eyes closed as if meditating.
 ?decoded:The sage acknowledges your progress with a nod.
-?runtime:The sage contemplates the runtime you uncovered.
+?runtime:The sage contemplates the runtime you uncovered, gaze distant.
 > Seek wisdom [+humble]
 > Demand secrets [-humble]
 > Leave silently
 "Patience reveals hidden truths."
 ---
-?humble:The sage smiles gently at your approach.
-?!humble:The sage eyes you warily.
+?humble:The sage smiles gently at your approach, welcoming.
+?!humble:The sage eyes you warily, suspicion plain.
 > Ask about escape [+curious]
 > Ask about the fragment [+fragment;journal=The sage hinted at a decoder in the lab.]
 > Take your leave
 "Knowledge flows to those who listen."
 ---
-?curious:The sage whispers that decoding the fragment will open new paths.
-?fragment:The sage notes the decoder in the lab may help.
+?curious:The sage whispers that decoding the fragment will open long-forgotten paths.
+?fragment:The sage notes the decoder in the lab may help, should you discover its location.
 > Offer thanks [+grateful]
 > Depart
 "The path is yours to walk."
 ---
 ?grateful:The sage blesses your journey before returning to silence.
-?!grateful:The sage resumes quiet contemplation.
+?!grateful:The sage resumes quiet contemplation, lost in thought.

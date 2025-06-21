@@ -1,19 +1,19 @@
-The oracle hovers in a loop of swirling code.
-?decoded:The oracle senses the fragment has been deciphered.
-?runtime:The oracle murmurs about the unlocked runtime.
+The oracle hovers in a loop of swirling code, a ghost in the machine.
+?decoded:The oracle senses the fragment has been deciphered, eyes glimmering.
+?runtime:The oracle murmurs about the unlocked runtime, voice distant.
 > Seek prophecy [+vision]
 > Walk away [-vision]
-"The fragment only reveals its meaning in dreams."
+"The fragment only reveals its meaning in dreams; chase them well."
 ---
-The oracle watches your every move.
+The oracle watches your every move, circuits reflecting your image.
 > Ask again
 > Leave
-"Decode the echoes of your past to open the gate."
+"Decode the echoes of your past to open the gate you seek."
 ---
-?vision:The oracle unveils a vision of hidden paths.
-?!vision:The oracle's messages remain cryptic.
+?vision:The oracle unveils a vision of hidden paths, swirling with color.
+?!vision:The oracle's messages remain cryptic, lost in recursive loops.
 > Contemplate the vision
 > Step away
-"The images swirl before dissolving into noise."
+"The images swirl before dissolving into noise, leaving you dizzy."
 ---
-The oracle fades into static.
+The oracle fades into static, its presence only a memory.

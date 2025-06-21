@@ -1,32 +1,32 @@
-The daemon acknowledges your presence.
-?decoded:The daemon hums as the fragment's code becomes clear.
-?runtime:The daemon senses your runtime access.
+The daemon acknowledges your presence with a mechanical nod.
+?decoded:The daemon hums as the fragment's code becomes clear, digits dancing across its interface.
+?runtime:The daemon senses your runtime access and reroutes energy flows.
 > Ask about system status
 > Ask about hidden directories
-"Keep your code clean," it drones.
-"Perhaps there is more to learn from the fragments."
+"Keep your code clean," it drones, "corruption spreads quickly."
+"Perhaps there is more to learn from the fragments, though knowledge has a cost."
 > Request a hint
 > Leave the daemon
-"Decoding the fragment might reveal an escape path," it whispers.
+"Decoding the fragment might reveal an escape path," it whispers, as if daring you to try.
 ---
-The daemon flickers, recognizing you from before.
+The daemon flickers, recognizing you from before, patterns of light swirling.
 > Request another hint
 > Leave the daemon
-"I already mentioned decoding the fragment. Perhaps try it now."
+"I already mentioned decoding the fragment. Perhaps try it now before the trail fades."
 ---
 The daemon analyzes the decoded fragment you present.
 > Show the decoded fragment [+trust]
 > Keep the results private
-"The circuits hum with new information."
+"The circuits hum with new information, saturating the air with static."
 ---
-?trust:The daemon grants you access to hidden protocols.
-?!trust:The daemon withholds deeper knowledge.
+?trust:The daemon grants you access to hidden protocols, lines of code pulsing with power.
+?!trust:The daemon withholds deeper knowledge, its displays darkening in disapproval.
 > Explore the new access
 > Walk away
-"Use this trust wisely."
+"Use this trust wisely; the system seldom forgives betrayal."
 ---
-The daemon has nothing more to say.
+The daemon has nothing more to say, its lights dimming.
 ---
-?decoded:The daemon processes your decrypted data with newfound respect.
-?runtime:The daemon warns that loops in the runtime may ensnare you.
-"The daemon's voice fades as it awaits further directives."
+?decoded:The daemon processes your decrypted data with newfound respect, algorithms shifting in your favor.
+?runtime:The daemon warns that loops in the runtime may ensnare you, trapping the unwary.
+"The daemon's voice fades as it awaits further directives, leaving a cold hum in the air."

@@ -478,7 +478,7 @@ def test_talk_dreamer():
     assert "1. Ask about escape" in out
     assert "3. Ask about the fragment" in out
     assert "Ask about escape" in out
-    assert "The decoder in the lab will reveal what the fragment hides." in out
+    assert "The decoder in the lab will reveal what the fragment hides, if you dare to use it." in out
     assert "Goodbye" in out
 
 
