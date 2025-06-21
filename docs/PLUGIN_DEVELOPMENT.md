@@ -91,3 +91,7 @@ A second bundled plugin named `puzzle.py` offers a small code-breaking riddle. R
 ## Built-in Riddle Plugin
 
 The `riddle.py` module presents a short question the first time you run `riddle`. Run the command again with your guess and it will tell you if you are correct.
+
+## Built-in Weather Plugin
+
+The `weather.py` plugin prints a random short forecast whenever you run `weather`.
