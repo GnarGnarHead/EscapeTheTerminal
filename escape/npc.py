@@ -45,6 +45,9 @@ def update_quests_after_talk(game: "Game", npc: str) -> None:
 def talk(game: "Game", npc: str) -> None:
     """Converse with an NPC if present in the current directory."""
     location = game.npc_locations.get(npc)
+    if npc == "guardian" and game.story_phase < game.StoryPhase.RUNTIME_UNLOCKED:
+        game._output("You aren't prepared to face the guardian yet.")
+        return
     if location != game.current:
         game._output(f"There is no {npc} here.")
         return

@@ -239,6 +239,11 @@ the ``achievements`` command to display any that have been unlocked.
 See [docs/GAME_MECHANICS.md](docs/GAME_MECHANICS.md) for details on scoring and
 the restart command.
 
+## Story Phases
+Progress is also tracked with a ``story_phase`` value on ``Game``. Commands and
+NPCs may check this to unlock certain actions as the narrative unfolds. The
+phase system is described in [docs/STORY_PHASES.md](docs/STORY_PHASES.md).
+
 ## Emotional Feedback
 Reading certain memory logs now changes your avatar's mood. The current
 `emotion_state` starts as `confused` and may become `alarmed` or `hopeful`
