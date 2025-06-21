@@ -1,3 +1,10 @@
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from escape import Game
+
+    game: Game
+
 riddle_shown = False
 _riddle = "What has to be broken before you can use it?"
 _answer = "egg"

@@ -1,3 +1,10 @@
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from escape import Game
+
+    game: Game
+
 puzzle_solved = False
 
 _encoded_msg = "Uifsf jt b tfdsfu nfttbhf."
