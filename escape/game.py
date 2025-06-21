@@ -828,11 +828,13 @@ class Game:
         moved = bool(self.current)
         looked = any(cmd.split()[0] == "look" for cmd in self.command_history)
         took_item = bool(self.inventory)
+        glitched = any(cmd.split()[0] == "glitch" for cmd in self.command_history)
         self._output("Tutorial:")
         steps = [
             ("Move using 'cd <dir>'", moved),
             ("Look around with 'look'", looked),
             ("Take an item with 'take <item>'", took_item),
+            ("Toggle 'glitch' to distort reality", glitched),
         ]
         for idx, (text, done) in enumerate(steps, 1):
             mark = "[x]" if done else "[ ]"

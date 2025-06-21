@@ -15,4 +15,5 @@ def test_tutorial_outputs_steps(monkeypatch, capsys):
     assert 'Tutorial:' in out
     assert 'Move using' in out
     assert 'Take an item' in out
+    assert 'glitch' in out
     assert 'Goodbye' in out
