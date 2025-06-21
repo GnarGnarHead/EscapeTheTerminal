@@ -1,2 +1,0 @@
-[console_scripts]
-escape-terminal = escape.cli:main
