@@ -56,6 +56,7 @@ unexpected ways.
   - `restart` – reset the game while keeping color settings
   - `alias <name> <command>` – create a custom shortcut
   - `unalias <name>` – remove a previously defined shortcut
+  - `plugins` – list loaded plugin modules
 
   **Core files/items**
   - `access.key` – unlocks the hidden directory when used on the door

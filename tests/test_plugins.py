@@ -155,3 +155,18 @@ def test_cli_plugin_path_flag(tmp_path):
     )
     assert 'Hi via CLI' in result.stdout
     assert 'Goodbye' in result.stdout
+
+
+def test_plugins_command_lists_builtins(monkeypatch, capsys):
+    game = Game()
+    inputs = iter(['plugins', 'quit'])
+    monkeypatch.setattr('builtins.input', lambda _='': next(inputs))
+    game.run()
+    out_lines = capsys.readouterr().out.splitlines()
+    expected = {
+        'escape.plugins.counter',
+        'escape.plugins.dance',
+        'escape.plugins.puzzle',
+        'escape.plugins.theme',
+    }
+    assert expected.issubset(set(out_lines))
