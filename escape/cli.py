@@ -57,4 +57,3 @@ def main(argv: list[str] | None = None):
 
     game_color = True if args.color else None
     Game(use_color=game_color, world_file=args.world, prompt=args.prompt).run()
-

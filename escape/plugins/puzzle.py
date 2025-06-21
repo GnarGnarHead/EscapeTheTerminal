@@ -1,14 +1,19 @@
-from typing import TYPE_CHECKING
+from __future__ import annotations
+from typing import TYPE_CHECKING, Optional
+
 
 if TYPE_CHECKING:
     from escape import Game
 
-    game: Game
+game: Optional[Game] = globals().get("game")
+
 
 puzzle_solved = False
 
+
 _encoded_msg = "Uifsf jt b tfdsfu nfttbhf."
 _answer = "there is a secret message."
+
 
 def puzzle(arg: str = "") -> None:
     """Small code-breaking challenge."""

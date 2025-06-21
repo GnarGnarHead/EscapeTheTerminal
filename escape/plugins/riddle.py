@@ -1,9 +1,12 @@
-from typing import TYPE_CHECKING
+from __future__ import annotations
+from typing import TYPE_CHECKING, Optional
+
 
 if TYPE_CHECKING:
     from escape import Game
 
-    game: Game
+game: Optional[Game] = globals().get("game")
+
 
 riddle_shown = False
 _riddle = "What has to be broken before you can use it?"
