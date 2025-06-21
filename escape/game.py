@@ -584,6 +584,14 @@ class Game:
             )
             self.score += 1
             return self._quit()
+        if item == "loop.code" and target is None:
+            self._output(
+                "The loop.code executes, cycling reality back to its beginning."
+            )
+            self._output("Loop")
+            self.score += 1
+            self._restart()
+            return
         if item == "access.key" and (target == "door" or target is None):
             root = self.fs
             if "hidden" not in root["dirs"]:
@@ -655,7 +663,16 @@ class Game:
         except OSError as e:
             self._output(f"Failed to read {filename}: {e}")
             return
-        self._output(text.rstrip())
+        if filename == "runtime.log":
+            env_lines = []
+            for key, val in os.environ.items():
+                if key.startswith("ET_"):
+                    env_lines.append(f"{key}={val}")
+            history = [*self.command_history]
+            combined = [text.rstrip(), "", *env_lines, "", *history]
+            self._output("\n".join(combined).rstrip())
+        else:
+            self._output(text.rstrip())
         if filename == "daemon.log":
             msg = self.use_messages.get("daemon.log")
             if msg:
@@ -849,6 +866,21 @@ class Game:
         target.pop("locked", None)
         self._output("Access granted. The node is now unlocked.")
         if target_name == "runtime":
+            # generate loop.code file within the runtime directory
+            runtime_items = target.setdefault("items", [])
+            if "loop.code" not in runtime_items:
+                runtime_items.append("loop.code")
+            self.item_descriptions.setdefault(
+                "loop.code",
+                "A recursive script that restarts the game when used.",
+            )
+            try:
+                (self.data_dir / "loop.code").write_text(
+                    "Running this code traps you in an endless loop.",
+                    encoding="utf-8",
+                )
+            except OSError:
+                pass
             self.unlock_achievement("runtime_unlocked")
             self.npc_global_flags["runtime"] = True
             try:
