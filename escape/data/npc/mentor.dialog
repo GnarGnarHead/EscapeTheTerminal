@@ -1,10 +1,10 @@
 The mentor studies you from behind a screen of scrolling code.
 ?decoded:The mentor glances at the decoded data with interest.
 ?runtime:The mentor warns you about meddling with the runtime.
-> Request training [+respect]
-> Question the mentor's methods [-respect]
-> Ask about the archives [+archive_hint;journal=The mentor suggested speaking to the archivist.]
-> Leave
+> Request training [+g+mentor_met;+respect]
+> Question the mentor's methods [+g+mentor_met;-respect]
+> Ask about the archives [+g+mentor_met;+archive_hint;journal=The mentor suggested speaking to the archivist.]
+> Leave [+g+mentor_met]
 "Focus is the foundation of mastery."
 "Bring me the lucid note from the dream if you find it."
 ?archive_hint:"The archivist in memory can help recover what you've lost."

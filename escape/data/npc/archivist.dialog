@@ -1,10 +1,10 @@
 The archivist catalogues swirling fragments with meticulous precision.
 ?decoded:The archivist nods at your decrypted fragment.
 ?runtime:The archivist whispers of a hidden runtime.
-> Ask about restoring memories [+curious]
-> Browse the catalog [-curious]
-> Ask about training with the mentor [+mentor_tip;journal=The archivist suggested seeking the mentor.]
-> Leave
+> Ask about restoring memories [+g+archivist_met;+curious]
+> Browse the catalog [+g+archivist_met;-curious]
+> Ask about training with the mentor [+g+archivist_met;+mentor_tip;journal=The archivist suggested seeking the mentor.]
+> Leave [+g+archivist_met]
 "These records are fragile. Treat them kindly."
 ?mentor_tip:"You might consult the mentor in the core to refine your skills."
 ---

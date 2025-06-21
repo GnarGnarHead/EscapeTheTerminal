@@ -1,7 +1,7 @@
 The guardian stands before the glowing runtime gate.
-> Request entry [+granted]
-> Step back
-> Ask if the sysop can vouch for you [+sysop_hint;journal=The guardian said to gain the sysop's approval.]
+> Request entry [+g+guardian_met;+granted]
+> Step back [+g+guardian_met]
+> Ask if the sysop can vouch for you [+g+guardian_met;+sysop_hint;journal=The guardian said to gain the sysop's approval.]
 "Only those cleared by the kernel may proceed."
 ?sysop_hint:"Seek the sysop's approval and return."
 ---
