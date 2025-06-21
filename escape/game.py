@@ -88,6 +88,11 @@ class Game:
         self.glitch_mode = False
         self.glitch_steps = 0
 
+        # emotional state tracking
+        self.emotion_state = "confused"
+        self._prev_emotion_state = self.emotion_state
+        self._memory_emotions = {"memory8.log": "alarmed", "memory11.log": "hopeful"}
+
         # store all commands the player enters this session
         self.command_history: list[str] = []
 
@@ -406,6 +411,9 @@ class Game:
 
     def _output(self, text: str = "") -> None:
         """Print text, applying glitch effects when enabled."""
+        if self.emotion_state != self._prev_emotion_state:
+            print(f"(You feel {self.emotion_state}.)")
+            self._prev_emotion_state = self.emotion_state
         if self.glitch_mode and text:
             self.glitch_steps += 1
             text = self._glitch_text(text, self.glitch_steps)
@@ -747,6 +755,8 @@ class Game:
         except OSError as e:
             self._output(f"Failed to read {filename}: {e}")
             return
+        if filename in self._memory_emotions:
+            self.emotion_state = self._memory_emotions[filename]
         if filename == "runtime.log":
             env_lines = []
             for key, val in os.environ.items():
