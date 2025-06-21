@@ -1,6 +1,6 @@
 {
   "fs": {
-    "desc": "You find yourself in a dimly lit terminal session. A closed door stands to one side. The prompt blinks patiently.",
+    "desc": "You find yourself in a dimly lit terminal session. Echoes of phantom keystrokes bounce around you and the flickering cursor threatens to disappear. A wave of unease washes over as you try to get your bearings. A closed door stands to one side, ominous yet strangely inviting, hinting that danger might lurk beyond it. The prompt blinks patiently.",
     "items": [
       "access.key",
       "voice.log",
