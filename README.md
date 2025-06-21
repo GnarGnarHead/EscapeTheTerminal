@@ -1,3 +1,7 @@
+post project thoughts: I didn't have it build any kind of meaningful feedback, while everything is functional, there's been no play testing, and it shows.. yeah if I was going to do it again I'd insist on building with automomious playtesting in mind.
+
+
+
 # EscapeTheTerminal
 A retro cybertext adventure inspired by Philip K. Dick and William Gibson.
 
