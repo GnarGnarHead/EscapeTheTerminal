@@ -129,8 +129,11 @@ def test_help_alias():
         text=True,
         capture_output=True,
     )
-    assert "Available commands" in result.stdout
-    assert "Goodbye" in result.stdout
+    out = result.stdout
+    assert "Available commands:" in out
+    assert "help: Show help for commands" in out
+    assert "quit: Exit the game" in out
+    assert "Goodbye" in out
 
 
 def test_help_specific_command():
