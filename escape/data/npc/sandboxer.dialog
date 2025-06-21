@@ -1,0 +1,12 @@
+The sandboxer nods as you approach, eager to share experiments.
+> Ask about this place [+curious]
+> Leave
+"Everything here is isolated. Test freely."
+---
+?curious:The sandboxer adjusts some variables and smiles.
+> Request a sample script [+sample]
+> Say goodbye
+"Here, try running test.script to see what happens."
+---
+?sample:The sandboxer returns to tinkering, waiting for your feedback.
+

@@ -93,6 +93,19 @@
         "items": [],
         "dirs": {}
       },
+      "sandbox": {
+        "desc": "An isolated testing ground for experimental code.",
+        "items": [
+          "test.script"
+        ],
+        "dirs": {
+          "npc": {
+            "desc": "A tinkerer awaits feedback on new programs.",
+            "items": [],
+            "dirs": {}
+          }
+        }
+      },
       "reality": {
         "desc": "A stark directory reflecting the system's underlying truths.",
         "items": [
@@ -235,6 +248,10 @@
     "mentor": [
       "core",
       "npc"
+    ],
+    "sandboxer": [
+      "sandbox",
+      "npc"
     ]
   },
   "item_descriptions": {
@@ -268,6 +285,7 @@
     "hypervisor.command": "A privileged command set for manipulating the hypervisor.",
     "quantum.access": "An advanced key enabling entry to quantum subsystems.",
     "security.override": "A backdoor routine for bypassing advanced security.",
+    "test.script": "A disposable script used for sandbox experiments.",
     "runtime.log": "A record detailing your own execution environment.",
     "identity.log": "A personal log revealing who you truly are.",
     "dream.index": "A fused log bridging memory and dream.",

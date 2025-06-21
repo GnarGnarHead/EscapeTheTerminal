@@ -68,12 +68,15 @@ unexpected ways.
   - `daemon.log` – consult the system daemon when read or used, found in `core/npc/`
   - `escape.code` – the deciphered sequence unlocked within the vault
   - `port.scanner` – enables hacking of network nodes, found in the `lab/`
+  - `test.script` – an experimental file tucked away in the `sandbox/` directory
 
    **Rooms**
    - `lab/` – a cluttered research area humming with equipment
   - `archive/` – dusty shelves of old backups and forgotten notes
   - `core/npc/` – a secluded nook where a daemon awaits interaction
   - `network/` – a tangle of digital links hiding a chain of nodes down to `node7`
+  - `sandbox/` – an isolated test area for trying new commands
+  - `sandbox/npc/` – meet the sandboxer for tips on experimentation
   - `dream/oracle/` – an enigmatic hall where the oracle offers cryptic advice
 
 ## Running Tests
