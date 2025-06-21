@@ -40,7 +40,7 @@ class Game:
         "node8": "master.process",
         "node9": "hypervisor.command",
         "node10": "quantum.access",
-        "node11": "security.override",
+        "node11": "quantum.override",
         "node12": "guardian.key",
         "runtime": "kernel.key",
     }
@@ -868,7 +868,7 @@ class Game:
                 if next_name == "node9":
                     node_data["items"].append("quantum.access")
                 if next_name == "node10":
-                    node_data["items"].append("security.override")
+                    node_data["items"].append("quantum.override")
                 extra_items = (
                     self.deep_network_node.get("dirs", {})
                     .get(next_name, {})
