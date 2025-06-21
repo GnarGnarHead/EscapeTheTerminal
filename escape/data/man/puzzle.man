@@ -1,0 +1,3 @@
+puzzle - Solve an encoded message
+Usage: puzzle [answer]
+Example: puzzle Secret phrase

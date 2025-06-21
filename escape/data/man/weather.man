@@ -1,0 +1,3 @@
+weather - Show a random weather forecast
+Usage: weather
+Example: weather

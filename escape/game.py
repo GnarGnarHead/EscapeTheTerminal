@@ -835,6 +835,8 @@ class Game:
             ("Look around with 'look'", looked),
             ("Take an item with 'take <item>'", took_item),
             ("Toggle 'glitch' to distort reality", glitched),
+            ("Scan for nodes with 'scan <dir>'", any(cmd.split()[0] == "scan" for cmd in self.command_history)),
+            ("Hack nodes using 'hack <dir>'", any(cmd.split()[0] == "hack" for cmd in self.command_history)),
         ]
         for idx, (text, done) in enumerate(steps, 1):
             mark = "[x]" if done else "[ ]"
