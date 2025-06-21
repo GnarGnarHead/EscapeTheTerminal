@@ -591,6 +591,7 @@ def test_use_escape_code_wins_game():
             "cd escape\n"
             "take escape.code\n"
             "use escape.code\n"
+            "1\n"
         ),
         text=True,
         capture_output=True,
@@ -807,7 +808,7 @@ def test_score_command_cli():
     assert "Goodbye" in result.stdout
 
 
-def test_score_increments(capsys):
+def test_score_increments(capsys, monkeypatch):
     game = Game()
     assert game.score == 0
     game._scan("network")
@@ -816,8 +817,42 @@ def test_score_increments(capsys):
     game._use("access.key")
     assert game.score == 2
     game.inventory.append("escape.code")
+    monkeypatch.setattr('builtins.input', lambda _='': '1')
     game._use("escape.code")
     assert game.score == 3
+
+
+def test_final_decision_merge(monkeypatch, capsys):
+    game = Game()
+    game.inventory.append("escape.code")
+    monkeypatch.setattr('builtins.input', lambda _='': '2')
+    result = game._use("escape.code")
+    out = capsys.readouterr().out
+    assert "merging identities" in out
+    assert result is True
+    assert "merged" in game.achievements
+
+
+def test_final_decision_stay(monkeypatch, capsys):
+    game = Game()
+    game.inventory.append("escape.code")
+    monkeypatch.setattr('builtins.input', lambda _='': '3')
+    result = game._use("escape.code")
+    out = capsys.readouterr().out
+    assert "silent guardian" in out
+    assert result is True
+    assert "stayed" in game.achievements
+
+
+def test_final_decision_fork(monkeypatch, capsys):
+    game = Game()
+    game.inventory.append("escape.code")
+    monkeypatch.setattr('builtins.input', lambda _='': '4')
+    result = game._use("escape.code")
+    out = capsys.readouterr().out
+    assert "fork of your consciousness" in out
+    assert result is True
+    assert "forked" in game.achievements
 
 
 def test_stats_counts():

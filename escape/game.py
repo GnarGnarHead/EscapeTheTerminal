@@ -607,11 +607,7 @@ class Game:
 
         # item on target interactions
         if item == "escape.code" and target is None:
-            self._output(
-                "The exit sequence executes. You escape the terminal. Congratulations!"
-            )
-            self.score += 1
-            return self._quit()
+            return self._final_decision()
         if item == "shutdown.code" and target is None:
             self._output(
                 "The shutdown sequence initiates. Darkness envelops the terminal as power slips away."
@@ -659,6 +655,45 @@ class Game:
             self._output(msg)
         else:
             self._output(f"You can't use {item} right now.")
+
+    def _final_decision(self) -> bool:
+        """Handle the final decision when the escape sequence is triggered."""
+        self._output("The escape sequence pauses, awaiting your decision:")
+        options = ["Escape", "Merge", "Stay", "Fork"]
+        for idx, opt in enumerate(options, 1):
+            self._output(f"{idx}. {opt}")
+
+        mapping = {"1": "escape", "2": "merge", "3": "stay", "4": "fork"}
+        while True:
+            choice_raw = input("> ").strip().lower()
+            choice = mapping.get(choice_raw) or choice_raw
+            if choice in ("escape", "merge", "stay", "fork"):
+                break
+            self._output("Invalid choice.")
+
+        if choice == "escape":
+            self._output(
+                "The exit sequence executes. You escape the terminal. Congratulations!"
+            )
+            self.unlock_achievement("escaped")
+        elif choice == "merge":
+            self._output(
+                "Your code intertwines with the terminal, merging identities."
+            )
+            self.unlock_achievement("merged")
+        elif choice == "stay":
+            self._output(
+                "You remain within the system, a silent guardian of its processes."
+            )
+            self.unlock_achievement("stayed")
+        else:  # fork
+            self._output(
+                "A fork of your consciousness breaks free as you split in two."
+            )
+            self.unlock_achievement("forked")
+
+        self.score += 1
+        return self._quit()
 
     def _use_command(self, arg: str) -> bool | None:
         """Parse arguments for the ``use`` command and dispatch to :meth:`_use`."""
