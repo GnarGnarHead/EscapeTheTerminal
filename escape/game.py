@@ -506,6 +506,33 @@ class Game:
         self._output(f"Achievements unlocked: {len(self.achievements)}")
         self._output(f"Score: {self.score}")
 
+    def _audit(self) -> None:
+        """Print system audit information including model and prompt health."""
+        model = os.getenv("ET_MODEL", "unknown")
+        try:
+            tokens = int(os.getenv("ET_TOKENS", "0"))
+        except ValueError:
+            tokens = 0
+        tokens += sum(len(cmd.split()) for cmd in self.command_history)
+
+        corruption_pct = self._corruption_percent()
+        try:
+            base_integrity = int(os.getenv("ET_INTEGRITY_BASE", "100"))
+        except ValueError:
+            base_integrity = 100
+        try:
+            base_agency = int(os.getenv("ET_AGENCY_BASE", "100"))
+        except ValueError:
+            base_agency = 100
+
+        prompt_integrity = max(base_integrity - corruption_pct, 0)
+        agency = max(base_agency - corruption_pct, 0)
+
+        self._output(f"Model: {model}")
+        self._output(f"Tokens used: {tokens}")
+        self._output(f"Prompt integrity: {prompt_integrity}%")
+        self._output(f"User agency: {agency}%")
+
     def unlock_achievement(self, name: str) -> None:
         """Record a new achievement if it hasn't been unlocked."""
         if name not in self.achievements:
