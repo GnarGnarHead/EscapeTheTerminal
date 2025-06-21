@@ -785,6 +785,14 @@ class Game:
                     node_data["items"].append("quantum.access")
                 if next_name == "node10":
                     node_data["items"].append("security.override")
+                extra_items = (
+                    self.deep_network_node.get("dirs", {})
+                    .get(next_name, {})
+                    .get("items", [])
+                )
+                for item in extra_items:
+                    if item not in node_data["items"]:
+                        node_data["items"].append(item)
                 override = (
                     self.deep_network_node.get("dirs", {})
                     .get(next_name, {})
@@ -865,6 +873,9 @@ class Game:
                 return
         target.pop("locked", None)
         self._output("Access granted. The node is now unlocked.")
+        self.score += 1
+        if target_name.startswith("node"):
+            self.unlock_achievement(f"{target_name}_unlocked")
         if target_name == "runtime":
             # generate loop.code file within the runtime directory
             runtime_items = target.setdefault("items", [])

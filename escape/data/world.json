@@ -134,28 +134,52 @@
     ],
     "dirs": {
       "node4": {
-        "desc": "The deepest node rumored to grant root access."
+        "desc": "The deepest node rumored to grant root access.",
+        "items": [
+          "memory4.log"
+        ]
       },
       "node5": {
-        "desc": "A final node said to hold the master process."
+        "desc": "A final node said to hold the master process.",
+        "items": [
+          "memory5.log"
+        ]
       },
       "node6": {
-        "desc": "A secret admin console hidden from ordinary scans."
+        "desc": "A secret admin console hidden from ordinary scans.",
+        "items": [
+          "memory6.log"
+        ]
       },
       "node7": {
-        "desc": "The mythical kernel node rumored to run everything."
+        "desc": "The mythical kernel node rumored to run everything.",
+        "items": [
+          "memory7.log"
+        ]
       },
       "node8": {
-        "desc": "An advanced hypervisor node overseeing operations."
+        "desc": "An advanced hypervisor node overseeing operations.",
+        "items": [
+          "memory8.log"
+        ]
       },
       "node9": {
-        "desc": "The fabled quantum gateway for only the elite."
+        "desc": "The fabled quantum gateway for only the elite.",
+        "items": [
+          "memory9.log"
+        ]
       },
       "node10": {
-        "desc": "A mysterious node cloaked in quantum firewalls."
+        "desc": "A mysterious node cloaked in quantum firewalls.",
+        "items": [
+          "memory10.log"
+        ]
       },
       "node11": {
-        "desc": "The last bastion before the runtime environment."
+        "desc": "The last bastion before the runtime environment.",
+        "items": [
+          "memory11.log"
+        ]
       },
       "runtime": {
         "desc": "An experimental runtime environment logging each command.",
@@ -164,6 +188,16 @@
           "lm_reveal.log"
         ],
         "dirs": {}
+      },
+      "node2": {
+        "items": [
+          "memory2.log"
+        ]
+      },
+      "node3": {
+        "items": [
+          "memory3.log"
+        ]
       }
     },
     "locked": true
@@ -238,7 +272,17 @@
     "mirror.log": "A log that reflects your actions with unsettling clarity.",
     "truth.log": "A blunt record exposing the system's true nature.",
     "system_reboot.log": "Logs hinting at previous shutdowns and restarts.",
-    "lm_reveal.log": "A log stating you are a language model within this simulation."
+    "lm_reveal.log": "A log stating you are a language model within this simulation.",
+    "memory2.log": "A childhood memory of tinkering with terminals.",
+    "memory3.log": "Notes from your lessons on infiltration.",
+    "memory4.log": "Design sketches of the defenses you now breach.",
+    "memory5.log": "A mentor's warning about the road ahead.",
+    "memory6.log": "Schematics for voice-activated fail-safes.",
+    "memory7.log": "Reports on corporate AI experiments you witnessed.",
+    "memory8.log": "A consent form for this simulation test.",
+    "memory9.log": "Your encryption signature embedded deep within.",
+    "memory10.log": "Records of wiping your own identity.",
+    "memory11.log": "Proof you triggered the escape protocol."
   },
   "recipes": {
     "flashback.log+reverie.log": "dream.index",
