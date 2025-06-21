@@ -1,0 +1,3 @@
+simulate - Run a world simulation
+Usage: simulate
+Example: simulate

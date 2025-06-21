@@ -1,0 +1,3 @@
+exit --force - Force exit the game immediately
+Usage: exit --force
+Example: exit --force
