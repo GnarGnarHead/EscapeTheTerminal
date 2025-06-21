@@ -161,3 +161,29 @@ def test_unalias_missing(monkeypatch, capsys):
     out = capsys.readouterr().out
     assert 'No such alias: nope' in out
     assert 'Goodbye' in out
+
+
+def test_simulate_command(monkeypatch, capsys):
+    game = Game()
+    inputs = iter([
+        'simulate',
+        'quit',
+    ])
+    monkeypatch.setattr('builtins.input', lambda _='': next(inputs))
+    game.run()
+    out = capsys.readouterr().out
+    assert 'Running world simulation...' in out
+    assert 'Simulation complete.' in out
+    assert game.progress_stage >= 1
+
+
+def test_exit_force(monkeypatch, capsys):
+    game = Game()
+    inputs = iter([
+        'exit --force',
+    ])
+    monkeypatch.setattr('builtins.input', lambda _='': next(inputs))
+    game.run()
+    out = capsys.readouterr().out
+    assert 'Force exit.' in out
+    assert 'Goodbye' not in out

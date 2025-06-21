@@ -565,6 +565,14 @@ class Game:
         self._output(f"Achievements unlocked: {len(self.achievements)}")
         self._output(f"Score: {self.score}")
 
+    def _simulate(self) -> None:
+        """Run a short world simulation generating new events."""
+        self._output("Running world simulation...")
+        self._generate_extra_dirs(["dream", "memory", "core"])
+        self._generate_logs()
+        self.progress_stage += 1
+        self._output("Simulation complete.")
+
     def _audit(self) -> None:
         """Print system audit information including model and prompt health."""
         model = os.getenv("ET_MODEL", "unknown")
@@ -1183,6 +1191,11 @@ class Game:
     def _quit(self) -> bool:
         """Print exit message and signal the main loop to stop."""
         self._output("Goodbye")
+        return True
+
+    def _exit_force(self) -> bool:
+        """Immediately exit without the usual farewell."""
+        self._output("Force exit.")
         return True
 
     def run(self):
