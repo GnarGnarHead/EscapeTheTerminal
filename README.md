@@ -21,6 +21,7 @@ unexpected ways.
    ```
    Use `help` (or `h`) inside the game for available commands and `quit` (or `exit`) to exit.
    Common command aliases like `i`/`inv` for `inventory` and `look around` for `look` are also supported. You can also `look <dir>` to preview a subdirectory without entering it.
+   Run ``escape-terminal --version`` to print the installed version and exit.
 
    **Core commands**
    - `look [dir]` / `look around` – describe the current room or a subdirectory
