@@ -19,6 +19,7 @@ def test_combine_valid_items(capsys):
     assert 'dream.index' in game.inventory
     assert 'flashback.log' not in game.inventory
     assert 'reverie.log' not in game.inventory
+    assert 'memory_bridge' in game.fs['dirs']['dream']['dirs']
 
 
 def test_combine_invalid_recipe(capsys):

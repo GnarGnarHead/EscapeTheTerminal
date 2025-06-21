@@ -64,6 +64,11 @@
             "desc": "An enigmatic chamber humming with distant voices.",
             "items": [],
             "dirs": {}
+          },
+          "memory_bridge": {
+            "desc": "A shimmering path bridging memory and dream.",
+            "items": [],
+            "dirs": {}
           }
         }
       },
